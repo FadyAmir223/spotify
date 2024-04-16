@@ -1,0 +1,49 @@
+FROM node:21.6.2-alpine AS base
+
+FROM base AS dependencies
+RUN apk update \
+  && apk add --no-cache libc6-compat
+
+WORKDIR /app
+
+COPY package*.json .
+RUN npm ci
+
+COPY prisma ./prisma
+RUN npx prisma generate \
+  && rm -rf prisma
+
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=dependencies /app/node_modules node_modules
+COPY . .
+
+ENV NEXT_TELEMETRY_DISABLED 1
+
+RUN --mount=type=secret,id=ENV_WITH_SECRETS,required \
+  source /run/secrets/ENV_WITH_SECRETS \
+  && DATABASE_URL=$DATABASE_URL npm run build \
+  && rm -rf node_modules
+
+
+FROM base AS runner
+WORKDIR /app
+
+COPY --from=builder /app/public public
+
+RUN mkdir .next && \
+  chown node:node .next
+
+COPY --from=builder --chown=node:node /app/.next/static .next/static
+COPY --from=builder --chown=node:node /app/.next/standalone .
+COPY --from=builder --chown=node:node /app/prisma prisma
+
+USER node
+
+EXPOSE 4000
+
+ENV PORT=4000 \
+  NEXT_TELEMETRY_DISABLED=1
+
+CMD ["npm", "run", "cmd:start:prod"]

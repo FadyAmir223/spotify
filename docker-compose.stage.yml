@@ -1,0 +1,46 @@
+services:
+  app-stage:
+    image: app-stage
+    container_name: app-stage
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      network: host
+      secrets:
+        - ENV_WITH_SECRETS
+    ports:
+      - 4000:4000
+    env_file:
+      - ./.env/staging/.env.staging.docker.local
+    networks:
+      - internal-stage
+    depends_on:
+      - db-stage
+
+  db-stage:
+    image: postgres:16.2-alpine
+    container_name: db-stage
+    ports:
+      - 5432:5432
+    user: '${MY_UID}:${MY_GID}'
+    volumes:
+      - db-stage-data:/var/lib/postgresql/data
+    environment:
+      - PGDATA=/var/lib/postgresql/data/data-stage
+    env_file:
+      - ./.env/staging/.env.staging.docker.local
+    networks:
+      - internal-stage
+
+volumes:
+  app-stage-node_modules:
+  app-stage-next:
+  db-stage-data:
+
+networks:
+  internal-stage:
+    external: false
+
+secrets:
+  ENV_WITH_SECRETS:
+    file: .env.staging.local

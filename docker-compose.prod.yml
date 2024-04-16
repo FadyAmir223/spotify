@@ -1,0 +1,46 @@
+services:
+  app-prod:
+    image: fadyamir/app-prod
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+      network: host
+      secrets:
+        - ENV_WITH_SECRETS
+    ports:
+      - 4000:4000
+    environment:
+      - DATABASE_URL
+    networks:
+      - internal-prod
+    depends_on:
+      - db-prod
+
+  db-prod:
+    image: postgres:16.2-alpine
+    ports:
+      - 5432:5432
+    user: '${MY_UID}:${MY_GID}'
+    volumes:
+      - db-prod-data:/var/lib/postgresql/data
+    environment:
+      - PGDATA=/var/lib/postgresql/data/data-prod
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB
+    networks:
+      - internal-prod
+    restart: unless-stopped
+
+volumes:
+  app-prod-node_modules:
+  app-prod-next:
+  db-prod-data:
+
+networks:
+  internal-prod:
+    external: false
+
+secrets:
+  ENV_WITH_SECRETS:
+    file: .env.production.local

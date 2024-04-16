@@ -1,0 +1,16 @@
+.dockerignore
+Dockerfile*
+docker-compose*.yml
+
+.git/
+.gitignore
+
+README.md
+.eslint*
+.prettier*
+
+.env*
+envs/
+
+.next/
+node_modules/

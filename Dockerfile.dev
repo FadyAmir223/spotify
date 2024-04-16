@@ -1,0 +1,22 @@
+FROM node:21.6.2-alpine
+
+WORKDIR /app
+
+COPY package.json .
+RUN npm install
+
+COPY prisma prisma
+RUN npx prisma generate \
+  && rm -rf prisma
+
+RUN mkdir -p .next
+RUN chown node:node . node_modules .next
+RUN chown -R node:node node_modules/.prisma
+
+# USER node
+
+EXPOSE 3000
+
+ENV NEXT_TELEMETRY_DISABLED 1
+
+CMD [ "npm", "run", "dev" ]
