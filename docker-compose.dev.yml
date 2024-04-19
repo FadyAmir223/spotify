@@ -12,6 +12,7 @@ services:
       - app-dev-node_modules:/app/node_modules
       - app-dev-next:/app/.next
     env_file:
+      - ./envs/development/.env.development.docker
       - ./envs/development/.env.development.docker.local
     networks:
       - internal-dev

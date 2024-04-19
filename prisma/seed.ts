@@ -1,29 +1,31 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable no-console */
+
 import { PrismaClient } from '@prisma/client'
+import bcrypt from 'bcryptjs'
 
 const db = new PrismaClient()
 
 const users = [
-  { email: 'fezza@gmail.com', name: 'fezza' },
-  { email: 'jessy@gmail.com', name: 'jessy' },
-  { email: 'petra@gmail.com', name: 'petra' },
-]
+  { email: 'a@a.com', password: 'a', role: 'LISTENER' },
+  { email: 'b@b.com', password: 'b', role: 'ARTIST' },
+] as const
 
 async function main() {
-  console.log(`Start seeding ...`)
+  console.log('seeding started...')
 
   for (const user of users) {
-    // eslint-disable-next-line no-await-in-loop
+    const hashedPassword = await bcrypt.hash(user.password, 10)
     const result = await db.user.upsert({
-      where: { email: user.email },
+      where: { email: user.email, password: hashedPassword, role: user.role },
       update: {},
       create: user,
     })
 
-    console.log(`Created event with id: ${result.id}`)
+    console.log(`created user with id: ${result.id}`)
   }
 
-  console.log(`Seeding finished.`)
+  console.log('seeding finished')
 }
 
 main()

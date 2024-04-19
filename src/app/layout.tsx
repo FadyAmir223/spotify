@@ -1,13 +1,15 @@
 import './globals.css'
 
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 
-const inter = Inter({ subsets: ['latin'] })
+import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
-  title: '',
-  description: '',
+  title: {
+    default: 'spotify',
+    template: '%s | spotify',
+  },
+  description: 'get access to millions of songs',
 }
 
 export default function RootLayout({
@@ -17,7 +19,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>{children}</body>
+      <body className='min-h-screen bg-secondary'>
+        {children}
+        <Toaster />
+      </body>
     </html>
   )
 }

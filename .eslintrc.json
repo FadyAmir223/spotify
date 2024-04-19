@@ -75,6 +75,8 @@
         // Export configuration for `eslint-plugin-simple-import-sort`
         "simple-import-sort/exports": "error",
 
+        "consistent-return": "off",
+
         // Avoid conflict rule between `eslint-plugin-import` and `eslint-plugin-simple-import-sort`
         "import/order": "off",
         "@typescript-eslint/no-unused-vars": "off",

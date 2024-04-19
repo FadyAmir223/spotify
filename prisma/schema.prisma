@@ -7,8 +7,40 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Provider {
+  CREDENTIALS
+  GOOGLE
+  GITHUB
+}
+
+enum Role {
+  LISTENER
+  ARTIST
+}
+
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-  name  String
+  id            String    @id @default(uuid())
+  email         String    @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+  role          Role      @default(LISTENER)
+  account       Account[]
+}
+
+model Account {
+  id                String   @id @default(uuid())
+  provider          Provider
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }
