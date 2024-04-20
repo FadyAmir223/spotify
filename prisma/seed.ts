@@ -17,9 +17,9 @@ async function main() {
   for (const user of users) {
     const hashedPassword = await bcrypt.hash(user.password, 10)
     const result = await db.user.upsert({
-      where: { email: user.email, password: hashedPassword, role: user.role },
+      where: { email: user.email },
       update: {},
-      create: user,
+      create: { email: user.email, password: hashedPassword, role: user.role },
     })
 
     console.log(`created user with id: ${result.id}`)

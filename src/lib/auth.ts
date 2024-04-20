@@ -2,8 +2,8 @@ import bcrypt from 'bcryptjs'
 import NextAuth, { type NextAuthConfig } from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 
-import { getUserByEmail } from '@/app/(auth)/_data/user'
 import { loginFormSchema } from '@/app/(auth)/_validations/login'
+import { getUserByEmail } from '@/data/user'
 import { edgeConfig } from '@/lib/auth.edge'
 
 export const config = {

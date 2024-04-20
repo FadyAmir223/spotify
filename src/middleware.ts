@@ -1,5 +1,9 @@
-import { auth } from '@/lib/auth'
+import NextAuth from 'next-auth'
+
+import { edgeConfig } from '@/lib/auth.edge'
 import { authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from '@/lib/routes'
+
+const { auth } = NextAuth(edgeConfig)
 
 export default auth((req) => {
   const { nextUrl } = req

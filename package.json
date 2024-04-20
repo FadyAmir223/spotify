@@ -24,8 +24,8 @@
     "prisma:studio:dev:env": "dotenv -e .env.development.local -- npx prisma studio",
     "prisma:seed:dev:env": "dotenv -e .env.development.local -- npx prisma db seed",
     "prisma:reset:dev:env": "dotenv -e .env.development.local -- npx prisma migrate reset dev",
-    "prisma:migrate:staging": "npx prisma migrate deploy",
-    "prisma:migrate:staging:env": "dotenv -e .env.staging.local -- npm run prisma:migrate:prod"
+    "prisma:migrate:stage": "npx prisma migrate deploy",
+    "prisma:migrate:stage:env": "dotenv -e .env.staging.local -- npm run prisma:migrate:prod"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",

@@ -1,6 +1,7 @@
 import './globals.css'
 
 import type { Metadata } from 'next'
+import { SessionProvider } from 'next-auth/react'
 
 import { Toaster } from '@/components/ui/toaster'
 
@@ -20,8 +21,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className='min-h-screen bg-secondary'>
-        {children}
-        <Toaster />
+        <SessionProvider>
+          {children}
+          <Toaster />
+        </SessionProvider>
       </body>
     </html>
   )

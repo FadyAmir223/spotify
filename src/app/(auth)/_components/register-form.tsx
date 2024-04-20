@@ -1,11 +1,8 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { HTTPError } from 'ky'
-import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 
-import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
@@ -17,14 +14,14 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
-import ky from '@/lib/ky'
-import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
+import { getErrorMessage } from '@/utils/getErrorMessage.util'
 
+import { handleRegister } from '../_actions/register'
 import {
   type RegisterFormSchema,
   registerFormSchema,
-  responseRegisterSchema,
 } from '../_validations/register'
+import AuthButton from './auth-button'
 
 const inputs = [
   { type: 'text', label: 'Email', name: 'email' },
@@ -34,7 +31,6 @@ const inputs = [
 
 export default function RegisterForm() {
   const { toast } = useToast()
-  const router = useRouter()
 
   const form = useForm<RegisterFormSchema>({
     resolver: zodResolver(registerFormSchema),
@@ -46,45 +42,40 @@ export default function RegisterForm() {
     },
   })
 
-  const onSubmit = async (formData: RegisterFormSchema) => {
+  const register = async () => {
+    const result = await form.trigger()
+    if (!result) return
+
+    const formData = form.getValues()
+
     try {
-      const response = await ky.post('register', { json: formData })
-      if (response.ok) router.push(DEFAULT_LOGIN_REDIRECT)
-    } catch (error) {
-      if (error instanceof HTTPError && error.response) {
-        const data = await error.response.json()
-        const result = responseRegisterSchema.safeParse(data)
+      const response = await handleRegister(formData)
+      if (!response) return
 
-        if (!result.success)
-          return toast({
-            variant: 'destructive',
-            description: 'invalid response',
+      if (response.errors)
+        return Object.entries(response.errors).forEach(([field, message]) => {
+          form.setError(field as keyof RegisterFormSchema, {
+            type: 'validate',
+            message,
           })
+        })
 
-        if (result.data.errors)
-          return Object.entries(result.data.errors).forEach(
-            ([field, message]) => {
-              form.setError(field as keyof RegisterFormSchema, {
-                type: 'validate',
-                message,
-              })
-            },
-          )
-
-        if (error.response.status === 409)
-          return form.setError('email', { message: result.data.error })
-
+      if (response.error)
         toast({
           variant: 'destructive',
-          description: result.data.error,
+          description: response.error,
         })
-      }
+    } catch (error) {
+      toast({
+        variant: 'destructive',
+        description: getErrorMessage(error),
+      })
     }
   }
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form action={register}>
         {inputs.map((input) => (
           <FormField
             key={input.name}
@@ -118,12 +109,7 @@ export default function RegisterForm() {
           )}
         />
 
-        <Button
-          className='w-full py-5 text-base'
-          disabled={form.formState.isSubmitting}
-        >
-          Create Account
-        </Button>
+        <AuthButton>Create Account</AuthButton>
       </form>
     </Form>
   )
