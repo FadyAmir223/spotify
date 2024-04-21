@@ -3,6 +3,7 @@
 import type { NextAuthConfig } from 'next-auth'
 
 export const edgeConfig = {
+  providers: [],
   pages: {
     signIn: '/register',
   },
@@ -25,5 +26,4 @@ export const edgeConfig = {
       return session
     },
   },
-  providers: [],
 } satisfies NextAuthConfig

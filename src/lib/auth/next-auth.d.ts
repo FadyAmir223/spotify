@@ -4,6 +4,10 @@ declare module 'next-auth' {
   interface User {
     role: PrismUser['role']
   }
+
+  interface Session {
+    user: User
+  }
 }
 
 declare module '@auth/core/jwt' {

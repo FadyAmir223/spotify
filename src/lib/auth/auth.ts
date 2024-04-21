@@ -1,12 +1,17 @@
 import bcrypt from 'bcryptjs'
-import NextAuth, { type NextAuthConfig } from 'next-auth'
+import NextAuth from 'next-auth'
 import Credentials from 'next-auth/providers/credentials'
 
 import { loginFormSchema } from '@/app/(auth)/_validations/login'
 import { getUserByEmail } from '@/data/user'
-import { edgeConfig } from '@/lib/auth.edge'
+import { edgeConfig } from '@/lib/auth/auth.edge'
 
-export const config = {
+export const {
+  auth,
+  signIn,
+  signOut,
+  handlers: { GET, POST },
+} = NextAuth({
   ...edgeConfig,
   providers: [
     Credentials({
@@ -26,11 +31,4 @@ export const config = {
       },
     }),
   ],
-} satisfies NextAuthConfig
-
-export const {
-  auth,
-  signIn,
-  signOut,
-  handlers: { GET, POST },
-} = NextAuth(config)
+})

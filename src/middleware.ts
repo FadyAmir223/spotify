@@ -1,7 +1,9 @@
 import NextAuth from 'next-auth'
 
-import { edgeConfig } from '@/lib/auth.edge'
+import { edgeConfig } from '@/lib/auth/auth.edge'
 import { authRoutes, DEFAULT_LOGIN_REDIRECT, publicRoutes } from '@/lib/routes'
+
+import { redirectToParam } from './utils/constants'
 
 const { auth } = NextAuth(edgeConfig)
 
@@ -23,11 +25,10 @@ export default auth((req) => {
   if (nextUrl.search) redirectTo += nextUrl.search
   const encodedRedirectTo = encodeURIComponent(redirectTo)
   return Response.redirect(
-    new URL(`/login?redirectTo=${encodedRedirectTo}`, nextUrl),
+    new URL(`/login?${redirectToParam}=${encodedRedirectTo}`, nextUrl),
   )
 })
 
 export const config = {
   matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
-  // matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 }
