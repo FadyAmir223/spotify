@@ -1,12 +1,10 @@
 -- CreateEnum
-CREATE TYPE "Provider" AS ENUM ('CREDENTIALS', 'GOOGLE', 'GITHUB');
-
--- CreateEnum
 CREATE TYPE "Role" AS ENUM ('LISTENER', 'ARTIST');
 
 -- CreateTable
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
+    "name" TEXT,
     "email" TEXT NOT NULL,
     "password" TEXT,
     "emailVerified" TIMESTAMP(3),
@@ -19,14 +17,17 @@ CREATE TABLE "User" (
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
-    "provider" "Provider" NOT NULL,
+    "userId" TEXT NOT NULL,
+    "type" TEXT NOT NULL,
+    "provider" TEXT NOT NULL,
     "providerAccountId" TEXT NOT NULL,
     "refresh_token" TEXT,
     "access_token" TEXT,
     "expires_at" INTEGER,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-    "userId" TEXT NOT NULL,
+    "token_type" TEXT,
+    "scope" TEXT,
+    "id_token" TEXT,
+    "session_state" TEXT,
 
     CONSTRAINT "Account_pkey" PRIMARY KEY ("id")
 );

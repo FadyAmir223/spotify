@@ -6,12 +6,12 @@ import { useFormStatus } from 'react-dom'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utils/cn'
 
-type AuthButtonProps = {
+type LoginButtonProps = {
   children: ReactNode
   className?: string
 }
 
-export default function AuthButton({ children, className }: AuthButtonProps) {
+export default function LoginButton({ children, className }: LoginButtonProps) {
   const { pending } = useFormStatus()
 
   return (

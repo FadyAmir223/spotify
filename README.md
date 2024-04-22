@@ -23,3 +23,9 @@ npm run prisma:migrate:dev:env
 # docker container
 npm run prisma:push:dev:env
 ```
+
+### use cases
+```sh
+# restart container
+npm run docker:dev:up -- --force-recreate app-dev
+```

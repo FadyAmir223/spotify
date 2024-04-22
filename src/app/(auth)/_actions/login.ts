@@ -7,7 +7,7 @@ import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
 
 import { loginFormSchema } from '../_validations/login'
 
-export async function login(formData: unknown, redirectTo?: string) {
+export async function login(formData: unknown, redirectTo?: string | null) {
   const result = loginFormSchema.safeParse(formData)
   if (!result.success) return { error: 'invalid form data' }
 

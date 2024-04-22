@@ -12,7 +12,7 @@ import { getErrorMessage } from '@/utils/getErrorMessage.util'
 
 import { login } from '../_actions/login'
 import { type LoginFormSchema, loginFormSchema } from '../_validations/login'
-import AuthButton from './auth-button'
+import LoginButton from './login-button'
 
 const inputs = [
   { type: 'text', label: 'Email', name: 'email' },
@@ -23,7 +23,7 @@ export default function LoginForm() {
   const [loginError, setError] = useState('')
 
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get(redirectToParam)!
+  const redirectTo = searchParams.get(redirectToParam)
 
   const {
     register,
@@ -34,14 +34,14 @@ export default function LoginForm() {
     resolver: zodResolver(loginFormSchema),
   })
 
-  const submit = async () => {
+  // keep progressive enhancement, but lose error messages updtae
+  const handleLogin = async () => {
     setError('')
 
     const result = await trigger()
     if (!result) return
 
     const formData = getValues()
-    console.log(formData)
 
     try {
       const response = await login(formData, redirectTo)
@@ -52,7 +52,7 @@ export default function LoginForm() {
   }
 
   return (
-    <form action={submit}>
+    <form action={handleLogin}>
       {inputs.map((input) => (
         <div key={input.name} className='mb-1.5'>
           <Label>{input.label}</Label>
@@ -63,7 +63,7 @@ export default function LoginForm() {
         </div>
       ))}
 
-      <AuthButton className='mb-1 mt-2'>Login</AuthButton>
+      <LoginButton className='mb-1 mt-2'>Login</LoginButton>
 
       <p className='h-[1.21875rem] text-[0.8rem] font-medium text-destructive'>
         {loginError}
