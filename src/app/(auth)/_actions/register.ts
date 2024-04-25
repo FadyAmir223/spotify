@@ -1,11 +1,11 @@
 'use server'
 
-import { Prisma } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
-import { signIn } from '@/lib/auth/auth'
+import { createUser } from '@/data/user'
+import { createVerificationOtp } from '@/data/verification-otp'
 
-import { createUser } from '../../../data/user'
+import { sendVerificationOtpEmail } from '../_utils/sendEmails'
 import { registerFormSchema } from '../_validations/register'
 
 export async function handleRegister(formData: unknown) {
@@ -24,18 +24,18 @@ export async function handleRegister(formData: unknown) {
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
-  try {
-    await createUser({
-      email,
-      password: hashedPassword,
-      role: isArtist ? 'ARTIST' : 'LISTENER',
-    })
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError)
-      if (error.code === 'P2002')
-        return { errors: { email: 'email already exists' } }
-      else return { error: "couldn'n create user" }
-  }
+  const userResponse = await createUser({
+    email,
+    password: hashedPassword,
+    role: isArtist ? 'ARTIST' : 'LISTENER',
+  })
+  if (userResponse?.error) return { error: userResponse.error }
 
-  await signIn('credentials', { email, password })
+  const otpResponse = await createVerificationOtp(email)
+  if ('error' in otpResponse) return { error: otpResponse.error }
+
+  const emailResponse = await sendVerificationOtpEmail(email, otpResponse.otp)
+  if (emailResponse?.error) return { error: emailResponse.error }
+
+  return { success: 'Confirmation email sent' }
 }

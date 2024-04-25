@@ -6,6 +6,12 @@ import type { NextAuthConfig } from 'next-auth'
 export const edgeConfig = {
   providers: [],
   callbacks: {
+    signIn: async ({ user, account }) => {
+      if (account?.provider === 'credentials' && !user.emailVerified)
+        return false
+
+      return true
+    },
     jwt: async ({ token, user }) => {
       if (user) token.role = user.role
 

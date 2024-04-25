@@ -6,11 +6,11 @@ import { FcGoogle } from 'react-icons/fc'
 
 import { Button } from '@/components/ui/button'
 import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
-import { redirectToParam } from '@/utils/constants'
+import { SEARCH_PARAMS } from '@/utils/constants'
 
 export default function GoogleButton() {
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get(redirectToParam)
+  const redirectTo = searchParams.get(SEARCH_PARAMS.redirectToParam)
 
   return (
     <Button

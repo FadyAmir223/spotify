@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
@@ -22,13 +23,14 @@ import {
   type RegisterFormSchema,
   registerFormSchema,
 } from '../_validations/register'
+import OtpForm from './otp-form'
 
 const inputs = [
   {
     type: 'text',
     label: 'Email',
     name: 'email',
-    placeholder: 'john@gmail.com',
+    placeholder: 'john@example.com',
     autoComplete: 'off',
   },
   {
@@ -49,6 +51,7 @@ const inputs = [
 
 export default function RegisterForm() {
   const { toast } = useToast()
+  const [otpSent, setOtpSent] = useState(false)
 
   const form = useForm<RegisterFormSchema>({
     resolver: zodResolver(registerFormSchema),
@@ -64,13 +67,14 @@ export default function RegisterForm() {
   const onSubmit = async (formData: RegisterFormSchema) => {
     try {
       const response = await handleRegister(formData)
-      if (!response) return
+
+      if (response.success) return setOtpSent(true)
 
       if (response.errors)
         return Object.entries(response.errors).forEach(([field, message]) => {
           form.setError(field as keyof RegisterFormSchema, {
             type: 'validate',
-            message,
+            message: message as string,
           })
         })
 
@@ -88,48 +92,59 @@ export default function RegisterForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        {inputs.map(({ name, label, ...props }) => (
+    <>
+      <OtpForm
+        isOpen={otpSent}
+        setIsOpen={setOtpSent}
+        credentials={{
+          email: form.getValues('email'),
+          password: form.getValues('password'),
+        }}
+      />
+
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)}>
+          {inputs.map(({ name, label, ...props }) => (
+            <FormField
+              key={name}
+              control={form.control}
+              name={name}
+              render={({ field }) => (
+                <FormItem className='mb-1'>
+                  <FormLabel>{label}</FormLabel>
+                  <FormControl>
+                    <Input {...props} {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          ))}
+
           <FormField
-            key={name}
             control={form.control}
-            name={name}
+            name='isArtist'
             render={({ field }) => (
-              <FormItem className='mb-1'>
-                <FormLabel>{label}</FormLabel>
+              <FormItem className='mb-3 flex space-x-3 space-y-0.5'>
                 <FormControl>
-                  <Input {...props} {...field} />
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
                 </FormControl>
-                <FormMessage />
+                <FormLabel>I&apos;m an artists</FormLabel>
               </FormItem>
             )}
           />
-        ))}
 
-        <FormField
-          control={form.control}
-          name='isArtist'
-          render={({ field }) => (
-            <FormItem className='mb-3 flex space-x-3 space-y-0.5'>
-              <FormControl>
-                <Checkbox
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <FormLabel>I&apos;m an artists</FormLabel>
-            </FormItem>
-          )}
-        />
-
-        <Button
-          className='w-full py-5 text-base'
-          disabled={form.formState.isSubmitting}
-        >
-          Create Account
-        </Button>
-      </form>
-    </Form>
+          <Button
+            className='w-full py-5 text-base'
+            disabled={form.formState.isSubmitting}
+          >
+            Create Account
+          </Button>
+        </form>
+      </Form>
+    </>
   )
 }

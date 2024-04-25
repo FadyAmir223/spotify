@@ -41,3 +41,12 @@ model Account {
 
   @@unique([provider, providerAccountId])
 }
+
+model VerificationOtp {
+  id      String   @id @default(cuid())
+  email   String
+  otp     String   @unique
+  expires DateTime
+
+  @@unique([email, otp])
+}

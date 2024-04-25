@@ -2,17 +2,18 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { redirectToParam } from '@/utils/constants'
+import { SEARCH_PARAMS } from '@/utils/constants'
 import { getErrorMessage } from '@/utils/getErrorMessage.util'
 
 import { login } from '../_actions/login'
 import { type LoginFormSchema, loginFormSchema } from '../_validations/login'
 import LoginButton from './login-button'
+import OtpForm from './otp-form'
 
 const inputs = [
   { type: 'text', label: 'Email', name: 'email' },
@@ -21,9 +22,21 @@ const inputs = [
 
 export default function LoginForm() {
   const [loginError, setError] = useState('')
+  const [otpSent, setOtpSent] = useState(false)
 
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get(redirectToParam)
+  const redirectTo = searchParams.get(SEARCH_PARAMS.redirectToParam)
+
+  useEffect(() => {
+    const errorMessage = searchParams.get('error')
+    if (!errorMessage) return
+
+    setError(
+      errorMessage === 'OAuthAccountNotLinked'
+        ? 'Email already in use with different provider'
+        : errorMessage,
+    )
+  }, [searchParams])
 
   const {
     register,
@@ -44,7 +57,10 @@ export default function LoginForm() {
     const formData = getValues()
 
     try {
-      const response = await login(formData, redirectTo)
+      const response = await login({ ...formData, redirectTo })
+
+      if (response?.success) return setOtpSent(true)
+
       if (response?.error) setError(response.error)
     } catch (error) {
       setError(getErrorMessage(error))
@@ -52,22 +68,34 @@ export default function LoginForm() {
   }
 
   return (
-    <form action={handleLogin}>
-      {inputs.map((input) => (
-        <div key={input.name} className='mb-1.5'>
-          <Label>{input.label}</Label>
-          <Input type={input.type} {...register(input.name)} />
-          <p className='h-[1.21875rem] text-[0.8rem] font-medium text-destructive'>
-            {errors[input.name]?.message}
-          </p>
-        </div>
-      ))}
+    <>
+      <OtpForm
+        isOpen={otpSent}
+        setIsOpen={setOtpSent}
+        credentials={{
+          email: getValues('email'),
+          password: getValues('password'),
+          redirectTo,
+        }}
+      />
 
-      <LoginButton className='mb-1 mt-2'>Login</LoginButton>
+      <form action={handleLogin}>
+        {inputs.map((input) => (
+          <div key={input.name} className='mb-1.5'>
+            <Label>{input.label}</Label>
+            <Input type={input.type} {...register(input.name)} />
+            <p className='h-[1.21875rem] text-[0.8rem] font-medium text-destructive'>
+              {errors[input.name]?.message}
+            </p>
+          </div>
+        ))}
 
-      <p className='h-[1.21875rem] text-[0.8rem] font-medium text-destructive'>
-        {loginError}
-      </p>
-    </form>
+        <LoginButton className='mb-1 mt-2'>Login</LoginButton>
+
+        <p className='h-[1.21875rem] text-[0.8rem] font-medium text-destructive'>
+          {loginError}
+        </p>
+      </form>
+    </>
   )
 }

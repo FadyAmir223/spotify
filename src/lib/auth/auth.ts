@@ -6,7 +6,7 @@ import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 
 import { loginFormSchema } from '@/app/(auth)/_validations/login'
-import { getUserByEmail } from '@/data/user'
+import { getUserByEmail, verifyUserById } from '@/data/user'
 import { edgeConfig } from '@/lib/auth/auth.edge'
 import db from '@/lib/db'
 import { env } from '@/lib/env'
@@ -48,10 +48,7 @@ export const {
   session: { strategy: 'jwt' },
   events: {
     linkAccount: async ({ user }) => {
-      await db.user.update({
-        where: { id: user.id },
-        data: { emailVerified: new Date() },
-      })
+      if (user.id) await verifyUserById(user.id)
     },
   },
 })

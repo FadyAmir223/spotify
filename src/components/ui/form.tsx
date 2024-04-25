@@ -139,6 +139,7 @@ const FormMessage = React.forwardRef<
   const { error, formMessageId } = useFormField()
   const body = error ? String(error?.message) : children
 
+  // caueses layout shift
   // if (!body) return null
 
   return (

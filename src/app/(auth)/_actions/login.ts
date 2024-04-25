@@ -1,31 +1,31 @@
 'use server'
 
-import { AuthError } from 'next-auth'
+import { getUserByEmail } from '@/data/user'
+import { createVerificationOtp } from '@/data/verification-otp'
 
-import { signIn } from '@/lib/auth/auth'
-import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes'
+import { credentialSignIn } from '../_utils/credentilaSignIn'
+import { sendVerificationOtpEmail } from '../_utils/sendEmails'
+import { loginFormSchemaWithRedirect } from '../_validations/login'
 
-import { loginFormSchema } from '../_validations/login'
+export async function login(formData: unknown) {
+  const result = loginFormSchemaWithRedirect.safeParse(formData)
+  if (!result.success) return { error: 'Invalid form data' }
 
-export async function login(formData: unknown, redirectTo?: string | null) {
-  const result = loginFormSchema.safeParse(formData)
-  if (!result.success) return { error: 'invalid form data' }
+  const { email, password, redirectTo } = result.data
 
-  try {
-    await signIn('credentials', {
-      ...result.data,
-      redirectTo: redirectTo || DEFAULT_LOGIN_REDIRECT,
-    })
-  } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return { error: 'invalid credentials' }
-        default:
-          return { error: 'something went wrong' }
-      }
-    }
+  const user = await getUserByEmail(email)
+  if (!user) return { error: 'Invalid credentilas' }
 
-    throw error
+  if (!user.emailVerified) {
+    const otpResponse = await createVerificationOtp(email)
+    if ('error' in otpResponse) return { error: otpResponse.error }
+
+    const emailResponse = await sendVerificationOtpEmail(email, otpResponse.otp)
+    if (emailResponse?.error) return { error: emailResponse.error }
+
+    return { success: 'Confirmation email sent' }
   }
+
+  const signInResponse = await credentialSignIn({ email, password, redirectTo })
+  if (signInResponse?.error) return { error: signInResponse.error }
 }

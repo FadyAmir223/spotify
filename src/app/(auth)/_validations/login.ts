@@ -6,3 +6,11 @@ export const loginFormSchema = z.object({
 })
 
 export type LoginFormSchema = z.infer<typeof loginFormSchema>
+
+export const loginFormSchemaWithRedirect = loginFormSchema.extend({
+  redirectTo: z.string().nullable().optional(),
+})
+
+export type LoginFormSchemaWithRedirect = z.infer<
+  typeof loginFormSchemaWithRedirect
+>
