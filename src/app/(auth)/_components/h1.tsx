@@ -1,9 +1,14 @@
 import type { ReactNode } from 'react'
 
+import { cn } from '@/utils/cn'
+
 type H1Props = {
   children: ReactNode
+  className?: string
 }
 
-export default function H1({ children }: H1Props) {
-  return <h1 className='mb-6 text-4xl font-bold'>{children}</h1>
+export default function H1({ children, className }: H1Props) {
+  return (
+    <h1 className={cn('mb-6 text-3xl font-bold', className)}>{children}</h1>
+  )
 }

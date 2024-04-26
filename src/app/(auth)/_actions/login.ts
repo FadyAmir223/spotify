@@ -18,9 +18,12 @@ export async function login(formData: unknown) {
 
   if (!user.emailVerified) {
     const otpResponse = await createVerificationOtp(email)
-    if ('error' in otpResponse) return { error: otpResponse.error }
+    if (otpResponse.error) return { error: otpResponse.error }
 
-    const emailResponse = await sendVerificationOtpEmail(email, otpResponse.otp)
+    const emailResponse = await sendVerificationOtpEmail(
+      email,
+      otpResponse.otp!,
+    )
     if (emailResponse?.error) return { error: emailResponse.error }
 
     return { success: 'Confirmation email sent' }

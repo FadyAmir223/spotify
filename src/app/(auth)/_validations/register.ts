@@ -7,7 +7,8 @@ export const registerFormSchema = z
       .trim()
       .min(1, { message: 'Email is required' })
       .email()
-      .max(100, { message: 'Email is too long' }),
+      .max(100, { message: 'Email is too long' })
+      .toLowerCase(),
     password: z
       .string()
       .min(1, { message: 'Password is required' })

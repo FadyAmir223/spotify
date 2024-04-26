@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { registerRoute } from '@/lib/routes'
 
+import LoginForm from '../_components/forms/login-form'
 import H1 from '../_components/h1'
-import LoginForm from '../_components/login-form'
 import SocialLogin from '../_components/social-login'
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export default function Login() {
 
       <p className='mt-3 text-sm'>
         don&apos;t have an account?
-        <Button asChild variant='link' size='sm'>
+        <Button asChild variant='link' size='sm' className='mx-1 px-0'>
           <Link href={registerRoute}>Register</Link>
         </Button>
       </p>

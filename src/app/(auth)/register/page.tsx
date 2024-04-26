@@ -4,8 +4,8 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { loginRoute } from '@/lib/routes'
 
+import RegisterForm from '../_components/forms/register-form'
 import H1 from '../_components/h1'
-import RegisterForm from '../_components/register-form'
 import SocialLogin from '../_components/social-login'
 
 export const metadata: Metadata = {

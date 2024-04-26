@@ -31,7 +31,7 @@ export default auth((req) => {
   const encodedRedirectTo = encodeURIComponent(redirectTo)
   return Response.redirect(
     new URL(
-      `${loginRoute}?${SEARCH_PARAMS.redirectToParam}=${encodedRedirectTo}`,
+      `${loginRoute}?${SEARCH_PARAMS.redirectTo}=${encodedRedirectTo}`,
       nextUrl,
     ),
   )

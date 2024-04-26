@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs'
 
 import { createUser } from '@/data/user'
 import { createVerificationOtp } from '@/data/verification-otp'
+import { bcryptSalt } from '@/utils/constants'
 
 import { sendVerificationOtpEmail } from '../_utils/sendEmails'
 import { registerFormSchema } from '../_validations/register'
@@ -22,7 +23,7 @@ export async function handleRegister(formData: unknown) {
 
   const { email, password, isArtist } = result.data
 
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const hashedPassword = await bcrypt.hash(password, bcryptSalt)
 
   const userResponse = await createUser({
     email,
@@ -32,9 +33,9 @@ export async function handleRegister(formData: unknown) {
   if (userResponse?.error) return { error: userResponse.error }
 
   const otpResponse = await createVerificationOtp(email)
-  if ('error' in otpResponse) return { error: otpResponse.error }
+  if (otpResponse.error) return { error: otpResponse.error }
 
-  const emailResponse = await sendVerificationOtpEmail(email, otpResponse.otp)
+  const emailResponse = await sendVerificationOtpEmail(email, otpResponse.otp!)
   if (emailResponse?.error) return { error: emailResponse.error }
 
   return { success: 'Confirmation email sent' }

@@ -31,9 +31,7 @@ export async function deleteVerificationOtpById(id: VerificationOtp['id']) {
   }
 }
 
-export async function createVerificationOtp(
-  email: VerificationOtp['email'],
-): Promise<{ otp: string } | { error: string }> {
+export async function createVerificationOtp(email: VerificationOtp['email']) {
   let newOtp = ''
   for (let i = 0; i < otpLength; i += 1)
     newOtp += Math.floor(Math.random() * 10)
@@ -50,6 +48,6 @@ export async function createVerificationOtp(
     })
     return { otp }
   } catch (error) {
-    return { error: "couldn't generate otp" }
+    return { error: "Couldn't generate otp" }
   }
 }

@@ -1,8 +1,10 @@
 import 'server-only'
 
 import { Prisma, type User } from '@prisma/client'
+import bcrypt from 'bcryptjs'
 
 import db from '@/lib/db'
+import { bcryptSalt } from '@/utils/constants'
 
 export async function createUser(
   user: Pick<User, 'email' | 'password' | 'role'>,
@@ -24,13 +26,37 @@ export async function getUserByEmail(email: User['email']) {
   }
 }
 
-export async function verifyUserById(id: User['id']) {
+export async function verifyUser(email: User['email']) {
   try {
     await db.user.update({
-      where: { id },
+      where: { email },
       data: { emailVerified: new Date() },
+      select: { id: true },
     })
-  } catch {
-    return { error: "couldn't verify user" }
+  } catch (error) {
+    // don't tell that email doesn't exist
+    if (error instanceof Prisma.PrismaClientKnownRequestError)
+      if (error.code === 'P2025') return { error: 'Invalid OTP' }
+    return { error: "Couldn't verify user" }
+  }
+}
+
+export async function updateUserPassword(
+  email: User['email'],
+  password: User['password'],
+) {
+  try {
+    const hashedPassword = await bcrypt.hash(password!, bcryptSalt)
+
+    await db.user.update({
+      where: { email },
+      data: { password: hashedPassword, emailVerified: new Date() },
+      select: { id: true },
+    })
+  } catch (error) {
+    // don't tell that email doesn't exist
+    if (error instanceof Prisma.PrismaClientKnownRequestError)
+      if (error.code === 'P2025') return { error: 'Invalid Token' }
+      else return { error: "Couldn't update password" }
   }
 }

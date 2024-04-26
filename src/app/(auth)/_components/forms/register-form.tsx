@@ -16,13 +16,14 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
+import { placeholderEmail } from '@/utils/constants'
 import { getErrorMessage } from '@/utils/getErrorMessage.util'
 
-import { handleRegister } from '../_actions/register'
+import { handleRegister } from '../../_actions/register'
 import {
   type RegisterFormSchema,
   registerFormSchema,
-} from '../_validations/register'
+} from '../../_validations/register'
 import OtpForm from './otp-form'
 
 const inputs = [
@@ -30,7 +31,7 @@ const inputs = [
     type: 'text',
     label: 'Email',
     name: 'email',
-    placeholder: 'john@example.com',
+    placeholder: placeholderEmail,
     autoComplete: 'off',
   },
   {
@@ -68,17 +69,15 @@ export default function RegisterForm() {
     try {
       const response = await handleRegister(formData)
 
-      if (response.success) return setOtpSent(true)
-
-      if (response.errors)
-        return Object.entries(response.errors).forEach(([field, message]) => {
+      if (response.success) setOtpSent(true)
+      else if (response.errors)
+        Object.entries(response.errors).forEach(([field, message]) => {
           form.setError(field as keyof RegisterFormSchema, {
             type: 'validate',
             message: message as string,
           })
         })
-
-      if (response.error)
+      else if (response.error)
         toast({
           variant: 'destructive',
           description: response.error,

@@ -7,7 +7,7 @@ import { loginFormSchemaWithRedirect } from './login'
 export const otpSchema = z.object({
   code: z
     .string()
-    .min(otpLength, { message: 'Your code must be 6 characters' }),
+    .length(otpLength, { message: 'Your code must be 6 characters' }),
 })
 
 export type OtpSchema = z.infer<typeof otpSchema>

@@ -1,8 +1,12 @@
 const SEARCH_PARAMS = {
-  redirectToParam: 'redirectTo',
-  errorParam: 'error',
+  redirectTo: 'redirectTo',
+  error: 'error',
+  token: 'token',
 }
 
 const otpLength = 6
+const bcryptSalt = 10
 
-export { otpLength, SEARCH_PARAMS }
+const placeholderEmail = 'john@example.com'
+
+export { bcryptSalt, otpLength, placeholderEmail, SEARCH_PARAMS }

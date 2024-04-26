@@ -10,7 +10,7 @@ import { SEARCH_PARAMS } from '@/utils/constants'
 
 export default function GoogleButton() {
   const searchParams = useSearchParams()
-  const redirectTo = searchParams.get(SEARCH_PARAMS.redirectToParam)
+  const redirectTo = searchParams.get(SEARCH_PARAMS.redirectTo)
 
   return (
     <Button

@@ -24,9 +24,9 @@ import {
 import { useSearchParamRedirect } from '@/hooks/useSearchParamRedirect'
 import { otpLength, SEARCH_PARAMS } from '@/utils/constants'
 
-import { validateOTP } from '../_actions/otp'
-import type { LoginFormSchemaWithRedirect } from '../_validations/login'
-import { type OtpSchema, otpSchema } from '../_validations/otp'
+import { validateOTP } from '../../_actions/otp'
+import type { LoginFormSchemaWithRedirect } from '../../_validations/login'
+import { type OtpSchema, otpSchema } from '../../_validations/otp'
 
 type OtpFormProps = {
   isOpen: boolean
@@ -57,7 +57,7 @@ export default function OtpForm({
       })
 
       if (response?.success === false) {
-        redirectWithSearchParams(SEARCH_PARAMS.errorParam, response.error)
+        redirectWithSearchParams(SEARCH_PARAMS.error, response.error)
 
         setIsOpen(false)
       }

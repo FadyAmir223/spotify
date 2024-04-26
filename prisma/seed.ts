@@ -4,6 +4,8 @@
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcryptjs'
 
+import { bcryptSalt } from '@/utils/constants'
+
 const db = new PrismaClient()
 
 const users = [
@@ -15,7 +17,7 @@ async function main() {
   console.log('seeding started...')
 
   for (const user of users) {
-    const hashedPassword = await bcrypt.hash(user.password, 10)
+    const hashedPassword = await bcrypt.hash(user.password, bcryptSalt)
     const result = await db.user.upsert({
       where: { email: user.email },
       update: {},

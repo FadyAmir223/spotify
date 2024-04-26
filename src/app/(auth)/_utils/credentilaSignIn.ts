@@ -8,7 +8,7 @@ import type { LoginFormSchemaWithRedirect } from '../_validations/login'
 export async function credentialSignIn({
   email,
   password,
-  redirectTo = DEFAULT_LOGIN_REDIRECT,
+  redirectTo,
 }: LoginFormSchemaWithRedirect) {
   try {
     await signIn('credentials', {

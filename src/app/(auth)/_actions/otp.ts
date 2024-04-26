@@ -1,6 +1,6 @@
 'use server'
 
-import { getUserByEmail, verifyUserById } from '@/data/user'
+import { verifyUser } from '@/data/user'
 import {
   deleteVerificationOtpById,
   getVefiricationOtpByOtp,
@@ -25,24 +25,16 @@ export async function validateOTP(formData: unknown) {
 
   const otp = await getVefiricationOtpByOtp(code)
 
-  if (otp?.email !== email) return { error: 'Invalid otp' }
+  if (otp?.email !== email) return { error: 'Invalid OTP' }
 
   if (new Date() > new Date(otp.expires)) {
     await deleteVerificationOtpById(otp.id)
-    return { error: 'Otp has expired' }
-  }
-
-  // happens if user sent POST to otp server action, bypassing the user creation
-  // but don't tell him that email doean't exist
-  const user = await getUserByEmail(otp.email)
-  if (!user) {
-    await deleteVerificationOtpById(otp.id)
-    return { error: 'Invalid otp' }
+    return { error: 'OTP has expired' }
   }
 
   await deleteVerificationOtpById(otp.id)
 
-  const verifyResponse = await verifyUserById(user.id)
+  const verifyResponse = await verifyUser(otp.email)
   if (verifyResponse?.error)
     return { error: verifyResponse.error, success: false }
 
