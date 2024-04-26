@@ -1,9 +1,9 @@
 import 'server-only'
 
 import type { VerificationOtp } from '@prisma/client'
+import crypto from 'crypto'
 
 import db from '@/lib/db'
-import { otpLength } from '@/utils/constants'
 
 export async function getVefiricationOtpByOtp(otp: VerificationOtp['otp']) {
   try {
@@ -32,9 +32,7 @@ export async function deleteVerificationOtpById(id: VerificationOtp['id']) {
 }
 
 export async function createVerificationOtp(email: VerificationOtp['email']) {
-  let newOtp = ''
-  for (let i = 0; i < otpLength; i += 1)
-    newOtp += Math.floor(Math.random() * 10)
+  const newOtp = crypto.randomInt(100_000, 100_0000).toString()
 
   const expires = new Date(new Date().getTime() + 60 * 60 * 1000)
 

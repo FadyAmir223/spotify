@@ -1,5 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { type Dispatch, type SetStateAction, useTransition } from 'react'
+import {
+  type Dispatch,
+  type SetStateAction,
+  useEffect,
+  useState,
+  useTransition,
+} from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
@@ -21,10 +27,10 @@ import {
   InputOTPGroup,
   InputOTPSlot,
 } from '@/components/ui/input-otp'
-import { useSearchParamRedirect } from '@/hooks/useSearchParamRedirect'
 import { otpLength, SEARCH_PARAMS } from '@/utils/constants'
 
 import { validateOTP } from '../../_actions/otp'
+import { useSearchParamRedirect } from '../../_hooks/useSearchParamRedirect'
 import type { LoginFormSchemaWithRedirect } from '../../_validations/login'
 import { type OtpSchema, otpSchema } from '../../_validations/otp'
 
@@ -41,6 +47,7 @@ export default function OtpForm({
 }: OtpFormProps) {
   const [isPending, startTransition] = useTransition()
   const redirectWithSearchParams = useSearchParamRedirect()
+  const [canSubmit, setCanSubmit] = useState(false)
 
   const form = useForm<OtpSchema>({
     resolver: zodResolver(otpSchema),
@@ -67,6 +74,12 @@ export default function OtpForm({
     })
   }
 
+  // useEffect usually shouldn't be used like this but
+  // value of onChangeCapture has previous state so can't submit there
+  useEffect(() => {
+    if (canSubmit) form.handleSubmit(onSubmit)()
+  }, [canSubmit]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className='px-10'>
@@ -85,7 +98,15 @@ export default function OtpForm({
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <InputOTP maxLength={otpLength} {...field}>
+                    <InputOTP
+                      maxLength={otpLength}
+                      {...field}
+                      onChangeCapture={(e) => {
+                        // @ts-ignore
+                        const inputLength = (e.target.value as string).length
+                        setCanSubmit(inputLength === otpLength)
+                      }}
+                    >
                       <InputOTPGroup>
                         {Array.from({ length: otpLength }).map((_, i) => (
                           // eslint-disable-next-line react/no-array-index-key

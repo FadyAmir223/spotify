@@ -7,6 +7,9 @@ const SEARCH_PARAMS = {
 const otpLength = 6
 const bcryptSalt = 10
 
-const placeholderEmail = 'john@example.com'
+const PLACEHOLDER = {
+  email: 'john@example.com',
+  password: '********',
+}
 
-export { bcryptSalt, otpLength, placeholderEmail, SEARCH_PARAMS }
+export { bcryptSalt, otpLength, PLACEHOLDER, SEARCH_PARAMS }

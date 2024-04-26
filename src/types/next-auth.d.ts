@@ -7,14 +7,6 @@ declare module 'next-auth' {
   }
 
   interface Session {
-    user: User & {
-      role: PrismaUser['role']
-    }
-  }
-}
-
-declare module 'next-auth/jwt' {
-  interface JWT {
-    role: PrismaUser['role']
+    user: User
   }
 }

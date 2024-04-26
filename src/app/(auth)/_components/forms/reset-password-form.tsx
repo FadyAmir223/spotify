@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/components/ui/use-toast'
-import { placeholderEmail } from '@/utils/constants'
+import { PLACEHOLDER } from '@/utils/constants'
 
 import { resetPassword } from '../../_actions/reset-password'
 import type { ResetPasswordSchema } from '../../_validations/reset-password'
@@ -46,7 +46,7 @@ export default function ResetPasswordForm() {
       <Label>Email</Label>
       <Input
         type='text'
-        placeholder={placeholderEmail}
+        placeholder={PLACEHOLDER.email}
         {...register('email')}
       />
 

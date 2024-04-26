@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { SEARCH_PARAMS } from '@/utils/constants'
+import { PLACEHOLDER, SEARCH_PARAMS } from '@/utils/constants'
 
 import { newPassword } from '../../_actions/new-password'
 import {
@@ -73,7 +73,7 @@ export default function NewPasswordForm() {
           <Label>{input.label}</Label>
           <Input
             type='password'
-            placeholder='********'
+            placeholder={PLACEHOLDER.password}
             autoComplete='new-password'
             {...register(input.name)}
           />

@@ -2,9 +2,9 @@
 
 import { createResetPasswordToken } from '@/data/reset-password-token'
 import { getUserByEmail } from '@/data/user'
-import ResetPassword from '@/email/reset-password'
 import { sendEmail } from '@/lib/resend'
 
+import ResetPassword from '../_email/reset-password'
 import { resetPasswordSchema } from '../_validations/reset-password'
 
 export async function resetPassword(formData: unknown) {

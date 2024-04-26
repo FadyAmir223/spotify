@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
-import { placeholderEmail } from '@/utils/constants'
+import { PLACEHOLDER } from '@/utils/constants'
 import { getErrorMessage } from '@/utils/getErrorMessage.util'
 
 import { handleRegister } from '../../_actions/register'
@@ -31,21 +31,21 @@ const inputs = [
     type: 'text',
     label: 'Email',
     name: 'email',
-    placeholder: placeholderEmail,
+    placeholder: PLACEHOLDER.email,
     autoComplete: 'off',
   },
   {
     type: 'password',
     label: 'Password',
     name: 'password',
-    placeholder: '********',
+    placeholder: PLACEHOLDER.password,
     autoComplete: 'new-password',
   },
   {
     type: 'password',
     label: 'Confirm Password',
     name: 'confirmPassword',
-    placeholder: '********',
+    placeholder: PLACEHOLDER.password,
     autoComplete: 'new-password',
   },
 ] as const
@@ -129,6 +129,7 @@ export default function RegisterForm() {
                   <Checkbox
                     checked={field.value}
                     onCheckedChange={field.onChange}
+                    disabled={form.formState.isSubmitting}
                   />
                 </FormControl>
                 <FormLabel>I&apos;m an artists</FormLabel>

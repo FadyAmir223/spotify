@@ -1,7 +1,8 @@
 import type { User, VerificationOtp } from '@prisma/client'
 
-import VerifyEmail from '@/email/verify-email'
 import { sendEmail } from '@/lib/resend'
+
+import VerifyEmail from '../_email/verify-email'
 
 export async function sendVerificationOtpEmail(
   email: User['email'],
