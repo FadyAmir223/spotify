@@ -1,12 +1,12 @@
 import 'server-only'
 
-import type { resetPasswordToken } from '@prisma/client'
+import type { ResetPasswordToken } from '@prisma/client'
 import { v4 as uuidv4 } from 'uuid'
 
 import db from '@/lib/db'
 
 export async function getResetPasswordTokenByToken(
-  token: resetPasswordToken['token'],
+  token: ResetPasswordToken['token'],
 ) {
   try {
     return await db.resetPasswordToken.findUnique({ where: { token } })
@@ -16,7 +16,7 @@ export async function getResetPasswordTokenByToken(
 }
 
 export async function getResetPasswordTokenByEmail(
-  email: resetPasswordToken['email'],
+  email: ResetPasswordToken['email'],
 ) {
   try {
     return await db.resetPasswordToken.findFirst({ where: { email } })
@@ -26,7 +26,7 @@ export async function getResetPasswordTokenByEmail(
 }
 
 export async function deleteResetPasswordTokenById(
-  id: resetPasswordToken['id'],
+  id: ResetPasswordToken['id'],
 ) {
   try {
     await db.resetPasswordToken.delete({
@@ -39,7 +39,7 @@ export async function deleteResetPasswordTokenById(
 }
 
 export async function createResetPasswordToken(
-  email: resetPasswordToken['email'],
+  email: ResetPasswordToken['email'],
 ) {
   const newToken = uuidv4()
   const expires = new Date(new Date().getTime() + 60 * 60 * 1000)

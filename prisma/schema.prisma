@@ -51,7 +51,7 @@ model VerificationOtp {
   @@unique([email, otp])
 }
 
-model resetPasswordToken {
+model ResetPasswordToken {
   id      String   @id @default(cuid())
   email   String
   token   String   @unique

@@ -19,6 +19,9 @@ const config = {
     },
     extend: {
       colors: {
+        'grayish-background': '#171717',
+        'grayish-foreground': '#b3b3b3',
+
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
@@ -80,7 +83,7 @@ const config = {
     },
   },
   // eslint-disable-next-line global-require
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('tailwind-scrollbar-hide')],
 } satisfies Config
 
 export default config

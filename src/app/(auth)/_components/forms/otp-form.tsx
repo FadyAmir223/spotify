@@ -75,7 +75,8 @@ export default function OtpForm({
   }
 
   // useEffect usually shouldn't be used like this but
-  // value of onChangeCapture has previous state so can't submit there
+  // state formData has previous state until onChangeCapture resolve
+  // so can't submit inside onChangeCapture
   useEffect(() => {
     if (canSubmit) form.handleSubmit(onSubmit)()
   }, [canSubmit]) // eslint-disable-line react-hooks/exhaustive-deps

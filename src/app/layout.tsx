@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/toaster'
 
 export const metadata: Metadata = {
   title: {
-    default: 'spotify',
+    default: 'Spotify',
     template: '%s | spotify',
   },
   description: 'get access to millions of songs',
@@ -19,7 +19,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className='min-h-screen bg-secondary'>
+      <body className='min-h-screen bg-secondary text-white'>
         {children}
         <Toaster />
       </body>

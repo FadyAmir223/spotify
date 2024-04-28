@@ -16,7 +16,7 @@ export default function GoogleButton() {
     <Button
       variant='outline'
       size='lg'
-      className='relative w-full rounded-full'
+      className='relative w-full rounded-full bg-secondary'
       onClick={() =>
         signIn('google', {
           callbackUrl: redirectTo || DEFAULT_LOGIN_REDIRECT,

@@ -69,7 +69,7 @@ export default function NewPasswordForm() {
   return (
     <form action={submit}>
       {inputs.map((input) => (
-        <div key={input.name} className=''>
+        <div key={input.name}>
           <Label>{input.label}</Label>
           <Input
             type='password'

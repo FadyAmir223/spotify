@@ -1,9 +1,7 @@
-import type { ReactNode } from 'react'
-
 import { cn } from '@/utils/cn'
 
 type H1Props = {
-  children: ReactNode
+  children: React.ReactNode
   className?: string
 }
 
