@@ -33,7 +33,6 @@ export async function deleteVerificationOtpById(id: VerificationOtp['id']) {
 
 export async function createVerificationOtp(email: VerificationOtp['email']) {
   const newOtp = crypto.randomInt(100_000, 100_0000).toString()
-
   const expires = new Date(new Date().getTime() + 60 * 60 * 1000)
 
   try {

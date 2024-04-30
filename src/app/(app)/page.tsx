@@ -1,15 +1,13 @@
-'use client'
-
 import Link from 'next/link'
+import { Suspense } from 'react'
 import { FaHeart } from 'react-icons/fa'
 import { RxTriangleRight } from 'react-icons/rx'
 
 import Header from './_components/header'
-import Song from './_components/song'
+import SongSkeleton from './_components/skeletons/song-skeleton'
+import SongsList from './_components/songs-list'
 
-// TODO: disable back/forward buttons
-
-export default function Home() {
+export default async function Home() {
   return (
     <>
       <Header>
@@ -31,15 +29,21 @@ export default function Home() {
         </Link>
       </Header>
 
-      <section className='p-4'>
+      <div className='p-4'>
         <h3 className='mb-4 text-2xl font-bold'>Newest songs</h3>
 
-        <div className='grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8'>
-          {Array.from({ length: 6 }).map((item, idx) => (
-            <Song key={idx} /> // eslint-disable-line react/no-array-index-key
-          ))}
-        </div>
-      </section>
+        <section className='grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8'>
+          <Suspense
+            fallback={Array.from({ length: 4 }).map((_, i) => (
+              <SongSkeleton
+                key={i} // eslint-disable-line react/no-array-index-key
+              />
+            ))}
+          >
+            <SongsList />
+          </Suspense>
+        </section>
+      </div>
     </>
   )
 }

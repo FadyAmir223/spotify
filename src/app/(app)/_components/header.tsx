@@ -23,6 +23,8 @@ const navs = [
   { Icon: BiSearch, href: '/search' },
 ]
 
+// TODO: disable back/forward buttons
+
 export default function Header({ children }: HeaderProps) {
   const router = useRouter()
   const user = useCurrentUser()

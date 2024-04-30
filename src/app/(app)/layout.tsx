@@ -3,7 +3,9 @@ import { SessionProvider } from 'next-auth/react'
 import { auth } from '@/lib/auth/auth'
 
 import Library from './_components/library'
+import MusicPlayer from './_components/music-player'
 import NavBar from './_components/nav-bar'
+import SongProvider from './_contexts/song-context'
 
 export default async function AppLayout({
   children,
@@ -21,7 +23,10 @@ export default async function AppLayout({
         </div>
 
         <section className='size-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
-          {children}
+          <SongProvider>
+            {children}
+            <MusicPlayer />
+          </SongProvider>
         </section>
       </main>
     </SessionProvider>

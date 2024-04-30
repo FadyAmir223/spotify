@@ -1,7 +1,6 @@
 import 'server-only'
 
 import type { ResetPasswordToken } from '@prisma/client'
-import { v4 as uuidv4 } from 'uuid'
 
 import db from '@/lib/db'
 
@@ -41,7 +40,7 @@ export async function deleteResetPasswordTokenById(
 export async function createResetPasswordToken(
   email: ResetPasswordToken['email'],
 ) {
-  const newToken = uuidv4()
+  const newToken = crypto.randomUUID()
   const expires = new Date(new Date().getTime() + 60 * 60 * 1000)
 
   try {

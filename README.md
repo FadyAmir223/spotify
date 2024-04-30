@@ -48,3 +48,14 @@ npm run prisma:push:dev:env
 # e.g. for updating a schema
 npm run docker:dev:up -- --force-recreate app-dev
 ```
+
+
+## choices
+
+### uuid
+use `crypto.randomUUID()` instead of `uuidv4()` because it's x3-5 faster as it's part of node eco-system
+
+### context
+Why split `SongContext` into `ValueSongContext` and `DispatchSongContext`? <br />
+because the buttons responsible for setting the song will re-render, 
+even though they are not using its data
