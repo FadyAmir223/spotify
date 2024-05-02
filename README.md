@@ -59,3 +59,25 @@ use `crypto.randomUUID()` instead of `uuidv4()` because it's x3-5 faster as it's
 Why split `SongContext` into `ValueSongContext` and `DispatchSongContext`? <br />
 because the buttons responsible for setting the song will re-render, 
 even though they are not using its data
+
+### ky
+uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the extended API of next.js
+
+
+## TODO:
+- favorites
+
+- search
+- infinite scroll reslults
+
+- artist layout
+- upload form
+- drag & drop
+- image crop
+
+- download song detect name
+
+- payment
+
+- vercel version
+- video

@@ -12,4 +12,6 @@ const PLACEHOLDER = {
   password: '********',
 }
 
-export { bcryptSalt, otpLength, PLACEHOLDER, SEARCH_PARAMS }
+const initVolume = 0.75
+
+export { bcryptSalt, initVolume, otpLength, PLACEHOLDER, SEARCH_PARAMS }

@@ -1,20 +1,21 @@
 'use server'
 
-import { z } from 'zod'
-
-import { likeSong } from '@/data/liked-song'
+import { likeSong, unlikeSong } from '@/data/liked-song'
 
 import { currentUser } from '../_utils/auth'
+import { extendedSongSchema } from '../_validations/song'
 
-const songIdSchema = z.string().cuid()
-
-export async function toggleLikeSong(songId: unknown) {
+export async function toggleLikeSong(data: unknown) {
   const user = await currentUser()
   if (user?.role !== 'LISTENER') return { error: 'Invalid operation' }
 
-  const result = songIdSchema.safeParse(songId)
-  if (!result.success) return { error: 'Invalid song id' }
+  const result = extendedSongSchema.safeParse(data)
+  if (!result.success) return { error: 'Invalid data' }
 
-  const likeSongResponse = await likeSong(user.id!, result.data)
-  if (likeSongResponse?.error) return { error: likeSongResponse.error }
+  const { id: songId, isLiked } = result.data
+
+  const toggleLikeResponse = isLiked
+    ? await unlikeSong(songId, user.id!)
+    : await likeSong(songId, user.id!)
+  if (toggleLikeResponse?.error) return { error: toggleLikeResponse.error }
 }

@@ -11,7 +11,7 @@ export default async function PlaylistsList() {
     <Link
       key={id}
       href={`/playlist/${id}`}
-      className='flex items-center gap-x-3 rounded-sm p-1.5 hover:bg-zinc-800'
+      className='flex items-center gap-x-3 rounded-sm p-1.5 transition hover:bg-neutral-800/50'
     >
       {imagePath ? (
         <div className='relative aspect-square size-10'>

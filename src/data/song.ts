@@ -11,6 +11,7 @@ export async function getSongs(page = 1): Promise<SongEssentials[]> {
         imagePath: true,
         artist: {
           select: {
+            id: true,
             name: true,
           },
         },

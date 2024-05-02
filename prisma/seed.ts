@@ -8,12 +8,23 @@ const db = new PrismaClient()
 
 const data = {
   user: {
-    listener: { email: 'listener@gmail.com', password: '0', role: 'LISTENER' },
+    listener: {
+      id: 'clvmpeqss00051w43ghqedqke',
+      email: 'listener@gmail.com',
+      password: '0',
+      role: 'LISTENER',
+    },
     artist: {
       email: 'artist@gmail.com',
       password: '0',
       role: 'ARTIST',
       name: 'fugu vibes',
+    },
+    artist2: {
+      email: 'artist2@gmail.com',
+      password: '0',
+      role: 'ARTIST',
+      name: 'tours',
     },
   },
   songs: [
@@ -27,9 +38,14 @@ const data = {
       imagePath: '/uploads/artists/fugu-vibes/spatial/cover.jpg',
       songPath: '/uploads/artists/fugu-vibes/spatial/track.mp3',
     },
+    {
+      title: 'corridors',
+      imagePath: '/uploads/artists/tours/corridors/cover.jpg',
+      songPath: '/uploads/artists/tours/corridors/track.mp3',
+    },
   ],
   playlist: {
-    title: 'my playlist',
+    title: 'DJs',
     imagePath: '/images/icon.png',
   },
 }
@@ -41,10 +57,8 @@ async function createUser(user: User) {
     where: { email: user.email },
     update: {},
     create: {
-      name: user.name,
-      email: user.email,
+      ...user,
       password: hashedPassword,
-      role: user.role,
       emailVerified: new Date(),
     },
     select: { id: true },
@@ -75,18 +89,26 @@ async function createSong(song: Song, artistId: User['id']) {
 async function main() {
   console.log('seeding started...')
 
-  // create artist
+  // artist - 1
   const artistId = await createUser(data.user.artist as User)
   console.log(`created artist with id: ${artistId}`)
 
-  // create song
+  // song
   const songId1 = await createSong(data.songs[0] as Song, artistId)
   console.log(`  having song with id: ${songId1}`)
 
-  const songId = await createSong(data.songs[1] as Song, artistId)
-  console.log(`  having song with id: ${songId}`)
+  const songId2 = await createSong(data.songs[1] as Song, artistId)
+  console.log(`  having song with id: ${songId2}`)
 
-  // create listener
+  // artist - 2
+  const artistId2 = await createUser(data.user.artist2 as User)
+  console.log(`created artist with id: ${artistId2}`)
+
+  // song
+  const songId3 = await createSong(data.songs[2] as Song, artistId2)
+  console.log(`  having song with id: ${songId3}`)
+
+  // listener
   const listenerId = await createUser(data.user.listener as User)
   console.log(`created listener with id: ${artistId}`)
 
@@ -95,16 +117,16 @@ async function main() {
     where: {
       userId_songId: {
         userId: listenerId,
-        songId,
+        songId: songId2,
       },
     },
     update: {},
-    create: { userId: listenerId, songId },
+    create: { userId: listenerId, songId: songId2 },
   })
 
-  console.log(`  liked song with id: ${songId}`)
+  console.log(`  liked song with id: ${songId2}`)
 
-  // create playlist
+  // playlist
   const { id: playlistId } = await db.playlist.upsert({
     where: {
       userId_title: {
@@ -118,7 +140,7 @@ async function main() {
       userId: listenerId,
       songs: {
         connect: {
-          id: songId,
+          id: songId2,
         },
       },
     },

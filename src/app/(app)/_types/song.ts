@@ -4,5 +4,8 @@ export type SongEssentials = Pick<
   Song,
   'id' | 'title' | 'songPath' | 'imagePath'
 > & {
-  artist: { name: User['name'] }
+  artist: {
+    id: User['id']
+    name: User['name']
+  }
 }
