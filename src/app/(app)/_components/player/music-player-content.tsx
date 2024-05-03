@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import useSound from 'use-sound'
 
-import { useValueSong } from '../../_contexts/song-context'
+import { initVolume } from '@/utils/constants'
+
+import { useDispatchSong, useValueSong } from '../../_contexts/song-context'
 import type { SongEssentials } from '../../_types/song'
-import LikeButton from '../like-button'
+import LikeButton from '../buttons/like-button'
 import Controls from './controls'
 import Slider from './slider'
 
@@ -14,12 +16,28 @@ type MusicPlayerContentProps = {
 }
 
 export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
-  const { volume } = useValueSong()
   const [isPlaying, setIsPlaying] = useState(false)
+
+  const { songIndex, playbackSongs } = useValueSong()
+  const { setCurrentSong } = useDispatchSong()
+
+  const [volume, setVolume] = useState(initVolume)
+  const playbackBeforeMute = useRef(volume)
+
+  const handleSongChange = (direction: -1 | 1) => {
+    const { length } = playbackSongs
+    const newIndex = (songIndex + direction + length) % length
+
+    setCurrentSong(playbackSongs[newIndex], newIndex)
+  }
 
   const [play, { pause, sound }] = useSound(song?.songPath, {
     volume,
     onplay: () => setIsPlaying(true),
+    onend: () => {
+      setIsPlaying(false)
+      handleSongChange(1)
+    },
     onpause: () => setIsPlaying(false),
   })
 
@@ -35,6 +53,13 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
     if (!isPlaying) play()
     else pause()
     setIsPlaying(!isPlaying)
+  }
+
+  const handleVolumeChange = (type: 'set' | 'reset', value?: number) => {
+    if (type === 'set' && value !== undefined) {
+      if (value === 0) playbackBeforeMute.current = volume
+      setVolume(value)
+    } else if (type === 'reset') setVolume(playbackBeforeMute.current)
   }
 
   return (
@@ -64,9 +89,13 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
         <LikeButton key={song.id} songId={song.id} />
       </div>
 
-      <Controls isPlaying={isPlaying} handleTogglePlay={handleTogglePlay} />
+      <Controls
+        isPlaying={isPlaying}
+        onTogglePlay={handleTogglePlay}
+        onSongChange={handleSongChange}
+      />
 
-      <Slider />
+      <Slider volume={volume} setVolume={handleVolumeChange} />
     </>
   )
 }

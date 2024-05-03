@@ -1,8 +1,8 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
 import { FaHeart } from 'react-icons/fa'
-import { RxTriangleRight } from 'react-icons/rx'
 
+import PlayFavoritesButton from './_components/buttons/play-favorites-button'
 import Header from './_components/header'
 import SongSkeleton from './_components/skeletons/song-skeleton'
 import SongsList from './_components/songs-list'
@@ -23,9 +23,7 @@ export default async function Home() {
             <FaHeart className='size-5' />
           </div>
           <span className='ml-4 flex h-14 items-center'>Liked Songs</span>
-          <div className='ml-auto mr-4 size-10 rounded-full bg-primary p-1 opacity-0 drop-shadow-md transition hover:scale-110 group-hover:opacity-100'>
-            <RxTriangleRight className='size-8 text-black' />
-          </div>
+          <PlayFavoritesButton />
         </Link>
       </Header>
 

@@ -7,6 +7,7 @@ import Library from './_components/library'
 import NavBar from './_components/nav-bar'
 import MusicPlayer from './_components/player/music-player'
 import QueryClientProvider from './_components/query-provider'
+import HistoryProvider from './_contexts/history-context'
 import SongProvider from './_contexts/song-context'
 
 export default async function AppLayout({
@@ -27,7 +28,7 @@ export default async function AppLayout({
         <section className='size-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
           <QueryClientProvider>
             <SongProvider>
-              {children}
+              <HistoryProvider>{children}</HistoryProvider>
               <MusicPlayer />
             </SongProvider>
             <ReactQueryDevtools />

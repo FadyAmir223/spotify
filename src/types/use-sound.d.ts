@@ -19,6 +19,7 @@ declare module 'use-sound' {
       soundEnabled?: boolean
       sprite?: SpriteMap
       onplay?: () => void
+      onend?: () => void
       onpause?: () => void
     },
   ) => [

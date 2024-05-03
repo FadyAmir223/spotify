@@ -1,9 +1,7 @@
 import { Suspense } from 'react'
-import { AiOutlinePlus } from 'react-icons/ai'
 import { TbPlaylist } from 'react-icons/tb'
 
-import { Button } from '@/components/ui/button'
-
+import CreatePlaylistButton from './buttons/create-playlist-button'
 import PlaylistsList from './playlists-list'
 import PlaylistSkeleton from './skeletons/playlist-skeleton'
 
@@ -15,13 +13,8 @@ export default function Library() {
           <TbPlaylist className='size-5' />
           <span className='text-sm font-medium'>Your Library</span>
         </div>
-        <Button
-          variant='none'
-          className='size-7 cursor-pointer rounded-full transition hover:bg-zinc-700 hover:text-white'
-          aria-label='Create playlist'
-        >
-          <AiOutlinePlus className='size-5' />
-        </Button>
+
+        <CreatePlaylistButton />
       </div>
 
       <nav>

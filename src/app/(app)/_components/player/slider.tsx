@@ -4,12 +4,15 @@ import { IoVolumeMedium, IoVolumeOff } from 'react-icons/io5'
 import { Button } from '@/components/ui/button'
 import { initVolume } from '@/utils/constants'
 
-import { useDispatchSong, useValueSong } from '../../_contexts/song-context'
+type SliderProps = {
+  volume: number
+  setVolume: {
+    (type: 'set', value: number): void
+    (type: 'reset'): void
+  }
+}
 
-export default function Slider() {
-  const { volume } = useValueSong()
-  const { setVolume } = useDispatchSong()
-
+export default function Slider({ volume, setVolume }: SliderProps) {
   const isMuted = volume === 0
 
   const handleToggle = () => {
