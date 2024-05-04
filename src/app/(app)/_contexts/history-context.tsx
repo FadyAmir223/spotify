@@ -20,11 +20,8 @@ type HistoryProviderProps = {
 export default function HistoryProvider({ children }: HistoryProviderProps) {
   const router = useRouter()
   const pathname = usePathname()
-  const [history, setHistory] = useState<string[]>([])
-  const state = useRef<{ index: number; prevDirection: Direction | '' }>({
-    index: 0,
-    prevDirection: '',
-  })
+  const [history, setHistoryLength] = useState(0)
+  const state = useRef({ index: 0, prevDirection: '' })
 
   useEffect(() => {
     if (state.current.prevDirection) {
@@ -32,13 +29,14 @@ export default function HistoryProvider({ children }: HistoryProviderProps) {
       return
     }
 
-    setHistory([...history.slice(0, state.current.index + 1), pathname])
-    if (history.length) state.current.index += 1
+    if (history) state.current.index += 1
+    setHistoryLength(state.current.index + 1)
   }, [pathname]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleNavigation = (direction: Direction) => {
     if (direction === 'forward') state.current.index += 1
     else if (direction === 'back') state.current.index -= 1
+
     state.current.prevDirection = direction
     router[direction]()
   }
@@ -49,7 +47,7 @@ export default function HistoryProvider({ children }: HistoryProviderProps) {
       value={{
         handleNavigation,
         isFirst: state.current.index === 0,
-        isLast: state.current.index === history.length - 1,
+        isLast: state.current.index === history - 1,
       }}
     >
       {children}

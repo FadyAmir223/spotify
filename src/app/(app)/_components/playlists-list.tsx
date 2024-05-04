@@ -19,6 +19,7 @@ export default async function PlaylistsList() {
             src={imagePath}
             alt={`${title} playlist`}
             className='rounded-sm'
+            sizes='2.5rem'
             fill
           />
         </div>

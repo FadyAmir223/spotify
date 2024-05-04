@@ -71,10 +71,11 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
         >
           <div className='relative mr-2 aspect-square size-11'>
             <Image
-              fill
               src={song.imagePath}
               alt={`${song.title} cover`}
               className='rounded-sm'
+              fill
+              sizes='2.75rem'
             />
           </div>
           <div className='flex w-20 flex-col justify-center capitalize'>

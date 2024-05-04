@@ -17,7 +17,7 @@ export default async function Home() {
 
         <Link
           href='likes'
-          className='group flex w-96 items-center rounded-r-lg bg-neutral-100/10 transition hover:bg-neutral-100/20'
+          className='group flex max-w-96 items-center rounded-r-lg bg-neutral-100/10 transition hover:bg-neutral-100/20'
         >
           <div className='grid size-14 place-items-center rounded-l-lg bg-gradient-to-br from-indigo-700 to-slate-400'>
             <FaHeart className='size-5' />
@@ -30,7 +30,7 @@ export default async function Home() {
       <div className='p-4'>
         <h3 className='mb-4 text-2xl font-bold'>Newest songs</h3>
 
-        <section className='grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8'>
+        <section className='grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8'>
           <Suspense
             fallback={Array.from({ length: 4 }).map((_, i) => (
               <SongSkeleton

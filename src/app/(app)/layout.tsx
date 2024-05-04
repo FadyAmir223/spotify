@@ -19,21 +19,23 @@ export default async function AppLayout({
 
   return (
     <SessionProvider session={session}>
-      <main className='flex h-screen gap-x-2 bg-black p-2'>
-        <div className='hidden h-full flex-col gap-y-2 md:flex'>
-          <NavBar />
-          <Library />
-        </div>
+      <main className='bg-black'>
+        <div className='mx-auto flex h-screen max-w-screen-2xl gap-x-2 p-2'>
+          <div className='hidden h-full flex-col gap-y-2 md:flex'>
+            <NavBar />
+            <Library />
+          </div>
 
-        <section className='size-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
-          <QueryClientProvider>
-            <SongProvider>
-              <HistoryProvider>{children}</HistoryProvider>
-              <MusicPlayer />
-            </SongProvider>
-            <ReactQueryDevtools />
-          </QueryClientProvider>
-        </section>
+          <section className='size-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
+            <QueryClientProvider>
+              <SongProvider>
+                <HistoryProvider>{children}</HistoryProvider>
+                <MusicPlayer />
+              </SongProvider>
+              <ReactQueryDevtools />
+            </QueryClientProvider>
+          </section>
+        </div>
       </main>
     </SessionProvider>
   )

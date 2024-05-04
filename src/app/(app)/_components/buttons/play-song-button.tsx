@@ -19,7 +19,7 @@ export default function PlaySongButton({ index, songs }: PlaySongButtonProps) {
 
   return (
     <TriangleButton
-      className='absolute bottom-2 right-2 z-50 translate-y-1/4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100'
+      className='absolute bottom-2 right-2 translate-y-1/4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100'
       onClick={handlePlaySong}
     />
   )
