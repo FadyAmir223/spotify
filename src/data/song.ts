@@ -1,7 +1,6 @@
-import type { SongEssentials } from '@/app/(app)/_types/song'
 import db from '@/lib/db'
 
-export async function getSongs(page = 1): Promise<SongEssentials[]> {
+export async function getSongs(page = 1) {
   try {
     return await db.song.findMany({
       select: {
@@ -16,8 +15,8 @@ export async function getSongs(page = 1): Promise<SongEssentials[]> {
           },
         },
       },
-      take: 15,
-      skip: (page - 1) * 15,
+      take: 20,
+      skip: (page - 1) * 20,
       orderBy: { createdAt: 'desc' },
     })
   } catch {

@@ -1,5 +1,7 @@
 'use server'
 
+import { revalidateTag } from 'next/cache'
+
 import { likeSong, unlikeSong } from '@/data/liked-song'
 
 import { currentUser } from '../_utils/auth'
@@ -18,4 +20,6 @@ export async function toggleLikeSong(data: unknown) {
     ? await unlikeSong(songId, user.id!)
     : await likeSong(songId, user.id!)
   if (toggleLikeResponse?.error) return { error: toggleLikeResponse.error }
+
+  revalidateTag(songId)
 }

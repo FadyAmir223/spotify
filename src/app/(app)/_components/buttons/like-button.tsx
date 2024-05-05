@@ -16,11 +16,18 @@ import { likedSchema } from '../../_validations/liked'
 
 type LikeButtonProps = {
   songId: Song['id']
+  definitelyLiked?: boolean
 }
 
-export default function LikeButton({ songId }: LikeButtonProps) {
+// TODO: continue the song even when it is removed
+
+export default function LikeButton({
+  songId,
+  definitelyLiked,
+}: LikeButtonProps) {
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
+  const queryClient = useQueryClient()
 
   const [isLiked, setIsLiked] = useState(false)
   const [optimisticIsLiked, optimisticToggleLiked] = useOptimistic(
@@ -28,10 +35,12 @@ export default function LikeButton({ songId }: LikeButtonProps) {
     (_, newState: boolean) => newState,
   )
 
-  const queryClient = useQueryClient()
   const { data } = useQuery({
     queryKey: keys.song(songId),
-    queryFn: async ({ queryKey }) => (await ky(composeUri(queryKey))).json(),
+    queryFn: async ({ queryKey }) =>
+      definitelyLiked
+        ? { liked: true }
+        : (await ky(composeUri(queryKey), { next: { tags: queryKey } })).json(),
     staleTime: Infinity,
     gcTime: 1000 * 60 * 60 * 3,
   })
@@ -48,6 +57,7 @@ export default function LikeButton({ songId }: LikeButtonProps) {
 
     startTransition(() => {
       optimisticToggleLiked(!isLiked)
+
       toggleLikeSong({ id: songId, isLiked })
         .then((res) => {
           if (res?.error)
@@ -57,9 +67,7 @@ export default function LikeButton({ songId }: LikeButtonProps) {
             })
 
           setIsLiked(!isLiked)
-          queryClient.setQueryData(keys.song(songId), {
-            liked: !isLiked,
-          })
+          queryClient.invalidateQueries({ queryKey: keys.song(songId) })
         })
         .catch(() => {
           toast({
@@ -73,7 +81,7 @@ export default function LikeButton({ songId }: LikeButtonProps) {
   return (
     <Button
       variant='none'
-      size='icon'
+      size='none'
       className='transition hover:opacity-85'
       onClick={handleLikeSong}
     >

@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 
-import type { resetPasswordToken } from '@prisma/client'
+import type { ResetPasswordToken } from '@prisma/client'
 import {
   Body,
   Button,
@@ -18,7 +18,7 @@ import { newPasswordRoute } from '@/lib/routes'
 import { SEARCH_PARAMS } from '@/utils/constants'
 
 type ResetPasswordProps = {
-  token?: resetPasswordToken['token']
+  token?: ResetPasswordToken['token']
 }
 
 export default function ResetPassword({ token }: ResetPasswordProps) {

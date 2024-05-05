@@ -2,7 +2,7 @@
 
 import bcrypt from 'bcryptjs'
 
-import { createUser } from '@/data/user'
+import { createUser } from '@/data/user.auth'
 import { createVerificationOtp } from '@/data/verification-otp'
 import { bcryptSalt } from '@/utils/constants'
 

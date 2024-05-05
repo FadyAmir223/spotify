@@ -1,7 +1,8 @@
+import Image from 'next/image'
+
 import { getSongs } from '@/data/song'
 
-import PlayButton from './buttons/play-song-button'
-import SongsListImage from './songs-list-image'
+import PlaySongButton from '../buttons/play-song-button'
 
 export default async function SongsList() {
   const songs = await getSongs()
@@ -13,13 +14,21 @@ export default async function SongsList() {
     >
       <div className='relative'>
         <div className='relative aspect-square size-full'>
-          <SongsListImage
-            index={index}
-            imagePath={song.imagePath}
-            title={song.title}
+          <Image
+            src={song.imagePath}
+            alt={song.title}
+            className='rounded-md'
+            sizes='
+              (max-width: 639px) 50vw, 
+              (max-width: 767px) 33vw, 
+              (max-width: 1023px) calc((100vw - 300px) / 3), 
+              (max-width: 1279px) calc((100vw - 300px) / 4), 
+              calc((100vw - 300px) / 8)'
+            fill
+            priority={index < 4}
           />
         </div>
-        <PlayButton index={index} songs={songs} />
+        <PlaySongButton index={index} songs={songs} />
       </div>
 
       <div className='mt-2.5 capitalize'>

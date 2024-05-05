@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useRef, useState } from 'react'
 import useSound from 'use-sound'
@@ -7,6 +6,7 @@ import { initVolume } from '@/utils/constants'
 
 import { useDispatchSong, useValueSong } from '../../_contexts/song-context'
 import type { SongEssentials } from '../../_types/song'
+import ArtistMedia from '../artist-media'
 import LikeButton from '../buttons/like-button'
 import Controls from './controls'
 import Slider from './slider'
@@ -18,17 +18,17 @@ type MusicPlayerContentProps = {
 export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const { songIndex, playbackSongs } = useValueSong()
-  const { setCurrentSong } = useDispatchSong()
+  const { songIndex, songsQueue } = useValueSong()
+  const { setSongsQueue } = useDispatchSong()
 
   const [volume, setVolume] = useState(initVolume)
   const playbackBeforeMute = useRef(volume)
 
   const handleSongChange = (direction: -1 | 1) => {
-    const { length } = playbackSongs
+    const { length } = songsQueue
     const newIndex = (songIndex + direction + length) % length
 
-    setCurrentSong(playbackSongs[newIndex], newIndex)
+    setSongsQueue({ songs: songsQueue, index: newIndex })
   }
 
   const [play, { pause, sound }] = useSound(song?.songPath, {
@@ -64,30 +64,15 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
 
   return (
     <>
-      <div className='flex items-center'>
-        <Link
+      <div className='flex items-center gap-x-3'>
+        <ArtistMedia
+          As={Link}
           href={`/artist/${song.artist.id}`}
-          className='flex rounded-sm p-1 transition hover:bg-neutral-800/50'
-        >
-          <div className='relative mr-2 aspect-square size-11'>
-            <Image
-              src={song.imagePath}
-              alt={`${song.title} cover`}
-              className='rounded-sm'
-              fill
-              sizes='2.75rem'
-            />
-          </div>
-          <div className='flex w-20 flex-col justify-center capitalize'>
-            <p className='truncate text-sm font-medium text-white'>
-              {song.title}
-            </p>
-            <p className='truncate text-sm text-grayish-foreground'>
-              {song.artist.name}
-            </p>
-          </div>
-        </Link>
-        <LikeButton key={song.id} songId={song.id} />
+          truncate
+          artistName={song.artist.name}
+          song={{ title: song.title, imagePath: song.imagePath }}
+        />
+        <LikeButton songId={song.id} />
       </div>
 
       <Controls

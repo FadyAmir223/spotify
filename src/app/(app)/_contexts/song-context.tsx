@@ -6,15 +6,20 @@ import type { SongEssentials } from '../_types/song'
 
 type TValueSongContext = {
   currentSong: SongEssentials | null
-  playbackSongs: SongEssentials[]
+  songsQueue: SongEssentials[]
   songIndex: number
 }
 
 const ValueSongContext = createContext<TValueSongContext | null>(null)
 
+type SetterProps = {
+  playlistName?: string
+  songs: SongEssentials[]
+  index: number
+}
+
 type TDispatchSongContext = {
-  setPlaybackSongs: (songs: SongEssentials[], name: string) => void
-  setCurrentSong: (song: SongEssentials, index: number) => void
+  setSongsQueue: (props: SetterProps) => void
 }
 
 const DispatchSongContext = createContext<TDispatchSongContext | null>(null)
@@ -24,39 +29,49 @@ type SongProviderProps = {
 }
 
 export default function SongProvider({ children }: SongProviderProps) {
-  const [playbackSongs, setPlaybackSongs] = useState<SongEssentials[]>([])
-  const playlistName = useRef('')
+  const [songsQueue, setSongsQueue] = useState<SongEssentials[]>([])
+  const currPlaylistName = useRef<string | null>(null)
 
   const [currentSong, setCurrentSong] = useState<SongEssentials | null>(null)
   const songIndex = useRef(-1)
 
-  const handlePlaybackSongsChange = (songs: SongEssentials[], name: string) => {
-    if (name === playlistName.current) return
-    playlistName.current = name
-    setPlaybackSongs(songs)
-  }
+  const handleSongsQueue = ({
+    playlistName,
+    songs,
+    index = 0,
+  }: SetterProps) => {
+    const newSong = songs[index]
 
-  const handleSongChange = (song: SongEssentials, index: number) => {
-    setCurrentSong(song)
+    if (
+      playlistName !== undefined &&
+      playlistName !== currPlaylistName.current
+    ) {
+      currPlaylistName.current = playlistName
+      songIndex.current = index
+      setSongsQueue(songs)
+      if (currentSong !== newSong) setCurrentSong(newSong)
+      return
+    }
+
+    if (currentSong === newSong) return
+
     songIndex.current = index
+    setCurrentSong(newSong)
   }
 
   const memoValue = useMemo(
     () => ({
       currentSong,
-      playbackSongs,
+      songsQueue,
       songIndex: songIndex.current,
     }),
-    [currentSong, playbackSongs],
+    [currentSong, songsQueue],
   )
 
   return (
     <DispatchSongContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
-      value={{
-        setCurrentSong: handleSongChange,
-        setPlaybackSongs: handlePlaybackSongsChange,
-      }}
+      value={{ setSongsQueue: handleSongsQueue }}
     >
       <ValueSongContext.Provider value={memoValue}>
         {children}

@@ -1,5 +1,6 @@
 import type { Song } from '@prisma/client'
 
 export const keys = {
-  song: (id: Song['id']) => ['song', 'like', id],
+  like: ['song', 'like'],
+  song: (id: Song['id']) => [...keys.like, id],
 }

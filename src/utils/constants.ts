@@ -1,11 +1,3 @@
-const SCREEN_SIZES = {
-  xs: 640,
-  sm: 768,
-  md: 1024,
-  lg: 1280,
-  xl: 1536,
-}
-
 const SEARCH_PARAMS = {
   redirectTo: 'redirectTo',
   error: 'error',
@@ -22,11 +14,4 @@ const bcryptSalt = 10
 
 const initVolume = 0.75
 
-export {
-  bcryptSalt,
-  initVolume,
-  otpLength,
-  PLACEHOLDER,
-  SCREEN_SIZES,
-  SEARCH_PARAMS,
-}
+export { bcryptSalt, initVolume, otpLength, PLACEHOLDER, SEARCH_PARAMS }

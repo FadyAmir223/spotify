@@ -1,7 +1,7 @@
 'use server'
 
 import { createResetPasswordToken } from '@/data/reset-password-token'
-import { getUserByEmail } from '@/data/user'
+import { getUserByEmail } from '@/data/user.auth'
 import { sendEmail } from '@/lib/resend'
 
 import ResetPassword from '../_email/reset-password'

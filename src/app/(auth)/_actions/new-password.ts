@@ -4,7 +4,7 @@ import {
   deleteResetPasswordTokenById,
   getResetPasswordTokenByToken,
 } from '@/data/reset-password-token'
-import { updateUserPassword } from '@/data/user'
+import { updateUserPassword } from '@/data/user.auth'
 
 import { credentialSignIn } from '../_utils/credentilaSignIn'
 import { extendedNewPasswordSchema } from '../_validations/new-password'

@@ -1,18 +1,21 @@
-import type { MouseEvent } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 import { RxTriangleRight } from 'react-icons/rx'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utils/cn'
 
-type TriangleButtonProps = {
-  className?: string
-  onClick: (event: MouseEvent<HTMLButtonElement>) => void
-}
+/*
+ TODO: onplay
+   change the triangle to playing
+   don't hide it
+   show clicking transition
+*/
 
 export default function TriangleButton({
   className,
   onClick,
-}: TriangleButtonProps) {
+  ...props
+}: ComponentPropsWithoutRef<typeof Button>) {
   return (
     <Button
       size='icon'
@@ -21,6 +24,7 @@ export default function TriangleButton({
         className,
       )}
       onClick={onClick}
+      {...props}
     >
       <RxTriangleRight className='size-9 text-black' />
     </Button>

@@ -6,7 +6,7 @@ import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 
 import { loginFormSchema } from '@/app/(auth)/_validations/login'
-import { getUserByEmail, verifyUser } from '@/data/user'
+import { getUserByEmail, verifyUser } from '@/data/user.auth'
 import { edgeConfig } from '@/lib/auth/auth.edge'
 import db from '@/lib/db'
 import { env } from '@/lib/env'

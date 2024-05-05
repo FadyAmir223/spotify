@@ -2,12 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { PiPlaylistFill } from 'react-icons/pi'
 
-import { getPlaylists } from '@/data/playlist'
+import { getPlaylists } from '@/data/user'
 
 export default async function PlaylistsList() {
   const playlists = await getPlaylists()
 
-  return playlists?.map(({ id, title, imagePath }) => (
+  return playlists.map(({ id, title, imagePath }) => (
     <Link
       key={id}
       href={`/playlist/${id}`}
@@ -24,8 +24,8 @@ export default async function PlaylistsList() {
           />
         </div>
       ) : (
-        <div className=''>
-          <PiPlaylistFill />
+        <div className='grid size-10 place-items-center rounded-sm bg-gray-700/70'>
+          <PiPlaylistFill className='size-6' />
         </div>
       )}
 

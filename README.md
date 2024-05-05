@@ -1,6 +1,6 @@
 ## development
 
-### setup
+### first time
 ```sh
 npm run docker:dev:up db-dev
 npm run docker:dev:build
@@ -8,7 +8,7 @@ npm run docker:dev:up
 ```
 
 
-### prepare
+### every time
 ```sh
 npm run docker:dev:up
 docker exec -it app-dev sh
@@ -62,6 +62,12 @@ even though they are not using its data
 
 ### ky
 uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the extended API of next.js
+
+
+###### understand the interaction between them to sync the data
+`revalidateTag()`
+`fetch(url, { next: tags })`
+`queryClient.invalidateQueries({ queryKey })`
 
 
 ## TODO:

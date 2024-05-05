@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { TbPlaylist } from 'react-icons/tb'
 
 import CreatePlaylistButton from './buttons/create-playlist-button'
-import PlaylistsList from './playlists-list'
+import PlaylistsList from './lists/playlists-list'
 import PlaylistSkeleton from './skeletons/playlist-skeleton'
 
 export default function Library() {

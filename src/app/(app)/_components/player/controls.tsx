@@ -9,6 +9,14 @@ type ControlsProps = {
   onSongChange: (direction: 1 | -1) => void
 }
 
+/*
+  TODO: keyboard
+    space: play/pause
+    right/left: change song
+    up/down: volume
+    m: mute
+*/
+
 export default function Controls({
   isPlaying,
   onTogglePlay,

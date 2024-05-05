@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
-import { FaHeart } from 'react-icons/fa'
 
 import PlayFavoritesButton from './_components/buttons/play-favorites-button'
+import GradientHeart from './_components/gradient-heart'
 import Header from './_components/header'
+import SongsList from './_components/lists/songs-list'
 import SongSkeleton from './_components/skeletons/song-skeleton'
-import SongsList from './_components/songs-list'
 
 export default async function Home() {
   return (
@@ -17,11 +17,9 @@ export default async function Home() {
 
         <Link
           href='likes'
-          className='group flex max-w-96 items-center rounded-r-lg bg-neutral-100/10 transition hover:bg-neutral-100/20'
+          className='group flex max-w-96 items-center rounded-lg bg-neutral-100/10 transition hover:bg-neutral-100/20'
         >
-          <div className='grid size-14 place-items-center rounded-l-lg bg-gradient-to-br from-indigo-700 to-slate-400'>
-            <FaHeart className='size-5' />
-          </div>
+          <GradientHeart variant='sm' className='rounded-l-lg' />
           <span className='ml-4 flex h-14 items-center'>Liked Songs</span>
           <PlayFavoritesButton />
         </Link>

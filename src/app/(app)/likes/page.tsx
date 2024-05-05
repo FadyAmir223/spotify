@@ -1,3 +1,34 @@
+import { Suspense } from 'react'
+
+import GradientHeart from '../_components/gradient-heart'
+import Header from '../_components/header'
+import LikesList from '../_components/lists/likes-list'
+import LikeSkeleton from '../_components/skeletons/like-skeleton'
+
 export default function Likes() {
-  return <main>Likes</main>
+  return (
+    <main>
+      <Header>
+        <div className='mt-16 flex items-center gap-x-3'>
+          <GradientHeart variant='lg' />
+          <div className='ml-2.5 tracking-wide'>
+            <span className='mb-2 text-xs font-semibold'>Playlist</span>
+            <h1 className='text-5xl font-bold'>Liked Songs</h1>
+          </div>
+        </div>
+      </Header>
+
+      <section className='p-4'>
+        <Suspense
+          fallback={Array.from({ length: 6 }).map((_, i) => (
+            <LikeSkeleton
+              key={i} // eslint-disable-line react/no-array-index-key
+            />
+          ))}
+        >
+          <LikesList />
+        </Suspense>
+      </section>
+    </main>
+  )
 }
