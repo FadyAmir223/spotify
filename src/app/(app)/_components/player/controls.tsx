@@ -9,14 +9,6 @@ type ControlsProps = {
   onSongChange: (direction: 1 | -1) => void
 }
 
-/*
-  TODO: keyboard
-    space: play/pause
-    right/left: change song
-    up/down: volume
-    m: mute
-*/
-
 export default function Controls({
   isPlaying,
   onTogglePlay,
@@ -29,7 +21,7 @@ export default function Controls({
       <Button
         variant='none'
         size='none'
-        className='hidden text-neutral-400 transition hover:text-white sm:block'
+        className='hidden text-neutral-400 transition focus-within:text-white hover:text-white sm:block'
         onClick={() => onSongChange(-1)}
         aria-label='Previous Song'
       >
@@ -39,7 +31,7 @@ export default function Controls({
       <Button
         variant='none'
         size='none'
-        className='size-10 rounded-full bg-white'
+        className='size-10 rounded-full bg-white transition focus-within:bg-white/80'
         onClick={onTogglePlay}
         aria-label={isPlaying ? 'Pause' : 'Play'}
       >
@@ -49,7 +41,7 @@ export default function Controls({
       <Button
         variant='none'
         size='none'
-        className='text-neutral-400 transition hover:text-white'
+        className='text-neutral-400 transition focus-within:text-white hover:text-white'
         onClick={() => onSongChange(1)}
         aria-label='Next Song'
       >

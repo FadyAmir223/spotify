@@ -1,6 +1,7 @@
 'use client'
 
 import { useValueSong } from '../../_contexts/song-context'
+import VolumeProvider from '../../_contexts/volume-context'
 import MusicPlayerContent from './music-player-content'
 
 export default function MusicPlayer() {
@@ -9,8 +10,8 @@ export default function MusicPlayer() {
   if (song === null) return
 
   return (
-    <div className='absolute bottom-0 left-0 grid h-20 w-full grid-cols-2 bg-black px-4 py-2 sm:grid-cols-3'>
+    <VolumeProvider>
       <MusicPlayerContent key={song.id} song={song} />
-    </div>
+    </VolumeProvider>
   )
 }

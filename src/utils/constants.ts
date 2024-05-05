@@ -12,6 +12,14 @@ const PLACEHOLDER = {
 const otpLength = 6
 const bcryptSalt = 10
 
-const initVolume = 0.75
+const initVolume = 0.7
+const volumeUnit = 0.1
 
-export { bcryptSalt, initVolume, otpLength, PLACEHOLDER, SEARCH_PARAMS }
+export {
+  bcryptSalt,
+  initVolume,
+  otpLength,
+  PLACEHOLDER,
+  SEARCH_PARAMS,
+  volumeUnit,
+}

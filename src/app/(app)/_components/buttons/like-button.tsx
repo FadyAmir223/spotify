@@ -19,8 +19,6 @@ type LikeButtonProps = {
   definitelyLiked?: boolean
 }
 
-// TODO: continue the song even when it is removed
-
 export default function LikeButton({
   songId,
   definitelyLiked,
@@ -48,7 +46,7 @@ export default function LikeButton({
   useEffect(() => {
     if (!data) return
     const validatedLiked = likedSchema.parse(data)
-    if (validatedLiked.liked) setIsLiked(true)
+    setIsLiked(validatedLiked.liked)
   }, [data])
 
   const handleLikeSong = () => {
@@ -82,7 +80,7 @@ export default function LikeButton({
     <Button
       variant='none'
       size='none'
-      className='transition hover:opacity-85'
+      className='transition hover:opacity-70'
       onClick={handleLikeSong}
     >
       {optimisticIsLiked ? (

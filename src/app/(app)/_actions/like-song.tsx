@@ -7,6 +7,8 @@ import { likeSong, unlikeSong } from '@/data/liked-song'
 import { currentUser } from '../_utils/auth'
 import { extendedSongSchema } from '../_validations/song'
 
+// TODO: sync the buttons
+
 export async function toggleLikeSong(data: unknown) {
   const user = await currentUser()
   if (user?.role !== 'LISTENER') return { error: 'Invalid operation' }

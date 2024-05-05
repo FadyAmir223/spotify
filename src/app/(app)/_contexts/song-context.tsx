@@ -28,6 +28,8 @@ type SongProviderProps = {
   children: React.ReactNode
 }
 
+// TODO: continue the song even when it is removed
+
 export default function SongProvider({ children }: SongProviderProps) {
   const [songsQueue, setSongsQueue] = useState<SongEssentials[]>([])
   const currPlaylistName = useRef<string | null>(null)

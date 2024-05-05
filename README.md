@@ -87,3 +87,15 @@ uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the
 
 - vercel version
 - video
+
+
+
+when unlike
+  1st time
+    from /likes or player -> player close
+
+  2nd time
+    from /likes -> player don't close and don't sync
+    from player -> player don't close but sync with /likes
+
+target: sync but don't close the player
