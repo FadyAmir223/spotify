@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { Suspense } from 'react'
 
-import PlayFavoritesButton from './_components/buttons/play-favorites-button'
+import PlayFavoritesButton from './_components/buttons/play-likes-button'
 import GradientHeart from './_components/gradient-heart'
 import Header from './_components/header'
 import SongsList from './_components/lists/songs-list'

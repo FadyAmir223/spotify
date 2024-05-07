@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import useSound from 'use-sound'
 
 import { volumeUnit } from '@/utils/constants'
@@ -17,11 +17,13 @@ type MusicPlayerContentProps = {
 }
 
 export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
-  const [isPlaying, setIsPlaying] = useState(false)
   const { volume, setVolume } = useVolume()
 
-  const { songIndex, songsQueue } = useValueSong()
-  const { setSongsQueue } = useDispatchSong()
+  const { songIndex, songsQueue, isPlaying } = useValueSong()
+  const { setSongsQueue, setPlaying } = useDispatchSong()
+
+  const playButtonRef = useRef<HTMLButtonElement>(null)
+  const volumeButtonRef = useRef<HTMLButtonElement>(null)
 
   const handleSongChange = (direction: -1 | 1) => {
     const { length } = songsQueue
@@ -32,12 +34,12 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
 
   const [play, { pause, sound }] = useSound(song?.songPath, {
     volume,
-    onplay: () => setIsPlaying(true),
+    onplay: () => setPlaying(true),
     onend: () => {
-      setIsPlaying(false)
+      setPlaying(false)
       handleSongChange(1)
     },
-    onpause: () => setIsPlaying(false),
+    onpause: () => setPlaying(false),
   })
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
   const handleTogglePlay = () => {
     if (!isPlaying) play()
     else pause()
-    setIsPlaying(!isPlaying)
+    setPlaying(!isPlaying)
   }
 
   useEffect(() => {
@@ -56,6 +58,7 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
       switch (event.key) {
         case ' ':
           // bug: will only play the first song as useSound can't handle dynamic urls
+          playButtonRef.current?.focus()
           handleTogglePlay()
           break
         case 'ArrowLeft':
@@ -65,9 +68,11 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
           handleSongChange(1)
           break
         case 'ArrowUp':
+          volumeButtonRef.current?.focus()
           setVolume(volume + volumeUnit)
           break
         case 'ArrowDown':
+          volumeButtonRef.current?.focus()
           setVolume(volume - volumeUnit)
           break
         case 'm':
@@ -82,7 +87,7 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
     return () => window.removeEventListener('keydown', handleKeyDown)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlaying, play, pause, sound, songsQueue, songIndex, volume])
+  }, [isPlaying, sound, songsQueue, songIndex, volume])
 
   return (
     <div className='absolute bottom-0 left-0 grid h-20 w-full grid-cols-2 bg-black px-4 py-2 sm:grid-cols-3'>
@@ -101,9 +106,10 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
         isPlaying={isPlaying}
         onTogglePlay={handleTogglePlay}
         onSongChange={handleSongChange}
+        ref={playButtonRef}
       />
 
-      <Slider volume={volume} setVolume={setVolume} />
+      <Slider ref={volumeButtonRef} />
     </div>
   )
 }

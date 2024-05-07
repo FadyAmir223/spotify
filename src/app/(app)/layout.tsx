@@ -8,6 +8,7 @@ import NavBar from './_components/nav-bar'
 import MusicPlayer from './_components/player/music-player'
 import QueryClientProvider from './_components/query-provider'
 import HistoryProvider from './_contexts/history-context'
+import LikesProvider from './_contexts/likes-context'
 import SongProvider from './_contexts/song-context'
 
 export default async function AppLayout({
@@ -20,20 +21,25 @@ export default async function AppLayout({
   return (
     <SessionProvider session={session}>
       <main className='bg-black'>
-        <div className='mx-auto flex h-screen max-w-screen-2xl gap-x-2 p-2'>
+        <div
+          id='app'
+          className='mx-auto flex h-screen max-w-screen-2xl gap-x-2 p-2'
+        >
           <div className='hidden h-full flex-col gap-y-2 md:flex'>
             <NavBar />
             <Library />
           </div>
 
-          <section className='size-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
-            <QueryClientProvider>
-              <SongProvider>
-                <HistoryProvider>{children}</HistoryProvider>
-                <MusicPlayer />
-              </SongProvider>
-              <ReactQueryDevtools />
-            </QueryClientProvider>
+          <section className='w-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
+            <SongProvider>
+              <QueryClientProvider>
+                <LikesProvider>
+                  <HistoryProvider>{children}</HistoryProvider>
+                  <MusicPlayer />
+                  <ReactQueryDevtools />
+                </LikesProvider>
+              </QueryClientProvider>
+            </SongProvider>
           </section>
         </div>
       </main>

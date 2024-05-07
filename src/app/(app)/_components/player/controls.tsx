@@ -1,3 +1,4 @@
+import { forwardRef, type Ref } from 'react'
 import { BsPauseFill, BsPlayFill } from 'react-icons/bs'
 import { IoPlaySkipBack, IoPlaySkipForward } from 'react-icons/io5'
 
@@ -9,11 +10,10 @@ type ControlsProps = {
   onSongChange: (direction: 1 | -1) => void
 }
 
-export default function Controls({
-  isPlaying,
-  onTogglePlay,
-  onSongChange,
-}: ControlsProps) {
+export default forwardRef(function Controls(
+  { isPlaying, onTogglePlay, onSongChange }: ControlsProps,
+  ref: Ref<HTMLButtonElement> | null,
+) {
   const Icon = isPlaying ? BsPauseFill : BsPlayFill
 
   return (
@@ -29,9 +29,10 @@ export default function Controls({
       </Button>
 
       <Button
+        ref={ref}
         variant='none'
         size='none'
-        className='size-10 rounded-full bg-white transition focus-within:bg-white/80'
+        className='size-10 rounded-full bg-white transition focus-within:bg-white/70'
         onClick={onTogglePlay}
         aria-label={isPlaying ? 'Pause' : 'Play'}
       >
@@ -49,4 +50,4 @@ export default function Controls({
       </Button>
     </div>
   )
-}
+})

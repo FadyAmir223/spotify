@@ -73,7 +73,7 @@ export default function LoginForm() {
     <>
       <OtpForm
         isOpen={otpSent}
-        setIsOpen={setOtpSent}
+        setOpen={setOtpSent}
         credentials={{
           email: getValues('email'),
           password: getValues('password'),

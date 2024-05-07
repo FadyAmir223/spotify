@@ -31,7 +31,7 @@ export default function LikesItem({ index, songs }: LikesItemProps) {
         onClick={() => setSongsQueue({ playlistName: 'likes', songs, index })}
       />
 
-      <LikeButton songId={song.id} definitelyLiked />
+      <LikeButton songId={song.id} />
     </div>
   )
 }

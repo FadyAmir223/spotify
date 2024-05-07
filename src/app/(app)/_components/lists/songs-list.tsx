@@ -4,6 +4,8 @@ import { getSongs } from '@/data/song'
 
 import PlaySongButton from '../buttons/play-song-button'
 
+// TODO: try shadcn.ui card
+
 export default async function SongsList() {
   const songs = await getSongs()
 

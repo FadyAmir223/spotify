@@ -36,13 +36,13 @@ import { type OtpSchema, otpSchema } from '../../_validations/otp'
 
 type OtpFormProps = {
   isOpen: boolean
-  setIsOpen: Dispatch<SetStateAction<boolean>>
+  setOpen: Dispatch<SetStateAction<boolean>>
   credentials: LoginFormSchemaWithRedirect
 }
 
 export default function OtpForm({
   isOpen,
-  setIsOpen,
+  setOpen,
   credentials,
 }: OtpFormProps) {
   const [isPending, startTransition] = useTransition()
@@ -66,7 +66,7 @@ export default function OtpForm({
       if (response?.success === false) {
         redirectWithSearchParams(SEARCH_PARAMS.error, response.error)
 
-        setIsOpen(false)
+        setOpen(false)
       }
 
       if (response?.error)
@@ -82,7 +82,7 @@ export default function OtpForm({
   }, [canSubmit]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={setOpen}>
       <DialogContent className='px-10'>
         <DialogHeader>
           <DialogTitle>Eneter OTP sent to {credentials.email}</DialogTitle>

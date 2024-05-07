@@ -1,5 +1,6 @@
 'use client'
 
+import type { Dispatch, SetStateAction } from 'react'
 import { createContext, useContext, useMemo, useRef, useState } from 'react'
 
 import type { SongEssentials } from '../_types/song'
@@ -8,6 +9,8 @@ type TValueSongContext = {
   currentSong: SongEssentials | null
   songsQueue: SongEssentials[]
   songIndex: number
+  currPlaylistName: string | null
+  isPlaying: boolean
 }
 
 const ValueSongContext = createContext<TValueSongContext | null>(null)
@@ -20,6 +23,7 @@ type SetterProps = {
 
 type TDispatchSongContext = {
   setSongsQueue: (props: SetterProps) => void
+  setPlaying: Dispatch<SetStateAction<boolean>>
 }
 
 const DispatchSongContext = createContext<TDispatchSongContext | null>(null)
@@ -28,14 +32,14 @@ type SongProviderProps = {
   children: React.ReactNode
 }
 
-// TODO: continue the song even when it is removed
-
 export default function SongProvider({ children }: SongProviderProps) {
   const [songsQueue, setSongsQueue] = useState<SongEssentials[]>([])
   const currPlaylistName = useRef<string | null>(null)
 
   const [currentSong, setCurrentSong] = useState<SongEssentials | null>(null)
   const songIndex = useRef(-1)
+
+  const [isPlaying, setPlaying] = useState(false)
 
   const handleSongsQueue = ({
     playlistName,
@@ -65,15 +69,17 @@ export default function SongProvider({ children }: SongProviderProps) {
     () => ({
       currentSong,
       songsQueue,
+      isPlaying,
       songIndex: songIndex.current,
+      currPlaylistName: currPlaylistName.current,
     }),
-    [currentSong, songsQueue],
+    [currentSong, songsQueue, isPlaying],
   )
 
   return (
     <DispatchSongContext.Provider
       // eslint-disable-next-line react/jsx-no-constructed-context-values
-      value={{ setSongsQueue: handleSongsQueue }}
+      value={{ setSongsQueue: handleSongsQueue, setPlaying }}
     >
       <ValueSongContext.Provider value={memoValue}>
         {children}

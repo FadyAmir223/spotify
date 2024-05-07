@@ -5,8 +5,10 @@ import { type MouseEvent, useTransition } from 'react'
 
 import { useToast } from '@/components/ui/use-toast'
 import ky from '@/lib/ky'
+import { cn } from '@/utils/cn'
 
-import { useDispatchSong } from '../../_contexts/song-context'
+import { useLikes } from '../../_contexts/likes-context'
+import { useDispatchSong, useValueSong } from '../../_contexts/song-context'
 import { keys } from '../../_lib/keys'
 import { composeUri } from '../../_utils/compose-uri'
 import { likedSongsSchema } from '../../_validations/liked-songs'
@@ -16,9 +18,12 @@ export default function PlayFavoritesButton() {
   const { toast } = useToast()
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
-  const { setSongsQueue } = useDispatchSong()
 
-  const handleSongChange = async (e: MouseEvent<HTMLButtonElement>) => {
+  const { currPlaylistName } = useValueSong()
+  const { setSongsQueue } = useDispatchSong()
+  const { setLikes } = useLikes()
+
+  const handlePlayLikes = async (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if (isPending) return
 
@@ -37,6 +42,7 @@ export default function PlayFavoritesButton() {
 
           const { likedSongs } = result.data
 
+          setLikes(likedSongs.map(({ id }) => id))
           setSongsQueue({ playlistName: 'likes', songs: likedSongs, index: 0 })
         })
         .catch(() =>
@@ -47,10 +53,15 @@ export default function PlayFavoritesButton() {
     })
   }
 
+  const isLikesPlaylist = currPlaylistName === 'likes'
+
   return (
     <TriangleButton
-      className='ml-auto mr-4 size-10 opacity-0 group-hover:opacity-100'
-      onClick={handleSongChange}
+      className={cn('ml-auto mr-4 size-10 group-hover:opacity-100', {
+        'opacity-0': !isLikesPlaylist,
+      })}
+      onClick={handlePlayLikes}
+      isMatching={isLikesPlaylist}
     />
   )
 }

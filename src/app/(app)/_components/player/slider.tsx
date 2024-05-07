@@ -1,15 +1,17 @@
 import * as RadixSlider from '@radix-ui/react-slider'
+import { forwardRef } from 'react'
 import { IoVolumeMedium, IoVolumeOff } from 'react-icons/io5'
 
 import { Button } from '@/components/ui/button'
 import { initVolume, volumeUnit } from '@/utils/constants'
 
-type SliderProps = {
-  volume: number
-  setVolume: (value?: number) => void
-}
+import { useVolume } from '../../_contexts/volume-context'
 
-export default function Slider({ volume, setVolume }: SliderProps) {
+export default forwardRef(function Slider(
+  _,
+  ref: React.Ref<HTMLButtonElement> | null,
+) {
+  const { volume, setVolume } = useVolume()
   const isMuted = volume === 0
 
   const Icon = isMuted ? IoVolumeOff : IoVolumeMedium
@@ -17,11 +19,12 @@ export default function Slider({ volume, setVolume }: SliderProps) {
   return (
     <div className='ml-auto hidden w-36 items-center gap-x-2 sm:flex'>
       <Button
+        ref={ref}
         variant='none'
         size='none'
         onClick={() => setVolume()}
         aria-label={isMuted ? 'Unmute' : 'Mute'}
-        className='focus-within:text-white/80'
+        className='focus-within:text-white/50'
       >
         <Icon className='size-6' />
       </Button>
@@ -40,4 +43,4 @@ export default function Slider({ volume, setVolume }: SliderProps) {
       </RadixSlider.Root>
     </div>
   )
-}
+})

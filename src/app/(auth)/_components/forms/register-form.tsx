@@ -94,7 +94,7 @@ export default function RegisterForm() {
     <>
       <OtpForm
         isOpen={otpSent}
-        setIsOpen={setOtpSent}
+        setOpen={setOtpSent}
         credentials={{
           email: form.getValues('email'),
           password: form.getValues('password'),

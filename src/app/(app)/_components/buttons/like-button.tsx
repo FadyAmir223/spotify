@@ -1,53 +1,47 @@
 'use client'
 
 import type { Song } from '@prisma/client'
-import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useOptimistic, useState, useTransition } from 'react'
+import { usePathname } from 'next/navigation'
+import { useEffect, useOptimistic, useTransition } from 'react'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import ky from '@/lib/ky'
 
-import { toggleLikeSong } from '../../_actions/like-song'
-import { keys } from '../../_lib/keys'
-import { composeUri } from '../../_utils/compose-uri'
+import { toggleLikeSong } from '../../_actions/toggle-like-song'
+import { useLikes } from '../../_contexts/likes-context'
 import { likedSchema } from '../../_validations/liked'
 
 type LikeButtonProps = {
   songId: Song['id']
-  definitelyLiked?: boolean
 }
 
-export default function LikeButton({
-  songId,
-  definitelyLiked,
-}: LikeButtonProps) {
+export default function LikeButton({ songId }: LikeButtonProps) {
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const queryClient = useQueryClient()
+  const pathname = usePathname()
+  const { likes, setLikes } = useLikes()
 
-  const [isLiked, setIsLiked] = useState(false)
+  const isLiked = likes[songId] ?? false
+
   const [optimisticIsLiked, optimisticToggleLiked] = useOptimistic(
     isLiked,
     (_, newState: boolean) => newState,
   )
 
-  const { data } = useQuery({
-    queryKey: keys.song(songId),
-    queryFn: async ({ queryKey }) =>
-      definitelyLiked
-        ? { liked: true }
-        : (await ky(composeUri(queryKey), { next: { tags: queryKey } })).json(),
-    staleTime: Infinity,
-    gcTime: 1000 * 60 * 60 * 3,
-  })
-
   useEffect(() => {
-    if (!data) return
-    const validatedLiked = likedSchema.parse(data)
-    setIsLiked(validatedLiked.liked)
-  }, [data])
+    if (likes[songId] !== undefined) return setLikes(songId, true)
+    ;(async () => {
+      const response = await ky(`song/like/${songId}`, {
+        next: { tags: ['likes', songId] },
+      }).json()
+
+      if (!response) return
+      const parsedLiked = likedSchema.parse(response)
+      setLikes(songId, parsedLiked.liked)
+    })()
+  }, [songId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleLikeSong = () => {
     // not disabling the button for the mouse cursor
@@ -56,7 +50,7 @@ export default function LikeButton({
     startTransition(() => {
       optimisticToggleLiked(!isLiked)
 
-      toggleLikeSong({ id: songId, isLiked })
+      toggleLikeSong({ id: songId, isLiked, pathname })
         .then((res) => {
           if (res?.error)
             return toast({
@@ -64,8 +58,7 @@ export default function LikeButton({
               variant: 'destructive',
             })
 
-          setIsLiked(!isLiked)
-          queryClient.invalidateQueries({ queryKey: keys.song(songId) })
+          setLikes(songId, !isLiked)
         })
         .catch(() => {
           toast({
