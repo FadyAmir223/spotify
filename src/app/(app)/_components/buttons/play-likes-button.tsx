@@ -6,12 +6,13 @@ import { type MouseEvent, useTransition } from 'react'
 import { useToast } from '@/components/ui/use-toast'
 import ky from '@/lib/ky'
 import { cn } from '@/utils/cn'
+import { PLAYLIST } from '@/utils/constants'
 
 import { useLikes } from '../../_contexts/likes-context'
 import { useDispatchSong, useValueSong } from '../../_contexts/song-context'
 import { keys } from '../../_lib/keys'
 import { composeUri } from '../../_utils/compose-uri'
-import { likedSongsSchema } from '../../_validations/liked-songs'
+import { songsSchema } from '../../_validations/songs'
 import TriangleButton from './triangle-button'
 
 export default function PlayFavoritesButton() {
@@ -30,30 +31,32 @@ export default function PlayFavoritesButton() {
     startTransition(() => {
       queryClient
         .ensureQueryData({
-          queryKey: keys.like,
-          queryFn: async () => ky(composeUri(keys.like)).json(),
+          queryKey: keys.like(),
+          queryFn: async () => ky(composeUri(keys.like())).json(),
         })
         .then((data) => {
-          const result = likedSongsSchema.safeParse(data)
+          const result = songsSchema.safeParse(data)
           if (!result.success)
             return toast({
               description: "couldn't start the playlist",
+              variant: 'destructive',
             })
 
-          const { likedSongs } = result.data
+          const { songs } = result.data
 
-          setLikes(likedSongs.map(({ id }) => id))
-          setSongsQueue({ playlistName: 'likes', songs: likedSongs, index: 0 })
+          setLikes(songs.map(({ id }) => id))
+          setSongsQueue({ playlistName: PLAYLIST.likes, songs, index: 0 })
         })
         .catch(() =>
           toast({
             description: "couldn't start the playlist",
+            variant: 'destructive',
           }),
         )
     })
   }
 
-  const isLikesPlaylist = currPlaylistName === 'likes'
+  const isLikesPlaylist = currPlaylistName === PLAYLIST.likes
 
   return (
     <TriangleButton

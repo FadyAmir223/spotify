@@ -7,6 +7,6 @@ export async function GET() {
   const user = await currentUser()
   if (user?.role !== 'LISTENER') return { error: 'Invalid operation' }
 
-  const likedSongs = await getLikedSongs()
-  return NextResponse.json({ likedSongs })
+  const songs = await getLikedSongs()
+  return NextResponse.json({ songs })
 }

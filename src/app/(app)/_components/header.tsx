@@ -9,12 +9,13 @@ import { GoHomeFill } from 'react-icons/go'
 
 import { Button } from '@/components/ui/button'
 import { loginRoute, registerRoute } from '@/lib/routes'
+import { cn } from '@/utils/cn'
 
 import { useCurrentUser } from '../_hooks/useCurrentUser'
 import NavigationButtons from './buttons/navigation-buttons'
 
 type HeaderProps = {
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 const navs = [
@@ -26,7 +27,11 @@ export default function Header({ children }: HeaderProps) {
   const user = useCurrentUser()
 
   return (
-    <header className='relative bg-gradient-to-b from-emerald-800 p-4'>
+    <header
+      className={cn('relative p-4', {
+        'bg-gradient-to-b from-emerald-800': children,
+      })}
+    >
       <div className='mb-5 flex items-center justify-between'>
         <NavigationButtons />
 

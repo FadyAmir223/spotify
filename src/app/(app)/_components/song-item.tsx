@@ -1,5 +1,7 @@
 'use client'
 
+import { forwardRef, type Ref } from 'react'
+
 import { Button } from '@/components/ui/button'
 import type { getLikedSongs } from '@/data/user'
 
@@ -9,18 +11,22 @@ import LikeButton from './buttons/like-button'
 
 type SongsWithArtist = Awaited<ReturnType<typeof getLikedSongs>>
 
-type LikesItemProps = {
+type SongItemProps = {
   index: number
   songs: SongsWithArtist
+  playlistName: string
 }
 
-export default function LikesItem({ index, songs }: LikesItemProps) {
+export default forwardRef(function SongItem(
+  { index, songs, playlistName }: SongItemProps,
+  ref: Ref<HTMLLIElement> | null,
+) {
   const { setSongsQueue } = useDispatchSong()
 
   const song = songs[index]
 
   return (
-    <div className='flex items-center gap-x-3'>
+    <li ref={ref} className='flex items-center gap-x-3'>
       <ArtistMedia
         As={Button}
         variant='none'
@@ -28,10 +34,10 @@ export default function LikesItem({ index, songs }: LikesItemProps) {
         className='w-full rounded-md p-2'
         artistName={song.artist.name}
         song={{ title: song.title, imagePath: song.imagePath }}
-        onClick={() => setSongsQueue({ playlistName: 'likes', songs, index })}
+        onClick={() => setSongsQueue({ playlistName, songs, index })}
       />
 
       <LikeButton songId={song.id} />
-    </div>
+    </li>
   )
-}
+})

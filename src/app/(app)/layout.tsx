@@ -20,15 +20,15 @@ export default async function AppLayout({
 
   return (
     <SessionProvider session={session}>
-      <main className='bg-black'>
+      <div className='bg-black'>
         <div
           id='app'
           className='mx-auto flex h-screen max-w-screen-2xl gap-x-2 p-2'
         >
-          <div className='hidden h-full flex-col gap-y-2 md:flex'>
+          <section className='hidden h-full flex-col gap-y-2 md:flex'>
             <NavBar />
             <Library />
-          </div>
+          </section>
 
           <section className='w-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
             <SongProvider>
@@ -42,7 +42,7 @@ export default async function AppLayout({
             </SongProvider>
           </section>
         </div>
-      </main>
+      </div>
     </SessionProvider>
   )
 }

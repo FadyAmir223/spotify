@@ -1,0 +1,6 @@
+@url = http://localhost:3000
+
+### search
+GET {{url}}/api/song/search
+  ?q=a
+  &cursor=clvrae5kw000mqdy1zxxqg28a

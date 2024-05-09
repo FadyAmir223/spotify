@@ -1,17 +1,18 @@
 import type { QueryKey } from '@tanstack/react-query'
 
-// loop is faster than .map()
-export function composeUri(queryKey: QueryKey) {
-  let uri = ''
+const composeQueryies = (queryObjec: object) => {
+  return Object.entries(queryObjec)
+    .filter(([, value]) => value !== null && value !== undefined)
+    .map(([param, value]) => `${param}=${value}`)
+    .join('&')
+}
 
-  for (let idx = 0; idx < queryKey.length; idx += 1) {
-    const key = queryKey[idx]
-
-    uri +=
-      typeof key !== 'object'
-        ? `${idx ? '/' : ''}${key}`
-        : `?${new URLSearchParams(key as Record<string, string>).toString()}`
-  }
-
-  return uri
+export const composeUri = (queryKey: QueryKey, extraQueries = {}): string => {
+  return queryKey
+    .map((key) =>
+      typeof key === 'object'
+        ? `?${composeQueryies({ ...key, ...extraQueries })}`
+        : `${key}/`,
+    )
+    .join('')
 }

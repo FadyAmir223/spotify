@@ -64,15 +64,9 @@ even though they are not using its data
 uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the extended API of next.js
 
 
-###### understand the interaction between them to sync the data
-`revalidateTag()`
-`fetch(url, { next: tags })`
-`queryClient.invalidateQueries({ queryKey })`
-
-
 ## TODO:
-- search
-- infinite scroll reslults
+- create playlist
+- add to playlist
 
 - artist layout
 - upload form

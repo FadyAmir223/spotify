@@ -31,7 +31,7 @@ export default function LikeButton({ songId }: LikeButtonProps) {
   )
 
   useEffect(() => {
-    if (likes[songId] !== undefined) return setLikes(songId, true)
+    if (likes[songId] !== undefined) return setLikes(songId, likes[songId])
     ;(async () => {
       const response = await ky(`song/like/${songId}`, {
         next: { tags: ['likes', songId] },
