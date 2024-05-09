@@ -1,8 +1,29 @@
 import Image from 'next/image'
 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardTitle,
+} from '@/components/ui/card'
 import { getSongs } from '@/data/song'
 
 import PlaySongButton from '../buttons/play-song-button'
+
+/*
+  <Card>
+    <CardHeader>
+      <CardTitle>Card Title</CardTitle>
+      <CardDescription>Card Description</CardDescription>
+    </CardHeader>
+    <CardContent>
+      <p>Card Content</p>
+    </CardContent>
+    <CardFooter>
+      <p>Card Footer</p>
+    </CardFooter>
+  </Card>
+*/
 
 // TODO: try shadcn.ui card
 
@@ -10,11 +31,11 @@ export default async function SongsList() {
   const songs = await getSongs()
 
   return songs?.map((song, index) => (
-    <div
+    <Card
       key={song.id}
       className='group rounded-md bg-[#1E1E1E] p-3 transition hover:bg-[#242424]'
     >
-      <div className='relative'>
+      <CardContent className='relative'>
         <div className='relative aspect-square size-full'>
           <Image
             src={song.imagePath}
@@ -31,14 +52,16 @@ export default async function SongsList() {
           />
         </div>
         <PlaySongButton index={index} songs={songs} />
-      </div>
+      </CardContent>
 
-      <div className='mt-2.5 capitalize'>
-        <p className='truncate text-sm font-medium text-white'>{song.title}</p>
-        <p className='truncate text-sm text-grayish-foreground'>
+      <CardContent className='mt-2.5 capitalize'>
+        <CardTitle className='truncate text-sm font-medium text-white'>
+          {song.title}
+        </CardTitle>
+        <CardDescription className='truncate text-sm text-grayish-foreground'>
           {song.artist.name}
-        </p>
-      </div>
-    </div>
+        </CardDescription>
+      </CardContent>
+    </Card>
   ))
 }

@@ -21,9 +21,6 @@ import {
 } from '../_validations/songs'
 import SongItem from './song-item'
 
-// TODO: fix shuffled likes after few searches
-// index vs key ?
-
 export default function SearchForm() {
   const router = useRouter()
   const pathname = usePathname()

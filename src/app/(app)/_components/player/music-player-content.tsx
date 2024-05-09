@@ -10,6 +10,7 @@ import type { SongEssentials } from '../../_types/song'
 import ArtistMedia from '../artist-media'
 import LikeButton from '../buttons/like-button'
 import Controls from './controls'
+import ProgressBar from './progress-bar'
 import Slider from './slider'
 
 type MusicPlayerContentProps = {
@@ -32,7 +33,7 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
     setSongsQueue({ songs: songsQueue, index: newIndex })
   }
 
-  const [play, { pause, sound }] = useSound(song?.songPath, {
+  const [play, { pause, sound, duration }] = useSound(song?.songPath, {
     volume,
     onplay: () => setPlaying(true),
     onend: () => {
@@ -44,7 +45,10 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
 
   useEffect(() => {
     sound?.play()
-    return () => sound?.unload()
+
+    return () => {
+      sound?.unload()
+    }
   }, [sound])
 
   const handleTogglePlay = () => {
@@ -102,12 +106,15 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
         <LikeButton songId={song.id} />
       </div>
 
-      <Controls
-        isPlaying={isPlaying}
-        onTogglePlay={handleTogglePlay}
-        onSongChange={handleSongChange}
-        ref={playButtonRef}
-      />
+      <div className='flex flex-col items-end justify-center gap-y-1.5 sm:-mt-2 sm:items-center'>
+        <Controls
+          isPlaying={isPlaying}
+          onTogglePlay={handleTogglePlay}
+          onSongChange={handleSongChange}
+          ref={playButtonRef}
+        />
+        <ProgressBar isPlaying={isPlaying} duration={duration} sound={sound} />
+      </div>
 
       <Slider ref={volumeButtonRef} />
     </div>

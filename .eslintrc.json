@@ -2,7 +2,8 @@
   "extends": [
     "airbnb-base",
     "next/core-web-vitals",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@tanstack/eslint-plugin-query/recommended"
   ],
   "rules": {
     // Avoid conflict rule between Prettier and Airbnb Eslint

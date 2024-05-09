@@ -3,6 +3,7 @@ import { BsPauseFill, BsPlayFill } from 'react-icons/bs'
 import { IoPlaySkipBack, IoPlaySkipForward } from 'react-icons/io5'
 
 import { Button } from '@/components/ui/button'
+import { cn } from '@/utils/cn'
 
 type ControlsProps = {
   isPlaying: boolean
@@ -17,7 +18,7 @@ export default forwardRef(function Controls(
   const Icon = isPlaying ? BsPauseFill : BsPlayFill
 
   return (
-    <div className='flex items-center justify-end gap-x-5 sm:justify-center'>
+    <div className='flex items-center gap-x-5'>
       <Button
         variant='none'
         size='none'
@@ -32,11 +33,15 @@ export default forwardRef(function Controls(
         ref={ref}
         variant='none'
         size='none'
-        className='size-10 rounded-full bg-white transition focus-within:bg-white/70'
+        className='size-9 rounded-full bg-white transition focus-within:bg-white/70'
         onClick={onTogglePlay}
         aria-label={isPlaying ? 'Pause' : 'Play'}
       >
-        <Icon className='size-8 text-black' />
+        <Icon
+          className={cn('size-7 text-black', {
+            'translate-x-[1px]': !isPlaying,
+          })}
+        />
       </Button>
 
       <Button

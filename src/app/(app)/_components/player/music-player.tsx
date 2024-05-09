@@ -14,9 +14,9 @@ export default function MusicPlayer() {
 
     if (song !== null) {
       el?.classList.add('h-[calc(100vh-5rem)]')
-      el?.classList.remove('h-full')
+      el?.classList.remove('h-screen')
     } else {
-      el?.classList.add('h-full')
+      el?.classList.add('h-screen')
       el?.classList.remove('h-[calc(100vh-5rem)]')
     }
   }, [song])
