@@ -1,12 +1,12 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { signOut } from 'next-auth/react'
 import { BiSearch } from 'react-icons/bi'
 import { FaUser } from 'react-icons/fa6'
 import { GoHomeFill } from 'react-icons/go'
 
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { loginRoute, registerRoute } from '@/lib/routes'
 import { cn } from '@/utils/cn'
@@ -61,19 +61,12 @@ export default function Header({ children }: HeaderProps) {
                 Logout
               </Button>
 
-              {user?.image ? (
-                <Image
-                  src={user.image}
-                  alt='Proflie picture'
-                  className='rounded-full'
-                  width={36}
-                  height={36}
-                />
-              ) : (
-                <div className='grid size-9 place-items-center rounded-full bg-white p-1 text-black'>
-                  <FaUser />
-                </div>
-              )}
+              <Avatar>
+                <AvatarImage src={user?.image ?? undefined} />
+                <AvatarFallback className='bg-white'>
+                  <FaUser className='text-black' />
+                </AvatarFallback>
+              </Avatar>
             </>
           ) : (
             <>

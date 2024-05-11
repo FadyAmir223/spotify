@@ -65,9 +65,6 @@ uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the
 
 
 ## TODO:
-- create playlist
-- add to playlist
-
 - artist layout
 - upload form
 - drag & drop

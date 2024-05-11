@@ -10,23 +10,6 @@ import { getSongs } from '@/data/song'
 
 import PlaySongButton from '../buttons/play-song-button'
 
-/*
-  <Card>
-    <CardHeader>
-      <CardTitle>Card Title</CardTitle>
-      <CardDescription>Card Description</CardDescription>
-    </CardHeader>
-    <CardContent>
-      <p>Card Content</p>
-    </CardContent>
-    <CardFooter>
-      <p>Card Footer</p>
-    </CardFooter>
-  </Card>
-*/
-
-// TODO: try shadcn.ui card
-
 export default async function SongsList() {
   const songs = await getSongs()
 

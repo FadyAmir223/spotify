@@ -3,7 +3,7 @@ import { Suspense } from 'react'
 import GradientHeart from '../_components/gradient-heart'
 import Header from '../_components/header'
 import LikesList from '../_components/lists/likes-list'
-import LikeSkeleton from '../_components/skeletons/like-skeleton'
+import SongItemSkeleton from '../_components/skeletons/song-item-skeleton'
 
 export default function Likes() {
   return (
@@ -21,7 +21,7 @@ export default function Likes() {
       <section className='p-4'>
         <Suspense
           fallback={Array.from({ length: 6 }).map((_, i) => (
-            <LikeSkeleton
+            <SongItemSkeleton
               key={i} // eslint-disable-line react/no-array-index-key
             />
           ))}

@@ -1,8 +1,8 @@
 import { FaHeart } from 'react-icons/fa'
 
-export default function LikeSkeleton() {
+export default function SongItemSkeleton() {
   return (
-    <div className='flex animate-pulse items-center gap-x-3 p-0.5'>
+    <div className='flex animate-pulse items-center gap-x-3 py-0.5'>
       <div className='flex w-full items-center gap-x-3 rounded-sm p-1.5'>
         <div className='size-11 rounded-sm bg-neutral-600' />
         <div className='grow'>

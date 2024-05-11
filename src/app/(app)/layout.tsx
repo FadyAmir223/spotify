@@ -9,6 +9,7 @@ import MusicPlayer from './_components/player/music-player'
 import QueryClientProvider from './_components/query-provider'
 import HistoryProvider from './_contexts/history-context'
 import LikesProvider from './_contexts/likes-context'
+import PlaylistProvider from './_contexts/playlist-context'
 import SongProvider from './_contexts/song-context'
 
 export default async function AppLayout({
@@ -19,30 +20,32 @@ export default async function AppLayout({
   const session = await auth()
 
   return (
-    <SessionProvider session={session}>
-      <div className='bg-black'>
-        <div
-          id='app'
-          className='mx-auto flex h-screen max-w-screen-2xl gap-x-2 p-2'
-        >
-          <section className='hidden h-full flex-col gap-y-2 md:flex'>
-            <NavBar />
-            <Library />
-          </section>
+    <div className='bg-black'>
+      <div
+        id='app'
+        className='mx-auto flex h-screen max-w-screen-2xl gap-x-2 p-2'
+      >
+        <SessionProvider session={session}>
+          <PlaylistProvider>
+            <section className='hidden h-full flex-col gap-y-2 md:flex'>
+              <NavBar />
+              <Library />
+            </section>
 
-          <section className='w-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
-            <SongProvider>
-              <QueryClientProvider>
-                <LikesProvider>
-                  <HistoryProvider>{children}</HistoryProvider>
-                  <MusicPlayer />
+            <section className='w-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
+              <SongProvider>
+                <QueryClientProvider>
+                  <LikesProvider>
+                    <HistoryProvider>{children}</HistoryProvider>
+                    <MusicPlayer />
+                  </LikesProvider>
                   <ReactQueryDevtools />
-                </LikesProvider>
-              </QueryClientProvider>
-            </SongProvider>
-          </section>
-        </div>
+                </QueryClientProvider>
+              </SongProvider>
+            </section>
+          </PlaylistProvider>
+        </SessionProvider>
       </div>
-    </SessionProvider>
+    </div>
   )
 }

@@ -16,6 +16,7 @@ export async function unlikeSong(songId: Song['id'], userId: User['id']) {
   try {
     await db.likedSong.delete({
       where: { userId_songId: { userId, songId } },
+      select: { songId: true },
     })
   } catch (error) {
     return { error: "Couldn't unlike the song" }

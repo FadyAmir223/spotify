@@ -3,6 +3,7 @@ import { forwardRef } from 'react'
 import { IoVolumeMedium, IoVolumeOff } from 'react-icons/io5'
 
 import { Button } from '@/components/ui/button'
+import { cn } from '@/utils/cn'
 import { initVolume, volumeUnit } from '@/utils/constants'
 
 import { useVolume } from '../../_contexts/volume-context'
@@ -26,7 +27,7 @@ export default forwardRef(function Slider(
         aria-label={isMuted ? 'Unmute' : 'Mute'}
         className='focus-within:text-white/50'
       >
-        <Icon className='size-6' />
+        <Icon className={cn('size-6', { '-ml-[3.3px]': isMuted })} />
       </Button>
 
       <RadixSlider.Root

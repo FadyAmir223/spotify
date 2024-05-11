@@ -5,7 +5,9 @@ import PlayFavoritesButton from './_components/buttons/play-likes-button'
 import GradientHeart from './_components/gradient-heart'
 import Header from './_components/header'
 import SongsList from './_components/lists/songs-list'
-import SongSkeleton from './_components/skeletons/song-skeleton'
+import SongCardSkeleton from './_components/skeletons/song-card-skeleton'
+
+export const dynamic = 'force-dynamic'
 
 export default async function Home() {
   return (
@@ -30,8 +32,8 @@ export default async function Home() {
 
         <section className='grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8'>
           <Suspense
-            fallback={Array.from({ length: 4 }).map((_, i) => (
-              <SongSkeleton
+            fallback={Array.from({ length: 6 }).map((_, i) => (
+              <SongCardSkeleton
                 key={i} // eslint-disable-line react/no-array-index-key
               />
             ))}

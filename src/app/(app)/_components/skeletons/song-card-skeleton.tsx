@@ -1,4 +1,4 @@
-export default function SongSkeleton() {
+export default function SongCardSkeleton() {
   return (
     <div className='animate-pulse rounded-md bg-[#1E1E1E] p-3'>
       <div className='aspect-square w-full rounded-md bg-neutral-600' />

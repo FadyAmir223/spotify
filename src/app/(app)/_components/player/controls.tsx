@@ -33,7 +33,7 @@ export default forwardRef(function Controls(
         ref={ref}
         variant='none'
         size='none'
-        className='size-9 rounded-full bg-white transition focus-within:bg-white/70'
+        className='size-9 rounded-full bg-white transition focus-within:bg-zinc-500'
         onClick={onTogglePlay}
         aria-label={isPlaying ? 'Pause' : 'Play'}
       >

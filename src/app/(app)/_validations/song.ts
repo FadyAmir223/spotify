@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
-export const songSchema = z.object({
+export const songIdSchema = z.object({
   id: z.string().cuid(),
 })
 
-export const extendedSongSchema = songSchema.extend({
+export const extendedSongSchema = songIdSchema.extend({
   isLiked: z.boolean(),
   pathname: z.string(),
 })

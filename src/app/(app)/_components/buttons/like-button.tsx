@@ -15,15 +15,19 @@ import { likedSchema } from '../../_validations/liked'
 
 type LikeButtonProps = {
   songId: Song['id']
+  definitelyLiked?: boolean
 }
 
-export default function LikeButton({ songId }: LikeButtonProps) {
+export default function LikeButton({
+  songId,
+  definitelyLiked,
+}: LikeButtonProps) {
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
   const pathname = usePathname()
   const { likes, setLikes } = useLikes()
 
-  const isLiked = likes[songId] ?? false
+  const isLiked = likes[songId] ?? definitelyLiked
 
   const [optimisticIsLiked, optimisticToggleLiked] = useOptimistic(
     isLiked,
@@ -32,6 +36,7 @@ export default function LikeButton({ songId }: LikeButtonProps) {
 
   useEffect(() => {
     if (likes[songId] !== undefined) return setLikes(songId, likes[songId])
+    if (definitelyLiked) return setLikes(songId, true)
     ;(async () => {
       const response = await ky(`song/like/${songId}`, {
         next: { tags: ['likes', songId] },
@@ -73,7 +78,7 @@ export default function LikeButton({ songId }: LikeButtonProps) {
     <Button
       variant='none'
       size='none'
-      className='transition hover:opacity-70'
+      className='transition focus-within:opacity-70 hover:opacity-70 focus-visible:ring-0'
       onClick={handleLikeSong}
     >
       {optimisticIsLiked ? (

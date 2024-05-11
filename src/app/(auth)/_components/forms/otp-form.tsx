@@ -51,9 +51,7 @@ export default function OtpForm({
 
   const form = useForm<OtpSchema>({
     resolver: zodResolver(otpSchema),
-    defaultValues: {
-      code: '',
-    },
+    defaultValues: { code: '' },
   })
 
   const onSubmit = async (formData: OtpSchema) => {

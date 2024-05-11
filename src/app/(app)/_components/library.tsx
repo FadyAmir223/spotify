@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import { TbPlaylist } from 'react-icons/tb'
 
 import CreatePlaylistButton from './buttons/create-playlist-button'
-import PlaylistsList from './lists/playlists-list'
+import PlaylistGetter from './playlist/playlists-getter'
 import PlaylistSkeleton from './skeletons/playlist-skeleton'
 
 export default function Library() {
@@ -25,7 +25,7 @@ export default function Library() {
             />
           ))}
         >
-          <PlaylistsList />
+          <PlaylistGetter />
         </Suspense>
       </nav>
     </section>

@@ -31,12 +31,12 @@ export default function ArtistMedia<
   return (
     <Component
       className={cn(
-        'flex justify-start transition hover:bg-neutral-800/50 rounded-sm p-1',
+        'flex justify-start transition hover:bg-neutral-800/50 rounded-sm p-1 gap-x-3',
         className,
       )}
       {...props}
     >
-      <div className='relative mr-2 aspect-square size-11'>
+      <div className='relative aspect-square size-11'>
         <Image
           src={song.imagePath}
           alt={`${song.title} cover`}
@@ -45,13 +45,20 @@ export default function ArtistMedia<
           sizes='2.75rem'
         />
       </div>
-      <div
-        className={cn('flex flex-col justify-center capitalize', {
-          'w-20': truncate,
-        })}
-      >
-        <p className='truncate text-sm font-medium text-white'>{song.title}</p>
-        <p className='truncate text-[0.8125rem] text-grayish-foreground'>
+
+      <div className='flex flex-col items-start justify-center capitalize'>
+        <p
+          className={cn('truncate text-sm font-medium text-white', {
+            'w-20 sm:w-28': truncate,
+          })}
+        >
+          {song.title}
+        </p>
+        <p
+          className={cn('truncate text-[0.8125rem] text-grayish-foreground', {
+            'w-20 sm:w-28': truncate,
+          })}
+        >
           {artistName}
         </p>
       </div>
