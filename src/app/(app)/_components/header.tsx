@@ -55,7 +55,7 @@ export default function Header({ children }: HeaderProps) {
             <>
               <Button
                 variant='none'
-                className='rounded-full bg-white text-black shadow'
+                className='rounded-full bg-white text-black shadow transition-transform hover:scale-[1.02] focus:scale-[1.02] focus-visible:ring-0 active:scale-[1.01]'
                 onClick={() => signOut({ callbackUrl: loginRoute })}
               >
                 Logout

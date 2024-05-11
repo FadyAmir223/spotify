@@ -26,13 +26,22 @@ export default function PlaylistRenameForm({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (formRef.current && !formRef?.current.contains(event.target as Node))
+      if (formRef.current && !formRef.current.contains(event.target as Node))
         setRenamingIndex(-1)
     }
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setRenamingIndex(-1)
+    }
+
     document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [setRenamingIndex])
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleRenamePlaylist = async () => {
     const result = await trigger()
@@ -41,6 +50,9 @@ export default function PlaylistRenameForm({
     const formData = getValues()
 
     if (formData.playlistName === '') return setRenamingIndex(-1)
+
+    if (document.activeElement instanceof HTMLElement)
+      document.activeElement.blur()
 
     try {
       const data = {

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { PiPlaylistFill } from 'react-icons/pi'
 
@@ -15,10 +15,33 @@ function Form() {
   )
 
   const { stashSong, setStashSong, setAddingPlaylist } = usePlaylist()
+  const formRef = useRef<HTMLFormElement>(null)
   const { toast } = useToast()
 
   useEffect(() => {
     setFocus('playlistName')
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (formRef.current && !formRef.current.contains(event.target as Node)) {
+        setAddingPlaylist(false)
+        setStashSong(null)
+      }
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setAddingPlaylist(false)
+        setStashSong(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    document.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleKeyDown)
+    }
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCreatePlaylist = async () => {
@@ -32,6 +55,9 @@ function Form() {
       setStashSong(null)
       return
     }
+
+    if (document.activeElement instanceof HTMLElement)
+      document.activeElement.blur()
 
     try {
       const data = { playlistName: formData.playlistName, stashSong }
@@ -58,7 +84,7 @@ function Form() {
         <PiPlaylistFill className='size-6' />
       </div>
       <div className='grow'>
-        <form action={handleCreatePlaylist}>
+        <form ref={formRef} action={handleCreatePlaylist}>
           <Input
             type='text'
             className='h-5 rounded-none border-0 bg-neutral-700/60 p-0 text-sm font-medium outline-none focus-visible:ring-0'
@@ -77,5 +103,6 @@ function Form() {
 export default function PlaylistForm() {
   const { isAddingPlaylist } = usePlaylist()
 
+  // to focus every time on the same item
   return isAddingPlaylist && <Form />
 }

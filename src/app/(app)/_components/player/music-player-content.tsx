@@ -27,6 +27,8 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
   const volumeButtonRef = useRef<HTMLButtonElement>(null)
 
   const handleSongChange = (direction: -1 | 1) => {
+    if (document.activeElement instanceof HTMLInputElement) return
+
     const { length } = songsQueue
     const newIndex = (songIndex + direction + length) % length
 
