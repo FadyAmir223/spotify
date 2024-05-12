@@ -34,10 +34,19 @@ export default function ResetPasswordForm() {
 
     const formData = getValues()
 
-    startTransition(async () => {
-      const response = await resetPassword(formData)
-      if (response?.error) return setError('email', { message: response.error })
-      toast({ variant: 'success', description: response.message })
+    startTransition(() => {
+      resetPassword(formData)
+        .then((response) => {
+          if (response?.error)
+            return setError('email', { message: response.error })
+          toast({ variant: 'success', description: response.message })
+        })
+        .catch(() => {
+          toast({
+            description: 'something went wrong',
+            variant: 'destructive',
+          })
+        })
     })
   }
 

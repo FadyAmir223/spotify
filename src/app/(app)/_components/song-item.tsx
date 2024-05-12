@@ -59,7 +59,10 @@ export default forwardRef(function SongItem(
         variant: 'destructive',
       })
 
-    toast({ description: 'song has been added' })
+    toast({
+      description: 'song has been added',
+      variant: 'success',
+    })
   }
 
   return (

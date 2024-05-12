@@ -68,6 +68,7 @@ uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the
 - artist layout
 - upload form
 - drag & drop
+- image resize
 - image crop
 
 - download song

@@ -10,7 +10,7 @@ const authRoutes = [
   newPasswordRoute,
 ]
 
-const publicRoutes = ['/', '/artist']
+const publicRoutes = ['/']
 
 const DEFAULT_LOGIN_REDIRECT = '/'
 

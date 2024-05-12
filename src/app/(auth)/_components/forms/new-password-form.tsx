@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { useToast } from '@/components/ui/use-toast'
 import { PLACEHOLDER, SEARCH_PARAMS } from '@/utils/constants'
 
 import { newPassword } from '../../_actions/new-password'
@@ -30,6 +31,7 @@ const inputs = [
 export default function NewPasswordForm() {
   const [isPending, startTransition] = useTransition()
   const [serverError, setServerError] = useState('')
+  const { toast } = useToast()
 
   const searchParams = useSearchParams()
   const token = searchParams.get(SEARCH_PARAMS.token)!
@@ -52,17 +54,24 @@ export default function NewPasswordForm() {
 
     const formData = getValues()
 
-    startTransition(async () => {
-      const response = await newPassword({ ...formData, token })
-
-      if (response?.errors)
-        Object.entries(response.errors).forEach(([field, message]) => {
-          setError(field as keyof NewPasswordSchema, {
-            type: 'validate',
-            message: message as string,
+    startTransition(() => {
+      newPassword({ ...formData, token })
+        .then((response) => {
+          if (response?.errors)
+            Object.entries(response.errors).forEach(([field, message]) => {
+              setError(field as keyof NewPasswordSchema, {
+                type: 'validate',
+                message: message as string,
+              })
+            })
+          else if (response?.error) setServerError(response.error)
+        })
+        .catch(() => {
+          toast({
+            description: 'something went wrong',
+            variant: 'destructive',
           })
         })
-      else if (response?.error) setServerError(response.error)
     })
   }
 

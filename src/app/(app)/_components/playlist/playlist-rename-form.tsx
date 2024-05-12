@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { Input } from '@/components/ui/input'
@@ -21,6 +21,7 @@ export default function PlaylistRenameForm({
     defaultValues: { playlistName: playlist.title },
   })
 
+  const [isPending, startTransition] = useTransition()
   const formRef = useRef<HTMLFormElement>(null)
   const { toast } = useToast()
 
@@ -51,26 +52,27 @@ export default function PlaylistRenameForm({
 
     if (formData.playlistName === '') return setRenamingIndex(-1)
 
-    if (document.activeElement instanceof HTMLElement)
-      document.activeElement.blur()
-
-    try {
-      const data = {
-        playlistName: formData.playlistName,
-        playlistId: playlist.id,
-      }
-      const response = await renamePlaylist(data)
-      if (response?.error)
-        toast({
-          description: response.error,
-          variant: 'destructive',
-        })
-    } catch {
-      toast({
-        description: "couldn't rename playlist",
-        variant: 'destructive',
-      })
+    const data = {
+      playlistName: formData.playlistName,
+      playlistId: playlist.id,
     }
+
+    startTransition(() => {
+      renamePlaylist(data)
+        .then((response) => {
+          if (response?.error)
+            toast({
+              description: response.error,
+              variant: 'destructive',
+            })
+        })
+        .catch(() => {
+          toast({
+            description: "couldn't rename playlist",
+            variant: 'destructive',
+          })
+        })
+    })
 
     setRenamingIndex(-1)
   }
@@ -81,8 +83,9 @@ export default function PlaylistRenameForm({
         type='text'
         className='h-5 rounded-none border-0 bg-neutral-700/60 p-0 text-sm font-medium outline-none focus-visible:ring-0'
         autoComplete='off'
-        {...register('playlistName')}
+        disabled={isPending}
         onClick={(e) => e.preventDefault()}
+        {...register('playlistName')}
       />
     </form>
   )

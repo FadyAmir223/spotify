@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import { BiSearch } from 'react-icons/bi'
 import { FaUser } from 'react-icons/fa6'
@@ -25,6 +26,7 @@ const navs = [
 
 export default function Header({ children }: HeaderProps) {
   const user = useCurrentUser()
+  const router = useRouter()
 
   return (
     <header
@@ -55,18 +57,28 @@ export default function Header({ children }: HeaderProps) {
             <>
               <Button
                 variant='none'
-                className='rounded-full bg-white text-black shadow transition-transform hover:scale-[1.02] focus:scale-[1.02] focus-visible:ring-0 active:scale-[1.01]'
+                className='rounded-full bg-white text-black shadow transition-opacity hover:opacity-75 focus-visible:opacity-75 focus-visible:ring-0'
                 onClick={() => signOut({ callbackUrl: loginRoute })}
               >
                 Logout
               </Button>
 
-              <Avatar>
-                <AvatarImage src={user?.image ?? undefined} />
-                <AvatarFallback className='bg-white'>
-                  <FaUser className='text-black' />
-                </AvatarFallback>
-              </Avatar>
+              <Button
+                variant='none'
+                size='none'
+                className={cn({
+                  'focus-visible:ring-0 transition-opacity focus-visible:opacity-75 hover:opacity-75':
+                    !user?.image,
+                })}
+                onClick={() => router.push('/account')}
+              >
+                <Avatar>
+                  <AvatarImage src={user?.image ?? undefined} />
+                  <AvatarFallback className='bg-white'>
+                    <FaUser className='text-black' />
+                  </AvatarFallback>
+                </Avatar>
+              </Button>
             </>
           ) : (
             <>

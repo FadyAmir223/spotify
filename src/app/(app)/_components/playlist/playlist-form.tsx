@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { PiPlaylistFill } from 'react-icons/pi'
 
@@ -15,6 +15,7 @@ function Form() {
   )
 
   const { stashSong, setStashSong, setAddingPlaylist } = usePlaylist()
+  const [isPending, startTransition] = useTransition()
   const formRef = useRef<HTMLFormElement>(null)
   const { toast } = useToast()
 
@@ -56,23 +57,24 @@ function Form() {
       return
     }
 
-    if (document.activeElement instanceof HTMLElement)
-      document.activeElement.blur()
+    const data = { playlistName: formData.playlistName, stashSong }
 
-    try {
-      const data = { playlistName: formData.playlistName, stashSong }
-      const response = await createPlaylist(data)
-      if (response?.error)
-        toast({
-          description: response.error,
-          variant: 'destructive',
+    startTransition(() => {
+      createPlaylist(data)
+        .then((response) => {
+          if (response?.error)
+            toast({
+              description: response.error,
+              variant: 'destructive',
+            })
         })
-    } catch {
-      toast({
-        description: "couldn't create playlist",
-        variant: 'destructive',
-      })
-    }
+        .catch(() => {
+          toast({
+            description: "couldn't create playlist",
+            variant: 'destructive',
+          })
+        })
+    })
 
     setAddingPlaylist(false)
     setStashSong(null)
@@ -89,6 +91,7 @@ function Form() {
             type='text'
             className='h-5 rounded-none border-0 bg-neutral-700/60 p-0 text-sm font-medium outline-none focus-visible:ring-0'
             autoComplete='off'
+            disabled={isPending}
             {...register('playlistName')}
           />
         </form>
