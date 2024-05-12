@@ -1,7 +1,6 @@
 'use client'
 
 import type { Song } from '@prisma/client'
-import { usePathname } from 'next/navigation'
 import { useEffect, useOptimistic, useTransition } from 'react'
 import { FaHeart, FaRegHeart } from 'react-icons/fa'
 
@@ -24,7 +23,6 @@ export default function LikeButton({
 }: LikeButtonProps) {
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
-  const pathname = usePathname()
   const { likes, setLikes } = useLikes()
 
   const isLiked = likes[songId] ?? definitelyLiked
@@ -55,7 +53,7 @@ export default function LikeButton({
     startTransition(() => {
       optimisticToggleLiked(!isLiked)
 
-      toggleLikeSong({ id: songId, isLiked, pathname })
+      toggleLikeSong({ id: songId, isLiked })
         .then((res) => {
           if (res?.error)
             return toast({

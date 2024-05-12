@@ -6,5 +6,4 @@ export const songIdSchema = z.object({
 
 export const extendedSongSchema = songIdSchema.extend({
   isLiked: z.boolean(),
-  pathname: z.string(),
 })
