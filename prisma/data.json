@@ -9,7 +9,7 @@
         {
           "id": "clvr7u6uq0002e7zr7ajh5vus",
           "title": "Hearts of Fire",
-          "imagePath": "/uploads/artists/adi-goldstein/hearts-of-fire/cover.jpg",
+          "imagePath": "/app/uploads/artists/adi-goldstein/hearts-of-fire/cover.jpg",
           "songPath": "/uploads/artists/adi-goldstein/hearts-of-fire/track.mp3"
         }
       ]
@@ -23,7 +23,7 @@
         {
           "id": "clvr7u6vx0004e7zri17a3mip",
           "title": "No Limits",
-          "imagePath": "/uploads/artists/bach/no-limits/cover.jpg",
+          "imagePath": "/app/uploads/artists/bach/no-limits/cover.jpg",
           "songPath": "/uploads/artists/bach/no-limits/track.mp3"
         }
       ]
@@ -37,12 +37,12 @@
         {
           "id": "clvr7u72d0007e7zr3g5m9zjk",
           "title": "Fluffy Clouds",
-          "imagePath": "/uploads/artists/fugu-vibes/fluffy-clouds/cover.jpg",
+          "imagePath": "/app/uploads/artists/fugu-vibes/fluffy-clouds/cover.jpg",
           "songPath": "/uploads/artists/fugu-vibes/fluffy-clouds/track.mp3"
         },
         {
           "title": "Spatial",
-          "imagePath": "/uploads/artists/fugu-vibes/spatial/cover.jpg",
+          "imagePath": "/app/uploads/artists/fugu-vibes/spatial/cover.jpg",
           "songPath": "/uploads/artists/fugu-vibes/spatial/track.mp3"
         }
       ]
@@ -55,22 +55,22 @@
       "songs": [
         {
           "title": "Alteration",
-          "imagePath": "/uploads/artists/img/alteration/cover.jpg",
+          "imagePath": "/app/uploads/artists/img/alteration/cover.jpg",
           "songPath": "/uploads/artists/img/alteration/track.mp3"
         },
         {
           "title": "Colors",
-          "imagePath": "/uploads/artists/img/colors/cover.jpg",
+          "imagePath": "/app/uploads/artists/img/colors/cover.jpg",
           "songPath": "/uploads/artists/img/colors/track.mp3"
         },
         {
           "title": "Plexus",
-          "imagePath": "/uploads/artists/img/plexus/cover.jpg",
+          "imagePath": "/app/uploads/artists/img/plexus/cover.jpg",
           "songPath": "/uploads/artists/img/plexus/track.mp3"
         },
         {
           "title": "Ray of Light",
-          "imagePath": "/uploads/artists/img/ray-of-light/cover.jpg",
+          "imagePath": "/app/uploads/artists/img/ray-of-light/cover.jpg",
           "songPath": "/uploads/artists/img/ray-of-light/track.mp3"
         }
       ]
@@ -83,7 +83,7 @@
       "songs": [
         {
           "title": "Follow My Shadow",
-          "imagePath": "/uploads/artists/mountaineer/follow-my-shadow/cover.jpg",
+          "imagePath": "/app/uploads/artists/mountaineer/follow-my-shadow/cover.jpg",
           "songPath": "/uploads/artists/mountaineer/follow-my-shadow/track.mp3"
         }
       ]
@@ -96,12 +96,12 @@
       "songs": [
         {
           "title": "Breakthrough",
-          "imagePath": "/uploads/artists/paul-yudin/breakthrough/cover.jpg",
+          "imagePath": "/app/uploads/artists/paul-yudin/breakthrough/cover.jpg",
           "songPath": "/uploads/artists/paul-yudin/breakthrough/track.mp3"
         },
         {
           "title": "Innovation",
-          "imagePath": "/uploads/artists/paul-yudin/innovation/cover.jpg",
+          "imagePath": "/app/uploads/artists/paul-yudin/innovation/cover.jpg",
           "songPath": "/uploads/artists/paul-yudin/innovation/track.mp3"
         }
       ]
@@ -114,7 +114,7 @@
       "songs": [
         {
           "title": "Pulsate",
-          "imagePath": "/uploads/artists/prigida/pulsate/cover.jpg",
+          "imagePath": "/app/uploads/artists/prigida/pulsate/cover.jpg",
           "songPath": "/uploads/artists/prigida/pulsate/track.mp3"
         }
       ]
@@ -127,7 +127,7 @@
       "songs": [
         {
           "title": "The Gloaming",
-          "imagePath": "/uploads/artists/simon-folwar/the-gloaming/cover.jpg",
+          "imagePath": "/app/uploads/artists/simon-folwar/the-gloaming/cover.jpg",
           "songPath": "/uploads/artists/simon-folwar/the-gloaming/track.mp3"
         }
       ]
@@ -140,12 +140,12 @@
       "songs": [
         {
           "title": "Aether",
-          "imagePath": "/uploads/artists/tatami/oasis/cover.jpg",
+          "imagePath": "/app/uploads/artists/tatami/oasis/cover.jpg",
           "songPath": "/uploads/artists/tatami/aether/track.mp3"
         },
         {
           "title": "Oasis",
-          "imagePath": "/uploads/artists/tatami/oasis/cover.jpg",
+          "imagePath": "/app/uploads/artists/tatami/oasis/cover.jpg",
           "songPath": "/uploads/artists/tatami/oasis/track.mp3"
         }
       ]
@@ -158,7 +158,7 @@
       "songs": [
         {
           "title": "Corridors",
-          "imagePath": "/uploads/artists/tours/corridors/cover.jpg",
+          "imagePath": "/app/uploads/artists/tours/corridors/cover.jpg",
           "songPath": "/uploads/artists/tours/corridors/track.mp3"
         }
       ]
@@ -171,7 +171,7 @@
       "songs": [
         {
           "title": "Road Trip Back to 80s",
-          "imagePath": "/uploads/artists/vens-adams/road-trip-back-to-80s/cover.jpg",
+          "imagePath": "/app/uploads/artists/vens-adams/road-trip-back-to-80s/cover.jpg",
           "songPath": "/uploads/artists/vens-adams/road-trip-back-to-80s/track.mp3"
         }
       ]
@@ -186,7 +186,7 @@
     "playlists": [
       {
         "title": "DJs",
-        "imagePath": "/images/icon.png",
+        "imagePath": "/app/uploads/playlists/null/icon.png",
         "songs": [
           "clvr7u6uq0002e7zr7ajh5vus",
           "clvr7u6vx0004e7zri17a3mip",

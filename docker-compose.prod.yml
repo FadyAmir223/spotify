@@ -4,11 +4,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-      network: host
+      network: host # TODO: during build only - check by env var?
       secrets:
         - ENV_WITH_SECRETS
     ports:
       - 4000:4000
+    volumes:
+      - ./uploads:/app/uploads
     environment:
       - DATABASE_URL
     networks:

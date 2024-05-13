@@ -1,5 +1,3 @@
-import Image from 'next/image'
-
 import {
   Card,
   CardContent,
@@ -9,6 +7,7 @@ import {
 import { getSongs } from '@/data/song'
 
 import PlaySongButton from '../buttons/play-song-button'
+import ImageApi from '../image-api'
 
 export default async function SongsList() {
   const songs = await getSongs()
@@ -20,7 +19,7 @@ export default async function SongsList() {
     >
       <CardContent className='relative'>
         <div className='relative aspect-square size-full'>
-          <Image
+          <ImageApi
             src={song.imagePath}
             alt={song.title}
             className='rounded-md'

@@ -1,3 +1,7 @@
+import 'server-only'
+
+import type { Song } from '@prisma/client'
+
 import db from '@/lib/db'
 import { searchLimit } from '@/utils/constants'
 
@@ -60,5 +64,21 @@ export async function getSongsByQuery(query: string, cursor: string | null) {
     return { songs, nextCursor }
   } catch {
     return { songs: [] }
+  }
+}
+
+export async function createSong({
+  title,
+  imagePath,
+  songPath,
+  artistId,
+}: Pick<Song, 'title' | 'imagePath' | 'songPath' | 'artistId'>) {
+  try {
+    await db.song.create({
+      data: { title, imagePath, songPath, artistId },
+      select: { id: true },
+    })
+  } catch {
+    return { error: "couldn't create song" }
   }
 }

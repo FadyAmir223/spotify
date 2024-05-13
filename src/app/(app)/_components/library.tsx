@@ -19,10 +19,8 @@ export default function Library() {
 
       <nav>
         <Suspense
-          fallback={Array.from({ length: 5 }).map((_, i) => (
-            <PlaylistSkeleton
-              key={i} // eslint-disable-line react/no-array-index-key
-            />
+          fallback={Array.from(Array(5).keys()).map((i) => (
+            <PlaylistSkeleton key={i} />
           ))}
         >
           <PlaylistGetter />

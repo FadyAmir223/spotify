@@ -13,9 +13,9 @@ import { resetPasswordRoute } from '@/lib/routes'
 import { SEARCH_PARAMS } from '@/utils/constants'
 import { getErrorMessage } from '@/utils/getErrorMessage.util'
 
+import PendingButton from '../../../../components/pending-button'
 import { login } from '../../_actions/login'
 import { type LoginFormSchema, loginFormSchema } from '../../_validations/login'
-import LoginButton from '../login-button'
 import OtpForm from './otp-form'
 
 const inputs = [
@@ -101,7 +101,9 @@ export default function LoginForm() {
           <Link href={resetPasswordRoute}>Forgot your password?</Link>
         </Button>
 
-        <LoginButton className='my-1'>Login</LoginButton>
+        <PendingButton className='my-1 w-full py-5 text-base'>
+          Login
+        </PendingButton>
 
         <p className='h-[1.21875rem] text-[0.8rem] font-medium text-destructive'>
           {loginError}

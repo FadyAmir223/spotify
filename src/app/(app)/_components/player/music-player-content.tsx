@@ -35,6 +35,7 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
     setSongsQueue({ songs: songsQueue, index: newIndex })
   }
 
+  // Howl only supports static assets (not dynamic ep)
   const [play, { pause, sound, duration }] = useSound(song?.songPath, {
     volume,
     onplay: () => setPlaying(true),

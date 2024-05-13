@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -26,6 +25,7 @@ import { useToast } from '@/components/ui/use-toast'
 import type { getPlaylists } from '@/data/user'
 
 import { deletePlaylist } from '../../_actions/playlist'
+import ImageApi from '../image-api'
 import PlaylistForm from './playlist-form'
 import PlaylistRenameForm from './playlist-rename-form'
 import PlaylistSetter from './playlist-setter'
@@ -84,7 +84,7 @@ export default function PlaylistsList({ playlists }: PlaylistsListProps) {
             >
               {imagePath ? (
                 <div className='relative aspect-square size-10'>
-                  <Image
+                  <ImageApi
                     src={imagePath}
                     alt={`${title} playlist`}
                     className='rounded-sm'

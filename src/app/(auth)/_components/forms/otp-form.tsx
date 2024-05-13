@@ -101,14 +101,14 @@ export default function OtpForm({
                       maxLength={otpLength}
                       {...field}
                       onChangeCapture={(e) => {
-                        // @ts-ignore
-                        const inputLength = (e.target.value as string).length
+                        const inputLength = (
+                          (e.target as HTMLInputElement).value as string
+                        ).length
                         setCanSubmit(inputLength === otpLength)
                       }}
                     >
                       <InputOTPGroup>
-                        {Array.from({ length: otpLength }).map((_, i) => (
-                          // eslint-disable-next-line react/no-array-index-key
+                        {Array.from(Array(otpLength).keys()).map((i) => (
                           <InputOTPSlot key={i} index={i} />
                         ))}
                       </InputOTPGroup>

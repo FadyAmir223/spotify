@@ -13,7 +13,7 @@ export default forwardRef(function Slider(
   ref: React.Ref<HTMLButtonElement> | null,
 ) {
   const { volume, setVolume } = useVolume()
-  const isMuted = volume === 0
+  const isMuted = volume <= 0
 
   const Icon = isMuted ? IoVolumeOff : IoVolumeMedium
 

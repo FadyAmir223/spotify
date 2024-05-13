@@ -12,7 +12,7 @@ export const registerFormSchema = z
     password: z
       .string()
       .min(1, { message: 'Password is required' })
-      // .min(8, 'Password must be more than 8 characters')
+      .min(8, 'Password must have at least 8 characters')
       .refine((value) => Buffer.from(value).length <= 72, {
         message: 'Password is too long',
       }),

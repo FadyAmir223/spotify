@@ -1,8 +1,9 @@
 import type { Song, User } from '@prisma/client'
-import Image from 'next/image'
 import type { ComponentPropsWithoutRef, ElementType } from 'react'
 
 import { cn } from '@/utils/cn'
+
+import ImageApi from './image-api'
 
 type ArtistMediaProps<T extends ElementType> = {
   As?: T
@@ -37,7 +38,7 @@ export default function ArtistMedia<
       {...props}
     >
       <div className='relative aspect-square size-11'>
-        <Image
+        <ImageApi
           src={song.imagePath}
           alt={`${song.title} cover`}
           className='rounded-sm'

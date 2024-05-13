@@ -10,7 +10,6 @@ import ky from '@/lib/ky'
 
 import { toggleLikeSong } from '../../_actions/toggle-like-song'
 import { useLikes } from '../../_contexts/likes-context'
-import { likedSchema } from '../../_validations/liked'
 
 type LikeButtonProps = {
   songId: Song['id']
@@ -36,13 +35,12 @@ export default function LikeButton({
     if (likes[songId] !== undefined) return setLikes(songId, likes[songId])
     if (definitelyLiked) return setLikes(songId, true)
     ;(async () => {
-      const response = await ky(`song/like/${songId}`, {
+      const response = (await ky(`song/like/${songId}`, {
         next: { tags: ['likes', songId] },
-      }).json()
+      }).json()) as { liked: boolean }
 
       if (!response) return
-      const parsedLiked = likedSchema.parse(response)
-      setLikes(songId, parsedLiked.liked)
+      setLikes(songId, response.liked)
     })()
   }, [songId]) // eslint-disable-line react-hooks/exhaustive-deps
 

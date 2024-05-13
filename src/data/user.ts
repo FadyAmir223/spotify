@@ -1,5 +1,7 @@
 import 'server-only'
 
+import type { User } from '@prisma/client'
+
 import type { PlaylistEssentials } from '@/app/(app)/_types/playlist'
 import { currentUser } from '@/app/(app)/_utils/auth'
 import db from '@/lib/db'
@@ -66,5 +68,17 @@ export async function getLikedSongs(page = 1) {
     return userLikedSongs?.likedSongs.map(({ song }) => song) || []
   } catch {
     return []
+  }
+}
+
+export async function updateLitenerToArtist(userId: User['id']) {
+  try {
+    await db.user.update({
+      where: { id: userId },
+      data: { role: 'ARTIST' },
+      select: { id: true },
+    })
+  } catch {
+    return { error: "couldn't update to artist" }
   }
 }

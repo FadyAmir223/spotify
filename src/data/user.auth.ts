@@ -26,6 +26,14 @@ export async function getUserByEmail(email: User['email']) {
   }
 }
 
+export async function getUserById(id: User['id']) {
+  try {
+    return await db.user.findUnique({ where: { id } })
+  } catch {
+    return null
+  }
+}
+
 export async function verifyUser(email: User['email']) {
   try {
     await db.user.update({

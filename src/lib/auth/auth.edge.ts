@@ -3,6 +3,8 @@
 import type { User } from '@prisma/client'
 import type { NextAuthConfig } from 'next-auth'
 
+import { getUserById } from '@/data/user.auth'
+
 export const edgeConfig = {
   providers: [],
   callbacks: {
@@ -12,8 +14,13 @@ export const edgeConfig = {
 
       return true
     },
-    jwt: async ({ token, user }) => {
+    jwt: async ({ token, user, trigger }) => {
       if (user) token.role = user.role
+
+      if (trigger === 'update') {
+        const userFromDb = await getUserById(token.sub!)
+        token.role = userFromDb?.role
+      }
 
       return token
     },

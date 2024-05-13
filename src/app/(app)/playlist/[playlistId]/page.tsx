@@ -90,10 +90,8 @@ export default async function Playlist({
           </Header>
 
           <div className='p-4'>
-            {Array.from({ length: 6 }).map((_, i) => (
-              <SongItemSkeleton
-                key={i} // eslint-disable-line react/no-array-index-key
-              />
+            {Array.from(Array(6).keys()).map((i) => (
+              <SongItemSkeleton key={i} />
             ))}
           </div>
         </>

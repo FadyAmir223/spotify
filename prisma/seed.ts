@@ -69,8 +69,6 @@ async function createPlaylist(
 }
 
 async function main() {
-  console.log('seeding started...')
-
   data.artists.forEach(async ({ songs, ...info }) => {
     const artistId = await createUser(info as User)
     console.log(`created artist: ${artistId}`)
@@ -99,8 +97,6 @@ async function main() {
     )
     console.log(`  saved it in playlist with id: ${playlistId}`)
   })
-
-  console.log('seeding finished')
 }
 
 main()

@@ -3,21 +3,20 @@
 import { useFormStatus } from 'react-dom'
 
 import { Button } from '@/components/ui/button'
-import { cn } from '@/utils/cn'
 
-type LoginButtonProps = {
+type PendingButtonProps = {
   children: React.ReactNode
   className?: string
 }
 
-export default function LoginButton({ children, className }: LoginButtonProps) {
+export default function PendingButton({
+  children,
+  className,
+}: PendingButtonProps) {
   const { pending } = useFormStatus()
 
   return (
-    <Button
-      className={cn('w-full py-5 text-base', className)}
-      disabled={pending}
-    >
+    <Button className={className} disabled={pending}>
       {children}
     </Button>
   )

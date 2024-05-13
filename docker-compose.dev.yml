@@ -11,6 +11,7 @@ services:
       - ./:/app
       - app-dev-node_modules:/app/node_modules
       - app-dev-next:/app/.next
+      - ./uploads:/app/uploads
     env_file:
       - ./envs/development/.env.development.docker
       - ./envs/development/.env.development.docker.local

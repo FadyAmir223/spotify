@@ -20,10 +20,8 @@ export default function Likes() {
 
       <section className='p-4'>
         <Suspense
-          fallback={Array.from({ length: 6 }).map((_, i) => (
-            <SongItemSkeleton
-              key={i} // eslint-disable-line react/no-array-index-key
-            />
+          fallback={Array.from(Array(6).keys()).map((i) => (
+            <SongItemSkeleton key={i} />
           ))}
         >
           <LikesList />

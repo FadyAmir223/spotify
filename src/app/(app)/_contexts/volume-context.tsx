@@ -31,20 +31,16 @@ export default function VolumeProvider({ children }: VolumeProviderProps) {
     setVolume(() => {
       if (value === undefined) {
         const newVolume = volume !== 0 ? 0 : volumeBeforeMute.current
-        localStorage.setItem(
-          volumeName,
-          String(Math.round(newVolume * 10) / 10).toString(),
-        )
-        return newVolume
+        const roundedVolume = Math.round(newVolume * 10) / 10
+        localStorage.setItem(volumeName, roundedVolume.toString())
+        return roundedVolume
       }
 
       const newVolume = Math.min(Math.max(value, 0), 1)
-      localStorage.setItem(
-        volumeName,
-        (Math.round(newVolume * 10) / 10).toString(),
-      )
+      const roundedVolume = Math.round(newVolume * 10) / 10
+      localStorage.setItem(volumeName, roundedVolume.toString())
       if (newVolume !== 0) volumeBeforeMute.current = newVolume
-      return newVolume
+      return roundedVolume
     })
   }
 
