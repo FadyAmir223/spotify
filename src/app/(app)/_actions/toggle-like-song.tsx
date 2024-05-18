@@ -9,7 +9,7 @@ import { extendedSongSchema } from '../_validations/song'
 
 export async function toggleLikeSong(data: unknown) {
   const user = await currentUser()
-  if (user?.role !== 'LISTENER') return { error: 'Invalid operation' }
+  if (!user) return { error: 'You must login first' }
 
   const result = extendedSongSchema.safeParse(data)
   if (!result.success) return { error: 'Invalid data' }

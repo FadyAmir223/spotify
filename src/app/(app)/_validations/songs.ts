@@ -9,7 +9,7 @@ export const songsSchema = z.object({
       imagePath: z.string(),
       artist: z.object({
         id: z.string(),
-        name: z.string(),
+        name: z.string().nullable(),
       }),
     }),
   ),

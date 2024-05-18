@@ -6,8 +6,7 @@ import { getLikedSong } from '@/data/liked-song'
 
 export async function GET(_: unknown, { params }: { params: { id: string } }) {
   const user = await currentUser()
-  if (user?.role !== 'LISTENER')
-    return NextResponse.json({ error: 'Invalid operation' })
+  if (!user) return NextResponse.json({ error: 'You must login first' })
 
   const result = songIdSchema.safeParse(params)
   if (!result.success)

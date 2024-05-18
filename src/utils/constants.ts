@@ -20,6 +20,11 @@ const PLAYLIST = {
   search: 'search',
 }
 
+const IMAGE = {
+  MIN_LENGHT: 150,
+  MAX_LENGTH: 500,
+}
+
 const otpLength = 6
 const bcryptSalt = 10
 
@@ -33,6 +38,7 @@ const assetEP = `${env.NEXT_PUBLIC_SITE_URL}/api/asset?${SEARCH_PARAMS.path}=`
 export {
   assetEP,
   bcryptSalt,
+  IMAGE,
   initVolume,
   otpLength,
   PLACEHOLDER,

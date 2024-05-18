@@ -63,15 +63,21 @@ even though they are not using its data
 ### ky
 uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the extended API of next.js
 
+### image crop & comporession - client vs server
+- consume server bandwidth
+- overload the server with large number of users
+- it would be better to take 2s of proccessing on the client,
+  than taking the same 2s of sending high qulatiy image to the server to be procesed,
+  then check on the server whether the image has the right size, format and dimentions
+
 
 ## TODO:
-- image preview
 - drag & drop
-- image crop
-
 - download song
-
-- payment
+- production issues
 
 - vercel version
 - video
+
+- traefik config
+- payment

@@ -1,6 +1,6 @@
 import 'server-only'
 
-import type { Song } from '@prisma/client'
+import { Prisma, type Song } from '@prisma/client'
 
 import db from '@/lib/db'
 import { searchLimit } from '@/utils/constants'
@@ -78,7 +78,10 @@ export async function createSong({
       data: { title, imagePath, songPath, artistId },
       select: { id: true },
     })
-  } catch {
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError)
+      if (error.code === 'P2002')
+        return { error: 'You already have song with the same name' }
     return { error: "couldn't create song" }
   }
 }

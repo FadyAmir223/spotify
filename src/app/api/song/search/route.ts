@@ -14,8 +14,8 @@ const querySchema = z
 
 export async function GET(request: NextRequest) {
   const user = await currentUser()
-  if (user?.role !== 'LISTENER')
-    return NextResponse.json({ error: 'Invalid operation' }, { status: 404 })
+  if (!user)
+    return NextResponse.json({ error: 'You must login first' }, { status: 403 })
 
   const { searchParams } = request.nextUrl
 

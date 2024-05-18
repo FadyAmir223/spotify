@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const MAX_IMAGE_SIZE = 10 * 1024 * 1024
-const MAX_SONG_SIZE = 50 * 1024 * 1024
+const MAX_SONG_SIZE = 100 * 1024 * 1024
 
 export const getSchema = (
   mainSchema:
@@ -19,6 +19,6 @@ export const getSchema = (
       ),
     song: mainSchema
       .refine((file) => file.size > 0, 'Song is required')
-      .refine((file) => file.size <= MAX_SONG_SIZE, 'Max song size is 50MB')
+      .refine((file) => file.size <= MAX_SONG_SIZE, 'Max song size is 100MB')
       .refine((file) => file.type?.startsWith('audio/'), 'Invalid song format'),
   })

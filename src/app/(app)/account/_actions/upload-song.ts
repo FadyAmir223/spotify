@@ -2,9 +2,11 @@
 
 import { existsSync } from 'fs'
 import fs from 'fs/promises'
+import imageSize from 'image-size'
 import { revalidatePath } from 'next/cache'
 
 import { createSong } from '@/data/song'
+import { IMAGE } from '@/utils/constants'
 
 import { currentUser } from '../../_utils/auth'
 import { songServerSchema } from '../_validations/new-song.server'
@@ -29,6 +31,22 @@ export async function uploadSong(formData: unknown) {
 
   const { title, image, song } = result.data
 
+  if (image.type !== 'image/webp') return { error: 'Invalid image extension' }
+
+  const imageBuffer = await image.arrayBuffer()
+  const uint8Array = new Uint8Array(imageBuffer)
+  const { width, height } = imageSize(uint8Array)
+
+  if (
+    !(
+      width !== undefined &&
+      width === height &&
+      width >= IMAGE.MIN_LENGHT &&
+      width <= IMAGE.MAX_LENGTH
+    )
+  )
+    return { error: 'Invalid image dimentions' }
+
   const writePath = `/app/uploads/artists/${user.name}/${title}`
 
   if (!existsSync(writePath))
@@ -36,19 +54,21 @@ export async function uploadSong(formData: unknown) {
 
   const newSongName = song.name.split('.').at(-1) || 'mp3'
   const songPath = `${writePath}/${crypto.randomUUID()}.${newSongName}`
-  await fs.writeFile(`${songPath}`, Buffer.from(await song.arrayBuffer()))
 
-  const newImageName = image.name.split('.').at(-1) || 'jpg'
-  const imgPath = `${writePath}/${crypto.randomUUID()}.${newImageName}`
-  await fs.writeFile(`${imgPath}`, Buffer.from(await image.arrayBuffer()))
+  const newImageName = image.name.split('.').at(-1) || 'webp'
+  const imagePath = `${writePath}/${crypto.randomUUID()}.${newImageName}`
 
   const creationResponse = await createSong({
     title,
-    imagePath: imgPath,
+    imagePath,
     songPath,
     artistId: user.id!,
   })
   if (creationResponse?.error) return { error: creationResponse.error }
 
-  revalidatePath('/(app)', 'page')
+  // only save after ensuring its a unique title per artist
+  await fs.writeFile(songPath, Buffer.from(await song.arrayBuffer()))
+  await fs.writeFile(imagePath, Buffer.from(imageBuffer))
+
+  revalidatePath('/(app)')
 }
