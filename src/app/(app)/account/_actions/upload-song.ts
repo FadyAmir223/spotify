@@ -9,7 +9,7 @@ import { createSong } from '@/data/song'
 import { IMAGE } from '@/utils/constants'
 
 import { currentUser } from '../../_utils/auth'
-import { songServerSchema } from '../_validations/new-song.server'
+import { newSongSchema } from '../_validations/new-song'
 
 export async function uploadSong(formData: unknown) {
   const user = await currentUser()
@@ -18,7 +18,7 @@ export async function uploadSong(formData: unknown) {
   if (!(formData instanceof FormData)) return { error: 'Invalid form data' }
 
   const FormDataEntries = Object.fromEntries(formData)
-  const result = songServerSchema.safeParse(FormDataEntries)
+  const result = newSongSchema.safeParse(FormDataEntries)
 
   if (!result.success) {
     const errors = result.error.issues.reduce(

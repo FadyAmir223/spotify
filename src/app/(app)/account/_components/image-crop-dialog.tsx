@@ -1,31 +1,59 @@
 import * as Slider from '@radix-ui/react-slider'
-import type { Dispatch, SetStateAction } from 'react'
-import { useState } from 'react'
+import { type Dispatch, type SetStateAction, useState } from 'react'
 import type { Area, Point } from 'react-easy-crop'
 import Cropper from 'react-easy-crop'
 
 import { Button } from '@/components/ui/button'
 
+import getCroppedImg from '../_utils/crop-image'
+import { readFile } from '../_utils/read-file'
+
 type ImageCropDialogProps = {
-  imageSrc: string
+  imagePreview: string
+  setImagePreview: Dispatch<SetStateAction<string | null>>
+  croppedAreaPixels: Area | null
+  setCroppedAreaPixels: (value: SetStateAction<Area | null>) => void
+  setImageSrc: Dispatch<SetStateAction<Blob | null>>
   setOpen: Dispatch<SetStateAction<boolean>>
-  onCropComplete: (_: unknown, croppedAreaPixels: Area) => void
 }
 
 export default function ImageCropDialog({
-  imageSrc,
+  imagePreview,
+  setImagePreview,
+  setImageSrc,
+  croppedAreaPixels,
+  setCroppedAreaPixels,
   setOpen,
-  onCropComplete,
 }: ImageCropDialogProps) {
   const [crop, setCrop] = useState<Point>({ x: 0, y: 0 })
   const [zoom, setZoom] = useState<number>(1)
+
+  const handleCrop = async () => {
+    if (!imagePreview || !croppedAreaPixels) return
+
+    const croppedImageBlob = await getCroppedImg(
+      imagePreview,
+      croppedAreaPixels,
+    )
+    if (!croppedImageBlob) return
+
+    setImageSrc(croppedImageBlob)
+
+    const imgSrc = (await readFile(croppedImageBlob)) as string
+    setImagePreview(imgSrc)
+
+    setOpen(false)
+  }
+
+  const onCropComplete = (_: unknown, croppedAreaInPixels: Area) =>
+    setCroppedAreaPixels(croppedAreaInPixels)
 
   return (
     <div>
       <div className='fixed inset-0 bg-black' />
       <div className='fixed inset-x-0 bottom-20 top-0'>
         <Cropper
-          image={imageSrc}
+          image={imagePreview}
           crop={crop}
           onCropChange={setCrop}
           onCropComplete={onCropComplete}
@@ -57,7 +85,7 @@ export default function ImageCropDialog({
           </div>
 
           <div className='mt-0.5 text-center'>
-            <Button onClick={() => setOpen(false)}>Crop</Button>
+            <Button onClick={handleCrop}>Crop</Button>
           </div>
         </div>
       </div>

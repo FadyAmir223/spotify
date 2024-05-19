@@ -72,7 +72,6 @@ uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the
 
 
 ## TODO:
-- drag & drop
 - download song
 - production issues
 

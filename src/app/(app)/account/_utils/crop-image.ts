@@ -1,3 +1,5 @@
+import type { Area } from 'react-easy-crop'
+
 function createImage(url: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
     const image = new Image()
@@ -7,7 +9,7 @@ function createImage(url: string): Promise<HTMLImageElement> {
   })
 }
 
-function getRadianAngle(degreeValue: number): number {
+function getRadianAngle(degreeValue: number) {
   return (degreeValue * Math.PI) / 180
 }
 
@@ -30,8 +32,8 @@ function rotateSize(width: number, height: number, rotation: number) {
 */
 export default async function getCroppedImg(
   imageSrc: string,
-  pixelCrop: { x: number; y: number; width: number; height: number },
-  rotation: number = 0,
+  pixelCrop: Area,
+  rotation = 0,
   flip: { horizontal: boolean; vertical: boolean } = {
     horizontal: false,
     vertical: false,

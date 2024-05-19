@@ -27,10 +27,10 @@ export default async function AppLayout({
       >
         <SessionProvider session={session}>
           <PlaylistProvider>
-            <section className='hidden h-full flex-col gap-y-2 md:flex'>
+            <aside className='hidden h-full flex-col gap-y-2 md:flex'>
               <NavBar />
               <Library />
-            </section>
+            </aside>
 
             <section className='w-full overflow-hidden overflow-y-auto rounded-lg bg-grayish-background scrollbar-hide'>
               <SongProvider>
