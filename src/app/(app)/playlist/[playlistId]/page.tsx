@@ -1,6 +1,5 @@
 import type { Playlist as TPlaylist } from '@prisma/client'
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { PiPlaylistFill } from 'react-icons/pi'
@@ -9,43 +8,27 @@ import { getPlaylistById } from '@/data/playlist'
 import { env } from '@/lib/env'
 
 import Header from '../../_components/header'
+import ImageApi from '../../_components/image-api'
 import SongItemSkeleton from '../../_components/skeletons/song-item-skeleton'
 import SongItem from '../../_components/song-item'
+import TitleUpdater from '../../_components/title-updater'
 import { playlistIdSchema } from '../../_validations/playlist'
+
+const meta = {
+  pageUrl: `${env.NEXT_PUBLIC_SITE_URL}/likes`,
+}
+
+export const metadata: Metadata = {
+  openGraph: {
+    url: meta.pageUrl,
+  },
+  alternates: {
+    canonical: meta.pageUrl,
+  },
+}
 
 type PageProps = {
   playlistId: TPlaylist['id']
-}
-
-export const generateMetadata = async ({
-  playlistId,
-}: PageProps): Promise<Metadata> => {
-  const playlist = await getPlaylistById(playlistId)
-
-  const meta = {
-    title: {
-      absolute: `${playlist?.title} | playlist`,
-    },
-    description: '',
-    pageUrl: `${env.NEXT_PUBLIC_SITE_URL}/likes`,
-  }
-
-  return {
-    title: meta.title,
-    description: meta.description,
-    openGraph: {
-      title: meta.title,
-      description: meta.description,
-      url: meta.pageUrl,
-    },
-    twitter: {
-      title: meta.title,
-      description: meta.description,
-    },
-    alternates: {
-      canonical: meta.pageUrl,
-    },
-  }
 }
 
 async function Page({ playlistId }: PageProps) {
@@ -54,16 +37,19 @@ async function Page({ playlistId }: PageProps) {
 
   return (
     <main>
+      <TitleUpdater title={`${playlist.title} | playlist`} />
+
       <Header>
         <div className='mt-16 flex items-center gap-x-3'>
           {playlist.imagePath ? (
             <div className='relative aspect-square size-16'>
-              <Image
+              <ImageApi
                 src={playlist.imagePath}
                 alt={`${playlist.title} playlist`}
                 className='rounded-sm'
                 sizes='4rem'
                 fill
+                priority
               />
             </div>
           ) : (
@@ -82,7 +68,7 @@ async function Page({ playlistId }: PageProps) {
       <section className='p-4'>
         {playlist.songs.length === 0 ? (
           <p className='mt-3 text-center text-sm text-neutral-400'>
-            this playlist has no songs yet
+            This playlist has no songs yet
           </p>
         ) : (
           playlist.songs.map((song, index) => (

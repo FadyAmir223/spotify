@@ -87,3 +87,6 @@ export const revalidate = 60
 
 - traefik config
 - payment
+
+https://gist.github.com/ChangoMan/824daa0b4fbd6f824d2e8a2ab1532006
+https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap

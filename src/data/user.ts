@@ -82,3 +82,39 @@ export async function updateLitenerToArtist(userId: User['id']) {
     return { error: "couldn't update to artist" }
   }
 }
+
+export async function getArtistById(artistId: User['id'], page = 1) {
+  try {
+    return await db.user.findUnique({
+      where: { id: artistId, role: 'ARTIST' },
+      select: {
+        name: true,
+        image: true,
+        songs: {
+          select: {
+            id: true,
+            title: true,
+            songPath: true,
+            imagePath: true,
+          },
+          take: 20,
+          skip: (page - 1) * 20,
+          orderBy: { createdAt: 'desc' },
+        },
+      },
+    })
+  } catch {
+    return null
+  }
+}
+
+export async function getArtistIds() {
+  try {
+    return await db.user.findMany({
+      where: { role: 'ARTIST' },
+      select: { id: true },
+    })
+  } catch {
+    return []
+  }
+}

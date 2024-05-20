@@ -1,7 +1,6 @@
 import 'server-only'
 
 import type { Playlist, Song, User } from '@prisma/client'
-import { cache } from 'react'
 
 import { currentUser } from '@/app/(app)/_utils/auth'
 import db from '@/lib/db'
@@ -31,8 +30,7 @@ export async function createUserPlaylist({
   }
 }
 
-// cache until end of react render cycle - for metadata and page
-export const getPlaylistById = cache(async (id: Playlist['id'], page = 1) => {
+export async function getPlaylistById(id: Playlist['id'], page = 1) {
   const user = await currentUser()
   if (!user) return null
 
@@ -65,7 +63,7 @@ export const getPlaylistById = cache(async (id: Playlist['id'], page = 1) => {
   } catch {
     return null
   }
-})
+}
 
 export async function deletePlaylistById(id: Playlist['id']) {
   try {
