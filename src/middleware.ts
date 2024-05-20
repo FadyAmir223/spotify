@@ -13,6 +13,8 @@ import { SEARCH_PARAMS } from './utils/constants'
 const { auth } = NextAuth(edgeConfig)
 
 export default auth((req) => {
+  return
+
   const { nextUrl } = req
 
   const isLoggedIn = !!req.auth

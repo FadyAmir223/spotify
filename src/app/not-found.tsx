@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <main className='grid h-screen place-items-center bg-grayish-background'>
       <div className='flex flex-col items-center'>
-        <Image src={pageNotFound} alt='not-found' width={150} />
+        <Image src={pageNotFound} alt='not-found' width={150} priority />
         <h3 className='mb-5 mt-12 text-4xl font-bold'>Page not found</h3>
 
         <Button

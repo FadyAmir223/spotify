@@ -63,6 +63,10 @@ even though they are not using its data
 ### ky
 uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the extended API of next.js
 
+### ISR
+`/artist/:id` uses Incremental Static Regeneration as it is not user speicifc data and not frequently changing, then revalidated each half hour for updates
+
+
 ### image crop & comporession - client vs server
 - consume server bandwidth
 - overload the server with large number of users
@@ -72,21 +76,11 @@ uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the
 
 
 ## TODO:
-- update next.js for revalidste sitemap.ts
-export const revalidate = 60
-
-- create /artist/[id] page with dynamic metadata and cache prisma response
-- see how to do ISR
-- create seperate sitemap with 50000 url for each file
-
-- download song
 - production issues
+- download song
 
-- vercel version
 - video
+- vercel version
 
 - traefik config
 - payment
-
-https://gist.github.com/ChangoMan/824daa0b4fbd6f824d2e8a2ab1532006
-https://nextjs.org/docs/app/api-reference/file-conventions/metadata/sitemap

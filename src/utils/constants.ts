@@ -33,6 +33,8 @@ const volumeUnit = 0.1
 
 const searchLimit = 9
 
+const SITEMAP_LIMIT = 50_000
+
 const assetEP = `${env.NEXT_PUBLIC_SITE_URL}/api/asset?${SEARCH_PARAMS.path}=`
 
 export {
@@ -45,5 +47,6 @@ export {
   PLAYLIST,
   SEARCH_PARAMS,
   searchLimit,
+  SITEMAP_LIMIT,
   volumeUnit,
 }

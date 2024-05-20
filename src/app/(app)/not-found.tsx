@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <main className='grid h-full place-items-center'>
       <div className='flex flex-col items-center'>
-        <Image src={playlistNotFound} alt='not-found' width={120} />
+        <Image src={playlistNotFound} alt='not-found' width={120} priority />
         <h3 className='mb-3 mt-12 text-4xl font-bold'>Playlist not found</h3>
         <p className='mb-5 text-sm text-white/70'>
           Something went wrong, please try again later

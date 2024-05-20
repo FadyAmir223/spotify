@@ -1,10 +1,12 @@
 import 'server-only'
 
 import type { User } from '@prisma/client'
+import { cache } from 'react'
 
 import type { PlaylistEssentials } from '@/app/(app)/_types/playlist'
 import { currentUser } from '@/app/(app)/_utils/auth'
 import db from '@/lib/db'
+import { SITEMAP_LIMIT } from '@/utils/constants'
 
 export async function getPlaylists(page = 1): Promise<PlaylistEssentials[]> {
   try {
@@ -83,7 +85,8 @@ export async function updateLitenerToArtist(userId: User['id']) {
   }
 }
 
-export async function getArtistById(artistId: User['id'], page = 1) {
+// cache until react render cycle for SSG artists
+export const getArtistById = cache(async (artistId: User['id'], page = 1) => {
   try {
     return await db.user.findUnique({
       where: { id: artistId, role: 'ARTIST' },
@@ -106,7 +109,7 @@ export async function getArtistById(artistId: User['id'], page = 1) {
   } catch {
     return null
   }
-}
+})
 
 export async function getArtistIds() {
   try {
@@ -116,5 +119,28 @@ export async function getArtistIds() {
     })
   } catch {
     return []
+  }
+}
+
+export async function getArtists(page = 1) {
+  try {
+    return await db.user.findMany({
+      where: { role: 'ARTIST' },
+      select: { id: true, createdAt: true },
+      take: SITEMAP_LIMIT,
+      skip: (page - 1) * SITEMAP_LIMIT,
+    })
+  } catch {
+    return []
+  }
+}
+
+export async function getArtistsCount() {
+  try {
+    return await db.user.count({
+      where: { role: 'ARTIST' },
+    })
+  } catch {
+    return 0
   }
 }
