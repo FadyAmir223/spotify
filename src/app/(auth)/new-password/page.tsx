@@ -1,11 +1,32 @@
+import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
 import { getResetPasswordTokenByToken } from '@/data/reset-password-token'
+import { env } from '@/lib/env'
 import { loginRoute } from '@/lib/routes'
 
 import NewPasswordForm from '../_components/forms/new-password-form'
 import H1 from '../_components/h1'
+
+const meta = {
+  title: 'New password',
+  pageUrl: `${env.NEXT_PUBLIC_SITE_URL}/new-password`,
+}
+
+export const metadata: Metadata = {
+  title: meta.title,
+  openGraph: {
+    title: meta.title,
+    url: meta.pageUrl,
+  },
+  twitter: {
+    title: meta.title,
+  },
+  alternates: {
+    canonical: meta.pageUrl,
+  },
+}
 
 type NewPasswordProps = {
   searchParams?: { [key: string]: string | string[] | undefined }

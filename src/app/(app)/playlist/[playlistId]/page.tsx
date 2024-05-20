@@ -1,10 +1,12 @@
 import type { Playlist as TPlaylist } from '@prisma/client'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { PiPlaylistFill } from 'react-icons/pi'
 
 import { getPlaylistById } from '@/data/playlist'
+import { env } from '@/lib/env'
 
 import Header from '../../_components/header'
 import SongItemSkeleton from '../../_components/skeletons/song-item-skeleton'
@@ -13,6 +15,37 @@ import { playlistIdSchema } from '../../_validations/playlist'
 
 type PageProps = {
   playlistId: TPlaylist['id']
+}
+
+export const generateMetadata = async ({
+  playlistId,
+}: PageProps): Promise<Metadata> => {
+  const playlist = await getPlaylistById(playlistId)
+
+  const meta = {
+    title: {
+      absolute: `${playlist?.title} | playlist`,
+    },
+    description: '',
+    pageUrl: `${env.NEXT_PUBLIC_SITE_URL}/likes`,
+  }
+
+  return {
+    title: meta.title,
+    description: meta.description,
+    openGraph: {
+      title: meta.title,
+      description: meta.description,
+      url: meta.pageUrl,
+    },
+    twitter: {
+      title: meta.title,
+      description: meta.description,
+    },
+    alternates: {
+      canonical: meta.pageUrl,
+    },
+  }
 }
 
 async function Page({ playlistId }: PageProps) {

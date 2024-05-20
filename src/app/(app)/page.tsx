@@ -1,11 +1,37 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Suspense } from 'react'
+
+import { env } from '@/lib/env'
 
 import PlayFavoritesButton from './_components/buttons/play-likes-button'
 import GradientHeart from './_components/gradient-heart'
 import Header from './_components/header'
 import SongsList from './_components/lists/songs-list'
 import SongCardSkeleton from './_components/skeletons/song-card-skeleton'
+
+const meta = {
+  title: 'Home',
+  description: 'Customize your listening experience',
+  pageUrl: `${env.NEXT_PUBLIC_SITE_URL}/`,
+}
+
+export const metadata: Metadata = {
+  title: meta.title,
+  description: meta.description,
+  openGraph: {
+    title: meta.title,
+    description: meta.description,
+    url: meta.pageUrl,
+  },
+  twitter: {
+    title: meta.title,
+    description: meta.description,
+  },
+  alternates: {
+    canonical: meta.pageUrl,
+  },
+}
 
 export const dynamic = 'force-dynamic'
 

@@ -1,5 +1,12 @@
+import type { Metadata } from 'next'
+
 import Header from '../_components/header'
 import SearchForm from '../_components/search-form'
+
+export const metadata: Metadata = {
+  title: 'Search',
+  description: 'Find your song through millions of songs',
+}
 
 export default function Search() {
   return (

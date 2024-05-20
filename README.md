@@ -72,6 +72,13 @@ uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the
 
 
 ## TODO:
+- update next.js for revalidste sitemap.ts
+export const revalidate = 60
+
+- create /artist/[id] page with dynamic metadata and cache prisma response
+- see how to do ISR
+- create seperate sitemap with 50000 url for each file
+
 - download song
 - production issues
 

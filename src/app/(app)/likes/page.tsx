@@ -1,9 +1,35 @@
+import type { Metadata } from 'next'
 import { Suspense } from 'react'
+
+import { env } from '@/lib/env'
 
 import GradientHeart from '../_components/gradient-heart'
 import Header from '../_components/header'
 import LikesList from '../_components/lists/likes-list'
 import SongItemSkeleton from '../_components/skeletons/song-item-skeleton'
+
+const meta = {
+  title: 'Liked songs',
+  description: 'Listen to your favourite songs',
+  pageUrl: `${env.NEXT_PUBLIC_SITE_URL}/likes`,
+}
+
+export const metadata: Metadata = {
+  title: meta.title,
+  description: meta.description,
+  openGraph: {
+    title: meta.title,
+    description: meta.description,
+    url: meta.pageUrl,
+  },
+  twitter: {
+    title: meta.title,
+    description: meta.description,
+  },
+  alternates: {
+    canonical: meta.pageUrl,
+  },
+}
 
 export default function Likes() {
   return (

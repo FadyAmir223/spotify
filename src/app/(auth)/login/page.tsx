@@ -2,15 +2,34 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
+import { env } from '@/lib/env'
 import { registerRoute } from '@/lib/routes'
 
 import LoginForm from '../_components/forms/login-form'
 import H1 from '../_components/h1'
 import SocialLogin from '../_components/social-login'
 
+const meta = {
+  title: 'Login',
+  description: 'Login to your spotify account',
+  pageUrl: `${env.NEXT_PUBLIC_SITE_URL}/login`,
+}
+
 export const metadata: Metadata = {
-  title: 'login',
-  description: 'login to spotify',
+  title: meta.title,
+  description: meta.description,
+  openGraph: {
+    title: meta.title,
+    description: meta.description,
+    url: meta.pageUrl,
+  },
+  twitter: {
+    title: meta.title,
+    description: meta.description,
+  },
+  alternates: {
+    canonical: meta.pageUrl,
+  },
 }
 
 export default function Login() {
