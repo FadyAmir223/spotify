@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 
-import { getArtistsCount } from '@/data/user'
+import { getArtistsCount } from '@/data/user/user'
 import { env } from '@/lib/env'
 import { SITEMAP_LIMIT } from '@/utils/constants'
 

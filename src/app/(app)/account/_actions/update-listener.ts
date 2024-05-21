@@ -1,6 +1,6 @@
 'use server'
 
-import { updateLitenerToArtist } from '@/data/user'
+import { updateLitenerToArtist } from '@/data/user/user'
 
 import { currentUser } from '../../_utils/auth'
 

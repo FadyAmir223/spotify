@@ -7,7 +7,7 @@ import { SEARCH_PARAMS } from '@/utils/constants'
 /*
   pros:
     free for self hosting
-    may be used for proteted assets
+    can be used for proteted assets
 
   cons:
     opt out of next.js image optimization
@@ -33,11 +33,4 @@ export async function GET(request: NextRequest) {
   const stream = createReadStream(assetPath)
   // @ts-ignore
   return new Response(stream, { headers: responseHeader })
-}
-
-export const config = {
-  api: {
-    // consume the body as a Stream or with raw-body
-    bodyParser: false, // { sizeLimit: '10mb' },
-  },
 }

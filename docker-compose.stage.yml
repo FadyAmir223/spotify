@@ -9,15 +9,26 @@ services:
       secrets:
         - ENV_WITH_SECRETS
     ports:
-      - 4000:4000
+      - 3000:3000
     volumes:
       - ./uploads:/app/uploads
     env_file:
-      - ./.env/staging/.env.staging.docker.local
+      - ./envs/staging/.env.staging.docker
+      - ./envs/staging/.env.staging.docker.local
     networks:
       - internal-stage
     depends_on:
       - db-stage
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+        window: 80s
 
   db-stage:
     image: postgres:16.2-alpine
@@ -30,9 +41,12 @@ services:
     environment:
       - PGDATA=/var/lib/postgresql/data/data-stage
     env_file:
-      - ./.env/staging/.env.staging.docker.local
+      - ./envs/staging/.env.staging.docker.local
     networks:
       - internal-stage
+    deploy:
+      restart_policy:
+        condition: on-failure
 
 volumes:
   app-stage-node_modules:

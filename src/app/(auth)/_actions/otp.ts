@@ -1,6 +1,6 @@
 'use server'
 
-import { verifyUser } from '@/data/user.auth'
+import { verifyUser } from '@/data/user/user.auth.edge'
 import {
   deleteVerificationOtpById,
   getVefiricationOtpByOtp,

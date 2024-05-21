@@ -1,24 +1,36 @@
 import type { User } from '@prisma/client'
-import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { PiMicrophoneStageFill } from 'react-icons/pi'
 
-import { getArtistById, getArtistIds } from '@/data/user'
-import { env } from '@/lib/env'
+import { getArtistById, getArtistIds } from '@/data/user/user'
 
 import Header from '../../_components/header'
 import SongItemSkeleton from '../../_components/skeletons/song-item-skeleton'
 import SongItem from '../../_components/song-item'
 import TitleUpdater from '../../_components/title-updater'
-import getMetadataWithFallback from '../../_utils/get-metadata'
 import { artistIdSchema } from '../../_validations/artist'
 
 type PageProps = {
   artistId: User['id']
 }
 
+/*
+currently headers() usage (dynamic) throws error for ISR pages (static)
+so it's trade off between good SEO and loading speed
+
+options:
+  - every revalidation interval one user will suffer freez delay for every page
+    (don't use getMetadataWithFallback)
+
+  - crawlers don't have all info about artist page
+    (don't use metadata)
+
+for recording purposes I will choose the first option
+*/
+
+/*
 // dynamic metadata
 export const metadata = getMetadataWithFallback(
   async ({ artistId }: PageProps): Promise<Metadata> => {
@@ -47,6 +59,7 @@ export const metadata = getMetadataWithFallback(
     }
   },
 )
+*/
 
 // if new artist registered he will SSR in the mean time
 // if an artist uploaded new song it will only be available after half hour at most

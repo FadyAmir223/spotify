@@ -8,6 +8,7 @@ import type { SongEssentials } from '../_types/song'
 type TValueSongContext = {
   currentSong: SongEssentials | null
   songsQueue: SongEssentials[]
+  queueLenght: number
   songIndex: number
   currPlaylistName: string | null
   isPlaying: boolean
@@ -69,6 +70,7 @@ export default function SongProvider({ children }: SongProviderProps) {
     () => ({
       currentSong,
       songsQueue,
+      queueLenght: songsQueue.length,
       isPlaying,
       songIndex: songIndex.current,
       currPlaylistName: currPlaylistName.current,

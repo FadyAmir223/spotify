@@ -10,7 +10,12 @@ const authRoutes = [
   newPasswordRoute,
 ]
 
-const publicRoutes = ['/']
+const publicRoutesRegex = [
+  '^/$',
+  '^/artist/.+$',
+  '^/robots.txt$',
+  '^.*/sitemap.*.xml.*$',
+]
 
 const DEFAULT_LOGIN_REDIRECT = '/'
 
@@ -19,7 +24,7 @@ export {
   DEFAULT_LOGIN_REDIRECT,
   loginRoute,
   newPasswordRoute,
-  publicRoutes,
+  publicRoutesRegex,
   registerRoute,
   resetPasswordRoute,
 }

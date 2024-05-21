@@ -19,7 +19,7 @@ import {
 
 export async function createPlaylist(formData: unknown) {
   const user = await currentUser()
-  if (user?.role !== 'LISTENER') return { error: 'Invalid operation' }
+  if (!user) return { error: 'You must login first' }
 
   const result = newPlaylistSchema.safeParse(formData)
   if (!result.success) return { error: 'Invalid form data' }
@@ -38,7 +38,7 @@ export async function createPlaylist(formData: unknown) {
 
 export async function renamePlaylist(formData: unknown) {
   const user = await currentUser()
-  if (user?.role !== 'LISTENER') return { error: 'Invalid operation' }
+  if (!user) return { error: 'You must login first' }
 
   const result = playlistInfoSchema.safeParse(formData)
   if (!result.success) return { error: 'Invalid form data' }
@@ -57,7 +57,7 @@ export async function renamePlaylist(formData: unknown) {
 
 export async function deletePlaylist(formData: unknown) {
   const user = await currentUser()
-  if (user?.role !== 'LISTENER') return { error: 'Invalid operation' }
+  if (!user) return { error: 'You must login first' }
 
   const result = playlistIdSchema.safeParse(formData)
   if (!result.success) return { error: 'Invalid form data' }
@@ -71,7 +71,7 @@ export async function deletePlaylist(formData: unknown) {
 
 export async function addSongToPlaylist(formData: unknown) {
   const user = await currentUser()
-  if (user?.role !== 'LISTENER') return { error: 'Invalid operation' }
+  if (!user) return { error: 'You must login first' }
 
   const result = playlistWithSongSchema.safeParse(formData)
   if (!result.success) return { error: 'Invalid form data' }

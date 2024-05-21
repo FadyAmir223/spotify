@@ -18,7 +18,7 @@ import {
   ContextMenuTrigger,
 } from '@/components/ui/context-menu'
 import { useToast } from '@/components/ui/use-toast'
-import type { getLikedSongs } from '@/data/user'
+import type { getLikedSongs } from '@/data/user/user'
 
 import { addSongToPlaylist } from '../_actions/playlist'
 import { usePlaylist } from '../_contexts/playlist-context'

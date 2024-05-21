@@ -66,7 +66,6 @@ uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the
 ### ISR
 `/artist/:id` uses Incremental Static Regeneration as it is not user speicifc data and not frequently changing, then revalidated each half hour for updates
 
-
 ### image crop & comporession - client vs server
 - consume server bandwidth
 - overload the server with large number of users
@@ -74,13 +73,19 @@ uses `fetch()` under the hood, leveraging the syntactic sugar like axios and the
   than taking the same 2s of sending high qulatiy image to the server to be procesed,
   then check on the server whether the image has the right size, format and dimentions
 
+### css obfuscation
+to reduce the size of style file shipped to the client (inspired by medium)
+
 
 ## TODO:
-- production issues
-- download song
+- show selected playlist
+- disalbe forward/back if one song available
 
 - video
 - vercel version
 
 - traefik config
+- CI/CD for docker build and push
+
+- download song
 - payment

@@ -1,4 +1,4 @@
-import { getPlaylists } from '@/data/user'
+import { getPlaylists } from '@/data/user/user'
 
 import PlaylistsList from './playlists-list'
 

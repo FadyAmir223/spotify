@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 
-import type { getPlaylists } from '@/data/user'
+import type { getPlaylists } from '@/data/user/user'
 
 import { usePlaylist } from '../../_contexts/playlist-context'
 

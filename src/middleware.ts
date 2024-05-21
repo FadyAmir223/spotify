@@ -5,7 +5,7 @@ import {
   authRoutes,
   DEFAULT_LOGIN_REDIRECT,
   loginRoute,
-  publicRoutes,
+  publicRoutesRegex,
 } from '@/lib/routes'
 
 import { SEARCH_PARAMS } from './utils/constants'
@@ -13,8 +13,6 @@ import { SEARCH_PARAMS } from './utils/constants'
 const { auth } = NextAuth(edgeConfig)
 
 export default auth((req) => {
-  return
-
   const { nextUrl } = req
 
   const isLoggedIn = !!req.auth
@@ -25,7 +23,9 @@ export default auth((req) => {
     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
   }
 
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname)
+  const isPublicRoute = publicRoutesRegex.some((route) =>
+    new RegExp(route).test(nextUrl.pathname),
+  )
   if (isLoggedIn || isPublicRoute) return
 
   let redirectTo = nextUrl.pathname

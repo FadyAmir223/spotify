@@ -22,7 +22,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { useToast } from '@/components/ui/use-toast'
-import type { getPlaylists } from '@/data/user'
+import type { getPlaylists } from '@/data/user/user'
+import { cn } from '@/utils/cn'
 
 import { deletePlaylist } from '../../_actions/playlist'
 import ImageApi from '../image-api'
@@ -80,7 +81,13 @@ export default function PlaylistsList({ playlists }: PlaylistsListProps) {
           <ContextMenuTrigger>
             <Link
               href={`/playlist/${id}`}
-              className='flex items-center gap-x-3 rounded-sm p-1.5 transition hover:bg-neutral-800/50'
+              className={cn(
+                'flex items-center gap-x-3 rounded-sm p-1.5 transition hover:bg-neutral-800/40',
+                {
+                  'bg-neutral-800/85 hover:bg-neutral-800/85':
+                    pathname === `/playlist/${playlists[index].id}`,
+                },
+              )}
             >
               {imagePath ? (
                 <div className='relative aspect-square size-10'>

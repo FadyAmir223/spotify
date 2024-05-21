@@ -1,9 +1,11 @@
-import { getLikedSongs } from '@/data/user'
+import { getLikedSongs } from '@/data/user/user'
 import { PLAYLIST } from '@/utils/constants'
 
 import SongItem from '../song-item'
 
 export default async function LikesList() {
+  // sleep
+
   const likedSongs = await getLikedSongs()
 
   if (likedSongs.length === 0)

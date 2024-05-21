@@ -4,7 +4,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-      network: host # TODO: during build only - check by env var?
+      network: host
       secrets:
         - ENV_WITH_SECRETS
     ports:

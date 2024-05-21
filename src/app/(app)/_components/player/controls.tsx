@@ -5,6 +5,8 @@ import { IoPlaySkipBack, IoPlaySkipForward } from 'react-icons/io5'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utils/cn'
 
+import { useValueSong } from '../../_contexts/song-context'
+
 type ControlsProps = {
   isPlaying: boolean
   onTogglePlay: () => void
@@ -15,6 +17,8 @@ export default forwardRef(function Controls(
   { isPlaying, onTogglePlay, onSongChange }: ControlsProps,
   ref: Ref<HTMLButtonElement> | null,
 ) {
+  const { queueLenght } = useValueSong()
+
   const Icon = isPlaying ? BsPauseFill : BsPlayFill
 
   return (
@@ -24,6 +28,7 @@ export default forwardRef(function Controls(
         size='none'
         className='hidden text-neutral-400 transition focus-within:text-white hover:text-white sm:block'
         onClick={() => onSongChange(-1)}
+        disabled={queueLenght === 1}
         aria-label='Previous Song'
       >
         <IoPlaySkipBack className='size-6' />
@@ -49,6 +54,7 @@ export default forwardRef(function Controls(
         size='none'
         className='text-neutral-400 transition focus-within:text-white hover:text-white'
         onClick={() => onSongChange(1)}
+        disabled={queueLenght === 1}
         aria-label='Next Song'
       >
         <IoPlaySkipForward className='size-6' />

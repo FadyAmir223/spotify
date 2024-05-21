@@ -3,7 +3,7 @@
 import type { User } from '@prisma/client'
 import type { NextAuthConfig } from 'next-auth'
 
-import { getUserById } from '@/data/user.auth'
+import { getUserById } from '@/data/user/user.auth.edge'
 
 export const edgeConfig = {
   providers: [],

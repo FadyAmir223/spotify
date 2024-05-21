@@ -1,6 +1,6 @@
 'use server'
 
-import { getUserByEmail } from '@/data/user.auth'
+import { getUserByEmail } from '@/data/user/user.auth.edge'
 import { createVerificationOtp } from '@/data/verification-otp'
 
 import { credentialSignIn } from '../_utils/credentilaSignIn'

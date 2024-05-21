@@ -9,6 +9,8 @@ import db from '@/lib/db'
 import { SITEMAP_LIMIT } from '@/utils/constants'
 
 export async function getPlaylists(page = 1): Promise<PlaylistEssentials[]> {
+  // sleep
+
   try {
     const user = await currentUser()
     if (!user) return []
@@ -87,6 +89,8 @@ export async function updateLitenerToArtist(userId: User['id']) {
 
 // cache until react render cycle for SSG artists
 export const getArtistById = cache(async (artistId: User['id'], page = 1) => {
+  // sleep
+
   try {
     return await db.user.findUnique({
       where: { id: artistId, role: 'ARTIST' },

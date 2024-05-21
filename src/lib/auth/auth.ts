@@ -6,10 +6,9 @@ import Credentials from 'next-auth/providers/credentials'
 import Google from 'next-auth/providers/google'
 
 import { loginFormSchema } from '@/app/(auth)/_validations/login'
-import { getUserByEmail, verifyUser } from '@/data/user.auth'
+import { getUserByEmail, verifyUser } from '@/data/user/user.auth.edge'
 import { edgeConfig } from '@/lib/auth/auth.edge'
 import db from '@/lib/db'
-import { env } from '@/lib/env'
 import { loginRoute } from '@/lib/routes'
 
 export const {
@@ -20,10 +19,7 @@ export const {
 } = NextAuth({
   ...edgeConfig,
   providers: [
-    Google({
-      clientId: env.GOOGLE_CLIENT_ID,
-      clientSecret: env.GOOGLE_CLIENT_SECRET,
-    }),
+    Google({}),
     Credentials({
       async authorize(credentials) {
         const result = loginFormSchema.safeParse(credentials)
