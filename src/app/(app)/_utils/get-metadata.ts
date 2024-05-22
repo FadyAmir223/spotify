@@ -11,6 +11,7 @@ const fallback: Metadata = {
 
 type GenerateMetadata<T> = (params: T) => Promise<Metadata>
 
+// not used anywhere but kept for refrence
 const getMetadataWithFallback =
   <Params>(
     generateMetadata: GenerateMetadata<Params>,

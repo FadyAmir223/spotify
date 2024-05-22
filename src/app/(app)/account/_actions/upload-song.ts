@@ -13,7 +13,10 @@ import { newSongSchema } from '../_validations/new-song'
 
 export async function uploadSong(formData: unknown) {
   const user = await currentUser()
-  if (user?.role !== 'ARTIST') return { error: 'Invalid operation' }
+
+  // auth update() is unstable in production in this beta version
+  // if (user?.role !== 'ARTIST') return { error: 'Invalid operation' }
+  if (!user) return { error: 'You must login first' }
 
   if (!(formData instanceof FormData)) return { error: 'Invalid form data' }
 

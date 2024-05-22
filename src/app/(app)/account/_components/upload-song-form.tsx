@@ -58,6 +58,9 @@ export default function UploadSongForm() {
         variant: 'success',
       })
     } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e)
+
       toast({
         description: "couldn't upload song",
         variant: 'destructive',

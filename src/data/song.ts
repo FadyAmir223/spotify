@@ -6,7 +6,7 @@ import db from '@/lib/db'
 import { searchLimit } from '@/utils/constants'
 
 export async function getSongs(page = 1) {
-  // sleep
+  // await sleep()
 
   try {
     return await db.song.findMany({
@@ -32,6 +32,8 @@ export async function getSongs(page = 1) {
 }
 
 export async function getSongsByQuery(query: string, cursor: string | null) {
+  // await sleep()
+
   try {
     const songs = await db.song.findMany({
       where: {
@@ -75,12 +77,17 @@ export async function createSong({
   songPath,
   artistId,
 }: Pick<Song, 'title' | 'imagePath' | 'songPath' | 'artistId'>) {
+  // await sleep(1000)
+
   try {
     await db.song.create({
       data: { title, imagePath, songPath, artistId },
       select: { id: true },
     })
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error)
+
     if (error instanceof Prisma.PrismaClientKnownRequestError)
       if (error.code === 'P2002')
         return { error: 'You already have song with the same name' }

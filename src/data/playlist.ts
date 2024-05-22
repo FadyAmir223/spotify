@@ -14,6 +14,8 @@ export async function createUserPlaylist({
   stashSong: Song['id'] | null
   userId: User['id']
 }) {
+  // await sleep(700)
+
   try {
     await db.playlist.create({
       data: {
@@ -31,7 +33,7 @@ export async function createUserPlaylist({
 }
 
 export async function getPlaylistById(id: Playlist['id'], page = 1) {
-  // sleep
+  // await sleep()
 
   const user = await currentUser()
   if (!user) return null
@@ -68,6 +70,8 @@ export async function getPlaylistById(id: Playlist['id'], page = 1) {
 }
 
 export async function deletePlaylistById(id: Playlist['id']) {
+  // await sleep(600)
+
   try {
     await db.playlist.delete({
       where: { id },
@@ -87,6 +91,8 @@ export async function addUserSongToPlaylist({
   songId: Song['id']
   userId: User['id']
 }) {
+  // await sleep(400)
+
   try {
     await db.playlist.update({
       where: { id: playlistId, userId },
@@ -106,6 +112,8 @@ export async function renameUserPlaylist({
   playlistId: Playlist['id']
   userId: User['id']
 }) {
+  // await sleep(400)
+
   try {
     await db.playlist.update({
       where: { id: playlistId, userId },

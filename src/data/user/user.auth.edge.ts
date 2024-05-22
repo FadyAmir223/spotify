@@ -17,6 +17,8 @@ export async function createUser(
 }
 
 export async function getUserByEmail(email: User['email']) {
+  // await sleep()
+
   try {
     return await db.user.findUnique({ where: { email } })
   } catch {
@@ -25,6 +27,8 @@ export async function getUserByEmail(email: User['email']) {
 }
 
 export async function getUserById(id: User['id']) {
+  // await sleep()
+
   try {
     return await db.user.findUnique({ where: { id } })
   } catch {
@@ -33,6 +37,8 @@ export async function getUserById(id: User['id']) {
 }
 
 export async function verifyUser(email: User['email']) {
+  // await sleep()
+
   try {
     await db.user.update({
       where: { email },

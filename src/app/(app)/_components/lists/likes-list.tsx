@@ -4,7 +4,7 @@ import { PLAYLIST } from '@/utils/constants'
 import SongItem from '../song-item'
 
 export default async function LikesList() {
-  // sleep
+  // await sleep()
 
   const likedSongs = await getLikedSongs()
 

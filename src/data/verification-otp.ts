@@ -6,6 +6,8 @@ import crypto from 'crypto'
 import db from '@/lib/db'
 
 export async function getVefiricationOtpByOtp(otp: VerificationOtp['otp']) {
+  // await sleep(800)
+
   try {
     return await db.verificationOtp.findUnique({ where: { otp } })
   } catch {
@@ -16,6 +18,8 @@ export async function getVefiricationOtpByOtp(otp: VerificationOtp['otp']) {
 export async function getVefiricationOtpByEmail(
   email: VerificationOtp['email'],
 ) {
+  // await sleep(800)
+
   try {
     return await db.verificationOtp.findFirst({ where: { email } })
   } catch {

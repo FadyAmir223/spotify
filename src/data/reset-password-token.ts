@@ -7,6 +7,8 @@ import db from '@/lib/db'
 export async function getResetPasswordTokenByToken(
   token: ResetPasswordToken['token'],
 ) {
+  // await sleep()
+
   try {
     return await db.resetPasswordToken.findUnique({ where: { token } })
   } catch {
@@ -17,6 +19,8 @@ export async function getResetPasswordTokenByToken(
 export async function getResetPasswordTokenByEmail(
   email: ResetPasswordToken['email'],
 ) {
+  // await sleep()
+
   try {
     return await db.resetPasswordToken.findFirst({ where: { email } })
   } catch {

@@ -62,6 +62,9 @@ export default function MusicPlayerContent({ song }: MusicPlayerContentProps) {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      const { activeElement } = document
+      if (activeElement && activeElement.tagName === 'INPUT') return
+
       switch (event.key) {
         case ' ':
           // bug: will only play the first song as useSound can't handle dynamic urls

@@ -15,6 +15,7 @@ const publicRoutesRegex = [
   '^/artist/.+$',
   '^/robots.txt$',
   '^.*/sitemap.*.xml.*$',
+  '^/uploads/.*$',
 ]
 
 const DEFAULT_LOGIN_REDIRECT = '/'

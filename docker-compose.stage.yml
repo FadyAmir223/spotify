@@ -49,8 +49,6 @@ services:
         condition: on-failure
 
 volumes:
-  app-stage-node_modules:
-  app-stage-next:
   db-stage-data:
 
 networks:

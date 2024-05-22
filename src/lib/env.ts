@@ -3,7 +3,6 @@ import { z } from 'zod'
 
 export const env = createEnv({
   client: {
-    NEXT_PUBLIC_APP_ENV: z.enum(['local', 'docker', 'vercel']),
     NEXT_PUBLIC_SITE_URL: z.string().trim().min(1).url(),
   },
   server: {
@@ -15,7 +14,6 @@ export const env = createEnv({
     SENDER_EMAIL: z.string().trim().min(1).email().toLowerCase(),
   },
   runtimeEnv: {
-    NEXT_PUBLIC_APP_ENV: process.env.APP_ENV,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
     DATABASE_URL: process.env.DATABASE_URL,
     AUTH_URL: process.env.AUTH_URL,

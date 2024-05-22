@@ -75,7 +75,7 @@ export default function Header({ children }: HeaderProps) {
                 <Avatar>
                   <AvatarImage src={user?.image ?? undefined} />
                   <AvatarFallback className='bg-white'>
-                    <FaUser className='text-black' />
+                    <FaUser className='size-5 text-black' />
                   </AvatarFallback>
                 </Avatar>
               </Button>

@@ -35,8 +35,6 @@ services:
     restart: unless-stopped
 
 volumes:
-  app-prod-node_modules:
-  app-prod-next:
   db-prod-data:
 
 networks:

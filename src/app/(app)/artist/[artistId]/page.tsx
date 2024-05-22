@@ -1,65 +1,55 @@
 import type { User } from '@prisma/client'
+import type { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { PiMicrophoneStageFill } from 'react-icons/pi'
 
 import { getArtistById, getArtistIds } from '@/data/user/user'
+import { env } from '@/lib/env'
 
 import Header from '../../_components/header'
 import SongItemSkeleton from '../../_components/skeletons/song-item-skeleton'
 import SongItem from '../../_components/song-item'
-import TitleUpdater from '../../_components/title-updater'
 import { artistIdSchema } from '../../_validations/artist'
 
-type PageProps = {
-  artistId: User['id']
+type ArtistProps = {
+  params: { artistId: string }
 }
 
-/*
-currently headers() usage (dynamic) throws error for ISR pages (static)
-so it's trade off between good SEO and loading speed
+// dynamic metadata (non blocking because of ISR)
+export async function generateMetadata({
+  params,
+}: ArtistProps): Promise<Metadata> {
+  const { artistId } = params
+  const artist = await getArtistById(artistId)
 
-options:
-  - every revalidation interval one user will suffer freez delay for every page
-    (don't use getMetadataWithFallback)
+  const meta = {
+    title: `${artist?.name} | artist`,
+    description: 'Right now about 1,000,000 monthly listeners',
+    pageUrl: `${env.NEXT_PUBLIC_SITE_URL}/artist/${artistId}`,
+    image: artist?.image || '/meta-image.webp',
+  }
 
-  - crawlers don't have all info about artist page
-    (don't use metadata)
-
-for recording purposes I will choose the first option
-*/
-
-/*
-// dynamic metadata
-export const metadata = getMetadataWithFallback(
-  async ({ artistId }: PageProps): Promise<Metadata> => {
-    const artist = await getArtistById(artistId)
-
-    const meta = {
-      description: 'Right now about 1,000,000 monthly listeners',
-      pageUrl: `${env.NEXT_PUBLIC_SITE_URL}/artist/${artistId}`,
-      image: artist?.image || '/meta-image.webp',
-    }
-
-    return {
+  return {
+    title: { absolute: meta.title },
+    description: meta.description,
+    openGraph: {
+      title: meta.title,
       description: meta.description,
-      openGraph: {
-        description: meta.description,
-        url: meta.pageUrl,
-        images: [{ url: meta.image }],
-      },
-      twitter: {
-        description: meta.description,
-        images: meta.image,
-      },
-      alternates: {
-        canonical: meta.pageUrl,
-      },
-    }
-  },
-)
-*/
+      url: meta.pageUrl,
+      images: [{ url: meta.image }],
+    },
+    twitter: {
+      title: meta.title,
+      description: meta.description,
+      images: meta.image,
+    },
+    alternates: {
+      canonical: meta.pageUrl,
+    },
+  }
+}
 
 // if new artist registered he will SSR in the mean time
 // if an artist uploaded new song it will only be available after half hour at most
@@ -69,6 +59,10 @@ export const revalidate = 1800
 export async function generateStaticParams() {
   const artistsIds = await getArtistIds()
   return artistsIds.map(({ id }) => ({ artistId: id }))
+}
+
+type PageProps = {
+  artistId: User['id']
 }
 
 async function Page({ artistId }: PageProps) {
@@ -82,8 +76,6 @@ async function Page({ artistId }: PageProps) {
 
   return (
     <main>
-      <TitleUpdater title={`${artist?.name ?? 'unknown'} | artist`} />
-
       <Header>
         <div className='mt-16 flex items-center gap-x-3'>
           {artist.image ? (
@@ -130,7 +122,7 @@ async function Page({ artistId }: PageProps) {
   )
 }
 
-export default function Artist({ params }: { params: { artistId: string } }) {
+export default function Artist({ params }: ArtistProps) {
   const result = artistIdSchema.safeParse(params)
   if (!result.success) notFound()
 

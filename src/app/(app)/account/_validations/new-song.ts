@@ -7,7 +7,7 @@ export const newSongSchema = z.object({
   title: z.string().min(1, { message: 'Song must have a title' }),
 
   image: z
-    .instanceof(File, { message: 'Required' })
+    .instanceof(File, { message: 'Image is required' })
     .refine((file) => file.size > 0, 'Image is required')
     .refine((file) => file.size <= 10 * 1024 * 1024, 'Max image size is 10MB')
     .refine((file) => file.type?.startsWith('image/'), 'Invalid image format'),

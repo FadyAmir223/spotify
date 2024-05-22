@@ -58,7 +58,7 @@ export default function VerifyEmail({ otp }: VerifyEmailProps) {
             </Text>
 
             <Text className='text-xs text-gray-300'>
-              ©{new Date().getFullYear()} Spotify - All rights reserved
+              ©Spotify {new Date().getFullYear()} - All rights reserved
             </Text>
           </Container>
         </Body>
