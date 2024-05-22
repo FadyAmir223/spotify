@@ -13,8 +13,6 @@ RUN mkdir -p .next
 RUN chown node:node . node_modules .next
 RUN chown -R node:node node_modules/.prisma
 
-# USER node
-
 EXPOSE 3000
 
 ENV NEXT_TELEMETRY_DISABLED 1
