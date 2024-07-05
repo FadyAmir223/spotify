@@ -48,6 +48,17 @@ SSR will be applied for new users
   than taking the same 2s of sending high qulatiy image to the server to be procesed
 - it's better to check only whether the image has the right size, format and dimentions on the server
 
+### docker: compose vs swarm
+if it's one node then no need to multilayer networks of swarm (leader / manager / worker)
+
+```sh
+# deploy with compose
+docker compose -f docker-compose.prod.yml up -d db-prod && \
+sleep 15s && \
+dotenv -e .env.production.local -- npx prisma migrate reset dev && \
+npm run docker:prod:build
+docker compose -f docker-compose.prod.yml up -d
+```
 
 ## Development
 
@@ -103,6 +114,5 @@ npm run docker:dev:up -- --force-recreate app-dev
 ## TODO:
 - traefik config
 - CI/CD for docker build and push
-- vercel version
 - download song
 - payment
