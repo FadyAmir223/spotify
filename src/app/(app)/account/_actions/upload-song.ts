@@ -44,16 +44,15 @@ export async function uploadSong(formData: unknown) {
     !(
       width !== undefined &&
       width === height &&
-      width >= IMAGE.MIN_LENGHT &&
+      width >= IMAGE.MIN_LENGTH &&
       width <= IMAGE.MAX_LENGTH
     )
   )
-    return { error: 'Invalid image dimentions' }
+    return { error: 'Invalid image dimensions' }
 
   const writePath = `/app/uploads/artists/${user.name}/${title}`
 
-  if (!existsSync(writePath))
-    await fs.mkdir(`${writePath}`, { recursive: true })
+  if (!existsSync(writePath)) await fs.mkdir(writePath, { recursive: true })
 
   const newSongName = song.name.split('.').at(-1) || 'mp3'
   const songPath = `${writePath}/${crypto.randomUUID()}.${newSongName}`

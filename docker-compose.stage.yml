@@ -4,7 +4,7 @@ services:
     container_name: app-stage
     build:
       context: .
-      dockerfile: Dockerfile.prod
+      dockerfile: Dockerfile.stage
       network: host
       secrets:
         - ENV_WITH_SECRETS
@@ -13,22 +13,11 @@ services:
     volumes:
       - ./uploads:/app/uploads
     env_file:
-      - ./envs/staging/.env.staging.docker
       - ./envs/staging/.env.staging.docker.local
     networks:
       - internal-stage
     depends_on:
       - db-stage
-    deploy:
-      mode: replicated
-      replicas: 1
-      update_config:
-        parallelism: 1
-        delay: 10s
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-        window: 80s
 
   db-stage:
     image: postgres:16.2-alpine
@@ -40,13 +29,15 @@ services:
       - db-stage-data:/var/lib/postgresql/data
     environment:
       - PGDATA=/var/lib/postgresql/data/data-stage
-    env_file:
-      - ./envs/staging/.env.staging.docker.local
+      - POSTGRES_USER_FILE=/run/secrets/postgres_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      - POSTGRES_DB_FILE=/run/secrets/postgres_db
+    secrets:
+      - postgres_user
+      - postgres_password
+      - postgres_db
     networks:
       - internal-stage
-    deploy:
-      restart_policy:
-        condition: on-failure
 
 volumes:
   db-stage-data:
@@ -58,3 +49,9 @@ networks:
 secrets:
   ENV_WITH_SECRETS:
     file: .env.staging.local
+  postgres_user:
+    file: secrets/staging/postgres-user.txt
+  postgres_password:
+    file: secrets/staging/postgres-password.txt
+  postgres_db:
+    file: secrets/staging/postgres-db.txt

@@ -21,7 +21,7 @@ const PLAYLIST = {
 }
 
 const IMAGE = {
-  MIN_LENGHT: 150,
+  MIN_LENGTH: 150,
   MAX_LENGTH: 500,
 }
 

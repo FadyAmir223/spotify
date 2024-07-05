@@ -1,6 +1,7 @@
 services:
   app-prod:
     image: fadyamir/app-prod
+    container_name: app-prod # (no swarm)
     build:
       context: .
       dockerfile: Dockerfile.prod
@@ -8,18 +9,29 @@ services:
       secrets:
         - ENV_WITH_SECRETS
     ports:
-      - 4000:4000
+      - 3000:3000
     volumes:
       - ./uploads:/app/uploads
-    environment:
-      - DATABASE_URL
+    env_file:
+      - ./envs/production/.env.production.docker.local
     networks:
       - internal-prod
     depends_on:
       - db-prod
+    deploy:
+      mode: replicated
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+        window: 80s
 
   db-prod:
     image: postgres:16.2-alpine
+    container_name: db-prod # (no swarm)
     ports:
       - 5432:5432
     user: '${MY_UID}:${MY_GID}'
@@ -27,12 +39,18 @@ services:
       - db-prod-data:/var/lib/postgresql/data
     environment:
       - PGDATA=/var/lib/postgresql/data/data-prod
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-      - POSTGRES_DB
+      - POSTGRES_USER_FILE=/run/secrets/postgres_user
+      - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      - POSTGRES_DB_FILE=/run/secrets/postgres_db
+    secrets:
+      - postgres_user
+      - postgres_password
+      - postgres_db
     networks:
       - internal-prod
-    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: on-failure
 
 volumes:
   db-prod-data:
@@ -44,3 +62,9 @@ networks:
 secrets:
   ENV_WITH_SECRETS:
     file: .env.production.local
+  postgres_user:
+    file: secrets/production/postgres-user.txt
+  postgres_password:
+    file: secrets/production/postgres-password.txt
+  postgres_db:
+    file: secrets/production/postgres-db.txt

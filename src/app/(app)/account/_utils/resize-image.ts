@@ -13,8 +13,8 @@ export function resizeImage(file: Blob): Promise<File> {
       0, // rotation
       (uri) => resolve(uri as File), // responseUriFunc
       'file', // outputType
-      IMAGE.MIN_LENGHT, // minWidth
-      IMAGE.MIN_LENGHT, // minHeight
+      IMAGE.MIN_LENGTH, // minWidth
+      IMAGE.MIN_LENGTH, // minHeight
     )
   })
 }
